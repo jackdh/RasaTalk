@@ -1,0 +1,4 @@
+{
+  "dbUri": "mongodb://mongodb://52.56.61.244:27017/sea-chatbot",
+  "jwtSecret": "a secret phrase!!"
+}

@@ -1,0 +1,13 @@
+/*
+ *
+ * DashboardPage constants
+ *
+ */
+
+export const DEFAULT = 'Dashboard';
+
+export const GET_DASHBOARD = `${DEFAULT}GET_DASHBOARD`;
+export const GETTING_DASHBOARD = `${DEFAULT}GETTING_DASHBOARD`;
+export const GET_DASHBOARD_STATS = `${DEFAULT}GET_DASHBOARD_STATS`;
+export const GET_DASHBOARD_RASA = `${DEFAULT}GET_DASHBOARD_RASA`;
+export const GET_DASHBOARD_FAILURE = `${DEFAULT}GET_DASHBOARD_FAILURE`;

@@ -1,0 +1,42 @@
+version: '2'
+services:
+  rasatalk:
+    build:
+      context: .
+      dockerfile: ./internals/docker/Dockerfile
+    command: npm run start
+    networks:
+      - my-net
+    environment:
+      - MONGOCONNECTIONSTRING=mongodb://mongo:27017/rasa-talk
+      - RASASERVER=http://rasa:5000
+      - DEBUG=*,-babel
+      - PORT=8080
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./app:/code/app
+      - ./package.json:/code/package.json
+      - ./yarn.lock:/code/yarn.lock
+      - ./server:/code/server
+  rasa:
+    container_name: "rasa"
+    image: rasa/rasa_nlu
+    restart: always
+    networks:
+      - my-net
+    ports:
+      - "5000:5000"
+  mongodb:
+    container_name: "mongo"
+    image: mongo
+    restart: always
+    networks:
+      - my-net
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/mongo:/data/db
+networks:
+  my-net:
+    driver: bridge
