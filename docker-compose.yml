@@ -4,16 +4,16 @@ services:
     build:
       context: .
       dockerfile: ./internals/docker/Dockerfile
-    command: npm run start
+    command: npm run start:prod
     networks:
       - my-net
     environment:
       - MONGOCONNECTIONSTRING=mongodb://mongo:27017/rasa-talk
       - RASASERVER=http://rasa:5000
       - DEBUG=*,-babel
-      - PORT=8080
+      - PORT=80
     ports:
-      - "8080:8080"
+      - "80:80"
     volumes:
       - ./app:/code/app
       - ./package.json:/code/package.json
@@ -25,16 +25,16 @@ services:
     restart: always
     networks:
       - my-net
-    ports:
-      - "5000:5000"
+    volumes:
+      - ./data/rasa/projects:/app/projects
+      - ./data/rasa/logs:/app/logs
+      - ./data/rasa/data:/app/data
   mongodb:
     container_name: "mongo"
     image: mongo
     restart: always
     networks:
       - my-net
-    ports:
-      - 27017:27017
     volumes:
       - ./data/mongo:/data/db
 networks:

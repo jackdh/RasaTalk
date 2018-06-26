@@ -21,4 +21,4 @@ RUN yarn install
 
 #RUN yarn build
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start:prod"]
