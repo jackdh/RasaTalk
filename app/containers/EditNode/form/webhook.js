@@ -42,7 +42,6 @@ export const webhook = ({ fields }) => (
               placeholder="[webhook]"
               fullWidth
             />
-            />
           </TableCell>
           <TableCell padding="none" numeric>
             <Delete onClick={() => fields.remove(index)} />
