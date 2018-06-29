@@ -7,6 +7,10 @@
 
 Rasa Talk is a Dialog Management tool built on top of Rasa NLU. It was built out of a desire for a open source on premise dialog management system. Originally inspired by Rasa UI inspiration was taken from watson conversation.
 
+## Demo
+
+![A simple of Rasa Talk](https://github.com/jackdh/RasaTalk/raw/master/internals/images/demo.gif)
+
 ## Installation
 
 ```
