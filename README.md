@@ -13,16 +13,13 @@ Rasa Talk is a Dialog Management tool built on top of Rasa NLU. It was built out
 
 ## Installation
 
+Either start MongoDB with Rasa NLU docker or host them separately. Make sure to update the .env file with the correct URLS!
 ```
 git clone ...
+yarn
 yarn start
 ```
 
-## Running with Docker
-
-```
-docker-compose up
-```
 ## Up and Running
 
 - Update .env with correct environment variables.
