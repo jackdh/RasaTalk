@@ -111,7 +111,7 @@ router.post('/permissions/user', guard('admin:write'), permissions.updateUser);
 
 router.get(
   '/training/generate/:agent',
-  guard('training:read'),
+  guard('training:write'),
   training.generateJSON,
 );
 router.post('/training/json', guard('training:read'), training.getJSON);
