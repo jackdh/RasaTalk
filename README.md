@@ -9,6 +9,8 @@ Rasa Talk is a Dialog Management tool built on top of Rasa NLU. It was built out
 
 ## Demo
 
+http://rasa.jackdh.com (User: demo@jackdh.com Pass: demo1234)
+
 ![A simple of Rasa Talk](https://github.com/jackdh/RasaTalk/raw/master/internals/images/demo.gif)
 
 ## Installation
