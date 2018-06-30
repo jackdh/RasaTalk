@@ -193,16 +193,16 @@ export class EditNode extends React.PureComponent {
                   )}
                   {fv.recognises &&
                     (!fv.recognises.isJumpedTo && fv.recognises.regex) && (
-                    <Field
-                      name="recognises.regexFlags"
-                      component={TextField}
-                      fullWidth
-                      placeholder="gi"
-                      label="Regex
+                      <Field
+                        name="recognises.regexFlags"
+                        component={TextField}
+                        fullWidth
+                        placeholder="gi"
+                        label="Regex
                       Flags"
-                      type="text"
-                    />
-                  )}
+                        type="text"
+                      />
+                    )}
                 </FlexRow>
               </React.Fragment>
               <React.Fragment>
@@ -386,17 +386,17 @@ export class EditNode extends React.PureComponent {
 
                   {fv.webhook &&
                     fv.webhook.save && (
-                    <React.Fragment>
-                      <Divider style={{ margin: '25px 0' }} />
-                      <Typography>Save Response</Typography>
-                      <FlexRow>
-                        <FieldArray
-                          name="webhook.variables"
-                          component={Webhook}
-                        />
-                      </FlexRow>
-                    </React.Fragment>
-                  )}
+                      <React.Fragment>
+                        <Divider style={{ margin: '25px 0' }} />
+                        <Typography>Save Response</Typography>
+                        <FlexRow>
+                          <FieldArray
+                            name="webhook.variables"
+                            component={Webhook}
+                          />
+                        </FlexRow>
+                      </React.Fragment>
+                    )}
                 </div>
               </React.Fragment>
               <React.Fragment>
@@ -408,16 +408,16 @@ export class EditNode extends React.PureComponent {
                   />
                   {fv.webhook &&
                     fv.webhook.save && (
-                    <Button
-                      onClick={() =>
-                        dispatch(
-                          arrayPush('EditNode', 'webhook.variables', Map({})),
-                        )
-                      }
-                    >
+                      <Button
+                        onClick={() =>
+                          dispatch(
+                            arrayPush('EditNode', 'webhook.variables', Map({})),
+                          )
+                        }
+                      >
                         Add Webhook Save
-                    </Button>
-                  )}
+                      </Button>
+                    )}
                 </FlexCheckbox>
               </React.Fragment>
             </Expansion>
@@ -434,13 +434,13 @@ export class EditNode extends React.PureComponent {
               )}
               {submitFailed &&
                 invalid && (
-                <Typography
-                  style={{ color: 'red', marginLeft: '10px' }}
-                  size="small"
-                >
+                  <Typography
+                    style={{ color: 'red', marginLeft: '10px' }}
+                    size="small"
+                  >
                     Please fix form errors.
-                </Typography>
-              )}
+                  </Typography>
+                )}
               <Button
                 onClick={() => dispatch(setEditNode(''))}
                 variant="outlined"

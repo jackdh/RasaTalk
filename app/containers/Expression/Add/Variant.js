@@ -106,16 +106,16 @@ export default class Variant extends Component {
             {toBeReplaced &&
               variants.length > 0 &&
               multipleExpressions.length > 0 && (
-              <Button
-                type="button"
-                color="primary"
-                variant="raised"
-                fullWidth
-                onClick={this.searchAndReplace}
-              >
+                <Button
+                  type="button"
+                  color="primary"
+                  variant="raised"
+                  fullWidth
+                  onClick={this.searchAndReplace}
+                >
                   Generate!
-              </Button>
-            )}
+                </Button>
+              )}
           </Grid>
           <br />
           {generatedExpressions.length > 0 && (

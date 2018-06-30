@@ -83,15 +83,15 @@ function AddMultiple(props) {
       <CardActions>
         {value.length > 0 &&
           value[0] !== '' && (
-          <Button
-            type="button"
-            color="primary"
-            variant="raised"
-            onClick={submit}
-          >
+            <Button
+              type="button"
+              color="primary"
+              variant="raised"
+              onClick={submit}
+            >
               Add
-          </Button>
-        )}
+            </Button>
+          )}
       </CardActions>
     </StyledCard>
   );

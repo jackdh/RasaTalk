@@ -155,7 +155,7 @@ export class Text extends React.Component {
     const Highlight = styled(Typography)`
       > span {
         background-color: ${props =>
-    props.type === 'light' ? '#ff0' : '#000'};
+          props.type === 'light' ? '#ff0' : '#000'};
         border-radius: 4px;
         padding: 2px 5px;
         cursor: pointer;

@@ -28,7 +28,8 @@ function trainingReducer(state = initialState, action) {
       return state.set('loadingError', action.error);
     case c.GETTING_JSON_SUCCESS:
       return state.set('json', action.json).update('training', training => {
-        training.unshift(action.json);
+        const contains = !!training.find(o => o._id === action.json._id);
+        if (!contains) training.unshift(action.json);
         return training;
       });
     case c.GETTING_JSON:
