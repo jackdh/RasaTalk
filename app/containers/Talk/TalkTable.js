@@ -38,24 +38,12 @@ class EnhancedTableHead extends React.Component {
   };
 
   render() {
-    const {
-      onSelectAllClick,
-      order,
-      orderBy,
-      numSelected,
-      rowCount,
-    } = this.props;
+    const { order, orderBy } = this.props;
 
     return (
       <TableHead>
         <TableRow>
-          <TableCell padding="checkbox">
-            <Checkbox
-              indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={numSelected === rowCount}
-              onChange={onSelectAllClick}
-            />
-          </TableCell>
+          <TableCell padding="checkbox" />
           {columnData.map(
             column => (
               <TableCell
@@ -103,13 +91,13 @@ const toolbarStyles = theme => ({
   highlight:
     theme.palette.type === 'light'
       ? {
-        color: theme.palette.secondary.main,
-        backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-      }
+          color: theme.palette.secondary.main,
+          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+        }
       : {
-        color: theme.palette.text.primary,
-        backgroundColor: theme.palette.secondary.dark,
-      },
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.secondary.dark,
+        },
   spacer: {
     flex: '1 1 100%',
   },
@@ -305,12 +293,7 @@ class EnhancedTable extends React.Component {
                       selected={isSelected}
                       style={{ cursor: 'pointer' }}
                     >
-                      <TableCell padding="checkbox" style={{ width: '1px' }}>
-                        <Checkbox
-                          checked={isSelected}
-                          onClick={event => this.handleClick(event, n.id)}
-                        />
-                      </TableCell>
+                      <TableCell padding="checkbox" style={{ width: '1px' }} />
                       <TableCell
                         onClick={() => handleClick(n.uid)}
                         component="th"

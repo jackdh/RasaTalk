@@ -56,8 +56,8 @@ export class MyToolBar extends React.PureComponent {
       cursor: pointer;
       &:hover {
         background: ${type === 'light'
-    ? '#e6f7ff'
-    : 'rgba(255, 255, 255, 0.1)'};
+          ? '#e6f7ff'
+          : 'rgba(255, 255, 255, 0.1)'};
       }
     `;
 

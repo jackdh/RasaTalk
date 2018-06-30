@@ -17,6 +17,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import injectReducer from 'utils/injectReducer';
 import Collapse from '@material-ui/core/Collapse';
 import { createStructuredSelector } from 'reselect';
+import { withTheme } from '@material-ui/core/styles';
 import ProfileCard from 'components/Cards/ProfileCard';
 import Download from '@material-ui/icons/CloudDownload';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -35,6 +36,7 @@ import {
   ExpansionPanelSummary,
   ExpansionPanelDetails,
 } from '@material-ui/core';
+import ReactJson from 'react-json-view';
 
 import Status from './Status';
 import reducer from './reducer';
@@ -68,11 +70,6 @@ const TimerWrapper = styled.div`
   .timer {
     font-size: 2em;
   }
-`;
-
-const StyledPre = styled.pre`
-  font-size: 13px;
-  line-height: 1;
 `;
 
 const StyledCP = styled(CircularProgress)`
@@ -132,6 +129,7 @@ export class Training extends React.PureComponent {
       handleTrain,
       inTraining,
       loading,
+      theme: { palette },
     } = this.props;
     return (
       <div>
@@ -156,7 +154,19 @@ export class Training extends React.PureComponent {
                     </Typography>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
-                    <StyledPre>{JSON.stringify(json.data, ' ', 2)}</StyledPre>
+                    <ReactJson
+                      src={json.data}
+                      theme={
+                        palette.type === 'dark' ? 'eighties' : 'rjv-default'
+                      }
+                      style={{
+                        backgroundColor:
+                          palette.type === 'dark' ? 'rgb(66, 66, 66)' : '#fff',
+                      }}
+                      indentWidth={1}
+                      displayDataTypes={false}
+                      displayObjectSize={false}
+                    />
                     <Button
                       variant="fab"
                       color="primary"
@@ -257,6 +267,7 @@ Training.propTypes = {
     PropTypes.array,
     PropTypes.object,
   ]),
+  theme: PropTypes.object, // The Theme
   json: PropTypes.object, // The current singular JSON
   loading: PropTypes.bool, // If we are loading something
   inTraining: PropTypes.bool, // If we are currently training the bot
@@ -303,4 +314,5 @@ export default compose(
   withSaga,
   withPollSaga,
   withConnect,
+  withTheme(),
 )(Training);

@@ -29,12 +29,6 @@ function createData(expression) {
 
 const columnData = [
   { id: 'expression', numeric: false, disablePadding: true, label: 'Intents' },
-  {
-    id: 'entities',
-    numeric: true,
-    disablePadding: false,
-    label: 'Expressions',
-  },
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -108,13 +102,13 @@ const toolbarStyles = theme => ({
   highlight:
     theme.palette.type === 'light'
       ? {
-        color: theme.palette.secondary.main,
-        backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-      }
+          color: theme.palette.secondary.main,
+          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+        }
       : {
-        color: theme.palette.text.primary,
-        backgroundColor: theme.palette.secondary.dark,
-      },
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.secondary.dark,
+        },
   spacer: {
     flex: '1 1 100%',
   },
@@ -323,7 +317,6 @@ class EnhancedTable extends React.Component {
                           removeEntity={removeEntity}
                         />
                       </TableCell>
-                      <TableCell numeric>{n.entities}</TableCell>
                     </TableRow>
                   );
                 })}

@@ -16,7 +16,6 @@ import BackButton from 'components/BackButton';
 import ProfileCard from 'components/Cards/ProfileCard';
 import Wrapper from 'components/Grid/Wrapper';
 
-
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import Table from './ExpressionTable';
@@ -26,36 +25,51 @@ import reducer from './reducer';
 import saga from './saga';
 import { changeTitle } from '../HomePage/actions';
 import Add from './Add/Add';
-import {addExpression, getEntities, getExpressions, removeExpression, addParameter, removeParameter} from './actions';
-import { getAgent } from "../IntentPage/actions";
+import {
+  addExpression,
+  getEntities,
+  getExpressions,
+  removeExpression,
+  addParameter,
+  removeParameter,
+} from './actions';
+import { getAgent } from '../IntentPage/actions';
 
-export class Expression extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class Expression extends React.Component {
+  // eslint-disable-line react/prefer-stateless-function
 
   agent = this.props.match.params.agentName;
   intent = this.props.match.params.intent;
 
   componentDidMount() {
-    this.props.dispatch(changeTitle(`Agent: ${this.agent} / Intent: ${this.intent}`));
+    this.props.dispatch(
+      changeTitle(`Agent: ${this.agent} / Intent: ${this.intent}`),
+    );
     this.props.dispatch(getExpressions(this.agent, this.intent));
     this.props.dispatch(getAgent(this.agent));
     this.props.dispatch(getEntities());
   }
 
-  handleAddExpression = (expressions) => new Promise((resolve, reject) => {
-    this.props.dispatch(addExpression(this.agent, this.intent, expressions, resolve, reject));
-  });
+  handleAddExpression = expressions =>
+    new Promise((resolve, reject) => {
+      this.props.dispatch(
+        addExpression(this.agent, this.intent, expressions, resolve, reject),
+      );
+    });
 
-  handleDelete = (expressions) => {
+  handleDelete = expressions => {
     this.props.dispatch(removeExpression(this.agent, this.intent, expressions));
   };
 
-  handleAddEntity = (entity) => {
-    this.props.addEntity(this.agent, this.intent, entity)
+  handleAddEntity = entity => {
+    this.props.addEntity(this.agent, this.intent, entity);
   };
 
   render() {
-
-    const {expression: { expressions, loading, error }, entities} = this.props;
+    const {
+      expression: { expressions, loading, error },
+      entities,
+    } = this.props;
     return (
       <div>
         <Helmet>
@@ -64,9 +78,10 @@ export class Expression extends React.Component { // eslint-disable-line react/p
         </Helmet>
 
         <Wrapper>
-
-          <BackButton tooltip={`Back to ${this.agent}`} link={`/agents/${this.agent}`} />
-
+          <BackButton
+            tooltip={`Back to ${this.agent}`}
+            link={`/agents/${this.agent}`}
+          />
 
           <Grid item xs={8}>
             <Add addExpression={this.handleAddExpression} />
@@ -74,20 +89,19 @@ export class Expression extends React.Component { // eslint-disable-line react/p
               expressions={expressions}
               handleDelete={this.handleDelete}
               entities={entities}
-              addEntity={(this.handleAddEntity)}
-              removeEntity ={this.props.removeEntity}
+              addEntity={this.handleAddEntity}
+              removeEntity={this.props.removeEntity}
             />
           </Grid>
           <Grid item xs={4}>
-              <ProfileCard
-                subtitle="Agents group expressions"
-                agent="Agents"
-                description="Agents help to classify or split up different chatbots."
-                avatar="none"
-              />
+            <ProfileCard
+              subtitle="Agents group expressions"
+              agent="Agents"
+              description="Agents help to classify or split up different chatbots."
+              avatar="none"
+            />
           </Grid>
         </Wrapper>
-
       </div>
     );
   }
@@ -102,18 +116,22 @@ Expression.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   expression: makeSelectExpression(),
-  entities: selectEntities()
+  entities: selectEntities(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    addEntity: (agent, intent, entity) => dispatch(addParameter(agent, intent, entity)),
-    removeEntity: (entity) => dispatch(removeParameter(entity)),
+    addEntity: (agent, intent, entity) =>
+      dispatch(addParameter(agent, intent, entity)),
+    removeEntity: entity => dispatch(removeParameter(entity)),
   };
 }
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 const withReducer = injectReducer({ key: 'expression', reducer });
 const withSaga = injectSaga({ key: 'expression', saga });

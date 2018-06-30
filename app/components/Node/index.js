@@ -130,16 +130,16 @@ class Node extends React.Component {
           )}
           {level > 0 &&
             position > 1 && (
-            <MenuItem onClick={() => this.move('right')}>Move Right</MenuItem>
-          )}
+              <MenuItem onClick={() => this.move('right')}>Move Right</MenuItem>
+            )}
           {level > 0 &&
             position > 1 && (
-            <MenuItem onClick={() => this.move('up')}>Move Up</MenuItem>
-          )}
+              <MenuItem onClick={() => this.move('up')}>Move Up</MenuItem>
+            )}
           {level > 0 &&
             position !== total && (
-            <MenuItem onClick={() => this.move('down')}>Move Down</MenuItem>
-          )}
+              <MenuItem onClick={() => this.move('down')}>Move Down</MenuItem>
+            )}
         </Menu>
         <Collapse in={open}>
           <CollapseArea>

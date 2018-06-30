@@ -74,11 +74,6 @@ export class Status extends React.PureComponent {
                     <React.Fragment key={`Status-${mIndex}`}>
                       <ListItem>
                         <ListItemText primary={model} />
-                        <ListItemSecondaryAction>
-                          <IconButton aria-label="Delete">
-                            <DeleteIcon />
-                          </IconButton>
-                        </ListItemSecondaryAction>
                       </ListItem>
                       <Divider />
                     </React.Fragment>

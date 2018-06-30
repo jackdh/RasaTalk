@@ -55,7 +55,7 @@ const Edit = styled.div`
   ${props =>
     props.open &&
     `animation: ${opacityIn} 0.5s forwards, ${slideIn} 0.5s forwards;`} ${props =>
-  !props.open &&
+    !props.open &&
     `animation: ${opacityOut} 0.2s forwards, ${slideOut} 0.5s forwards;`};
 `;
 
