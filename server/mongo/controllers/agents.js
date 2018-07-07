@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const IntentSchema = require('../schemas/intentsSchema');
 const debug = require('debug')('Agents');
 
@@ -50,11 +51,11 @@ function createAgentMongo(req, res) {
 }
 
 function renameAgent(req, res) {
-  debug('Renaming Agent: %o to %o', req.body.oldName, req.body.agent);
+  debug('Renaming Agent: %o to %o', req.body.oldNode, req.body.agent);
 
   // IntentSchema.update({ agent: req.body.oldName });
 
-  return IntentSchema.findOne({ agent: req.body.oldName }, '-intents')
+  return IntentSchema.findOne({ agent: req.body.oldNode }, '-intents')
     .then(model => {
       debug('Found Agent');
       model.agent = req.body.agent;

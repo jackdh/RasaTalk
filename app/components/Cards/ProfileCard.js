@@ -25,6 +25,72 @@ function ProfileCard({ ...props }) {
     avatarClick,
   } = props;
 
+  let subtitleArea;
+  let agentArea;
+  let descriptionArea;
+
+  if (loading) {
+    subtitleArea = (
+      <ContentLoader
+        height={35}
+        speed={2}
+        primaryColor="#f3f3f3"
+        secondaryColor="#959595"
+      >
+        <rect x="100" y="15" rx="4" ry="4" width="200" height="15" />
+      </ContentLoader>
+    );
+    agentArea = (
+      <ContentLoader
+        height={35}
+        speed={2}
+        primaryColor="#f3f3f3"
+        secondaryColor="#959595"
+        style={{ marginTop: '10px' }}
+      >
+        <rect x="150" y="15" rx="4" ry="4" width="100" height="20" />
+      </ContentLoader>
+    );
+    descriptionArea = (
+      <ContentLoader
+        height={55}
+        speed={2}
+        primaryColor="#f3f3f3"
+        secondaryColor="#959595"
+        style={{ marginTop: '20px' }}
+      >
+        <rect x="100" y="15" rx="4" ry="4" width="200" height="5" />
+        <rect x="100" y="25" rx="4" ry="4" width="200" height="5" />
+      </ContentLoader>
+    );
+  } else {
+    if (subtitle !== undefined) {
+      subtitleArea = (
+        <Typography
+          component="h6"
+          className={classes.cardSubtitle}
+          style={{ minHeight: '24px' }}
+        >
+          {subtitle}
+        </Typography>
+      );
+    }
+    if (agent !== undefined) {
+      agentArea = (
+        <Typography component="h4" className={classes.cardTitle}>
+          {agent}
+        </Typography>
+      );
+    }
+    if (description !== undefined) {
+      descriptionArea = (
+        <Typography component="p" className={classes.cardDescription}>
+          {description}
+        </Typography>
+      );
+    }
+  }
+
   return (
     <Card
       className={classes.card}
@@ -56,65 +122,11 @@ function ProfileCard({ ...props }) {
         className={classes.textAlign}
         style={{ minHeight: footer ? '200px' : '' }}
       >
-        {loading && (
-          <ContentLoader
-            height={35}
-            speed={2}
-            primaryColor="#f3f3f3"
-            secondaryColor="#959595"
-          >
-            <rect x="100" y="15" rx="4" ry="4" width="200" height="15" />
-          </ContentLoader>
-        )}
-        {!loading &&
-          subtitle !== undefined && (
-          <Typography
-            component="h6"
-            className={classes.cardSubtitle}
-            style={{ minHeight: '24px' }}
-          >
-            {subtitle}
-          </Typography>
-        )}
+        {subtitleArea}
 
-        {loading && (
-          <ContentLoader
-            height={35}
-            speed={2}
-            primaryColor="#f3f3f3"
-            secondaryColor="#959595"
-            style={{ marginTop: '10px' }}
-          >
-            <rect x="150" y="15" rx="4" ry="4" width="100" height="20" />
-          </ContentLoader>
-        )}
+        {agentArea}
 
-        {!loading &&
-          agent !== undefined && (
-          <Typography component="h4" className={classes.cardTitle}>
-            {agent}
-          </Typography>
-        )}
-
-        {loading && (
-          <ContentLoader
-            height={55}
-            speed={2}
-            primaryColor="#f3f3f3"
-            secondaryColor="#959595"
-            style={{ marginTop: '20px' }}
-          >
-            <rect x="100" y="15" rx="4" ry="4" width="200" height="5" />
-            <rect x="100" y="25" rx="4" ry="4" width="200" height="5" />
-          </ContentLoader>
-        )}
-
-        {!loading &&
-          description !== undefined && (
-          <Typography component="p" className={classes.cardDescription}>
-            {description}
-          </Typography>
-        )}
+        {descriptionArea}
       </CardContent>
       <CardActions className={`${classes.textAlign} ${classes.cardActions}`}>
         {footer}

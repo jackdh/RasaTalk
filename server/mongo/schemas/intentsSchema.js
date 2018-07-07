@@ -10,7 +10,11 @@ const intentSchema = new Schema(
     description: String,
     intents: [
       {
-        name: { type: String, required: true, unique: true },
+        name: {
+          type: String,
+          required: true,
+          sparse: true,
+        },
         expressions: [{ type: Schema.Types.ObjectId, ref: 'expressions' }],
         regex: [String],
       },
@@ -18,6 +22,13 @@ const intentSchema = new Schema(
   },
   { usePushEach: true },
 );
+
+// intentSchema.pre('save', function preSave(next) {
+//   if (this.isNew && this.intents.length === 0) {
+//     this.intents = undefined;
+//   }
+//   next();
+// });
 
 // the schema is useless so far
 // we need to create a model using it

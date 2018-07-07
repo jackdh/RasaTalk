@@ -58,7 +58,6 @@ const styles = theme => ({
 export class Expansion extends React.Component {
   state = {
     anchorEl: null,
-    popperOpen: false,
   };
 
   handlePopoverOpen = event => {
@@ -67,14 +66,6 @@ export class Expansion extends React.Component {
 
   handlePopoverClose = () => {
     this.setState({ anchorEl: null });
-  };
-
-  handlePopperOpen = () => {
-    this.setState({ popperOpen: true });
-  };
-
-  handlePopperClose = () => {
-    this.setState({ popperOpen: false });
   };
 
   render() {

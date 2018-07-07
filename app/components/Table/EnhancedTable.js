@@ -96,32 +96,7 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-const toolbarStyles = theme => ({
-  root: {
-    paddingRight: theme.spacing.unit,
-  },
-  highlight:
-    theme.palette.type === 'light'
-      ? {
-        color: theme.palette.secondary.main,
-        backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-      }
-      : {
-        color: theme.palette.text.primary,
-        backgroundColor: theme.palette.secondary.dark,
-      },
-  spacer: {
-    flex: '1 1 100%',
-  },
-  actions: {
-    color: theme.palette.text.secondary,
-  },
-  title: {
-    flex: '0 0 auto',
-  },
-});
-
-let EnhancedTableToolbar = props => {
+const EnhancedTableToolbar = props => {
   const { numSelected, handleDelete, classes } = props;
 
   return (
@@ -167,18 +142,6 @@ EnhancedTableToolbar.propTypes = {
   handleDelete: PropTypes.func,
 };
 
-EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3 + 6,
-  },
-  tableWrapper: {
-    overflowX: 'auto',
-  },
-});
-
 class EnhancedTable extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -206,9 +169,9 @@ class EnhancedTable extends React.Component {
   }
 
   handleRequestSort = (event, property) => {
+    debugger;
     const orderBy = property;
     let order = 'desc';
-
     if (this.state.orderBy === property && this.state.order === 'desc') {
       order = 'asc';
     }
@@ -359,4 +322,4 @@ EnhancedTable.propTypes = {
   redirect: PropTypes.func,
 };
 
-export default withStyles(styles)(EnhancedTable);
+export default EnhancedTable;

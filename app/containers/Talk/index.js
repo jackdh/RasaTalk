@@ -15,6 +15,8 @@ import injectReducer from 'utils/injectReducer';
 import { createStructuredSelector } from 'reselect';
 import Wrapper from 'components/Grid/Wrapper';
 import ProfileCard from 'components/Cards/ProfileCard';
+import Table from 'components/Table/GenericTable';
+
 import {
   Grid,
   Card,
@@ -25,12 +27,11 @@ import {
 
 import saga from './saga';
 import reducer from './reducer';
-import Table from './TalkTable';
+// import Table from './TalkTable';
 import { changeTitle } from '../HomePage/actions';
 import { loadParents, addNode } from './actions';
 import { selectParents, selectLoading } from './selectors';
-
-const debug = require('debug')('PermSelect');
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 export class Talk extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
@@ -58,7 +59,6 @@ export class Talk extends React.Component {
 
   render() {
     const { all, loading, goTo } = this.props;
-
     return (
       <div>
         <Helmet>
@@ -69,9 +69,40 @@ export class Talk extends React.Component {
         <Wrapper>
           <Grid item xs={8}>
             <Table
-              nodes={all}
-              handleClick={uid => goTo(uid)}
-              handleDelete={node => debug(`deleting ${node}`)}
+              title="Nodes"
+              rowClick={{
+                data: 'uid',
+                func: data => goTo(data),
+              }}
+              items={all}
+              style={{ cursor: 'pointer' }}
+              headers={[
+                {
+                  id: 'name',
+                  numeric: false,
+                  disablePadding: false,
+                  label: 'Intents',
+                },
+                {
+                  id: 'group',
+                  numeric: true,
+                  label: 'Groups',
+                },
+                {
+                  id: 'uid',
+                  numeric: true,
+                  label: 'UID',
+                  cellClick: uid => {
+                    const textField = document.createElement('textarea');
+                    textField.innerText = uid;
+                    document.body.appendChild(textField);
+                    textField.select();
+                    document.execCommand('copy');
+                    textField.remove();
+                  },
+                  style: { cursor: 'copy' },
+                },
+              ]}
             />
           </Grid>
 

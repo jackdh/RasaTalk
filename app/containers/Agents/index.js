@@ -7,49 +7,43 @@
 import React from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
+import IIcon from 'images/iIcon.png';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { push } from 'react-router-redux';
 import defaultAvatar from 'images/agent.png';
+import Wrapper from 'components/Grid/Wrapper';
 import { createStructuredSelector } from 'reselect';
 import ProfileCard from 'components/Cards/ProfileCard';
-import Wrapper from 'components/Grid/Wrapper';
-import SnackBarContext from 'components/Snackbar/SnackbarContent';
-import IIcon from 'images/iIcon.png';
 
 import styled from 'styled-components';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { TextField } from 'redux-form-material-ui';
-import { Field, reduxForm, initialize } from 'redux-form/immutable';
+import {
+  Field,
+  reduxForm,
+  initialize,
+  formValueSelector,
+} from 'redux-form/immutable';
 import {
   Button,
   CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   Grid,
+  Card,
+  CardContent,
+  Typography,
+  Collapse,
+  CardActions,
+  IconButton,
 } from '@material-ui/core';
+import { Edit } from '@material-ui/icons';
 
 import saga from './saga';
 import reducer from './reducer';
 import makeSelectAgents from './selectors';
 import { changeTitle } from '../HomePage/actions';
-import {
-  saveAgent,
-  toggleDialog,
-  getAgents,
-  updateAgent,
-  deleteAgent,
-} from './actions';
-
-const StyledFab = styled(Button)`
-  right: 64px !important;
-  bottom: 64px !important;
-  position: absolute !important;
-`;
+import { saveAgent, toggleDialog, getAgents, updateAgent } from './actions';
 
 const StyledField = styled(Field)`
   && {
@@ -64,6 +58,8 @@ const validate = values => {
   }
   return errors;
 };
+
+const selector = formValueSelector('addAgent', null);
 
 export class Agents extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
@@ -83,8 +79,13 @@ export class Agents extends React.PureComponent {
   };
 
   load = agent => {
-    this.props.dispatch(initialize('addAgent', agent));
-    this.props.dispatch(toggleDialog(true, true, agent.agent));
+    this.props.dispatch(initialize('addAgent', agent)); // Add form
+    this.props.dispatch(toggleDialog(true, true, agent.agent)); // Set Edit to true.
+  };
+
+  clear = () => {
+    this.props.dispatch(initialize('addAgent', {})); // clear form
+    this.props.dispatch(toggleDialog(false)); // Set Edit to false.
   };
 
   addNew = () => {
@@ -103,8 +104,9 @@ export class Agents extends React.PureComponent {
   render() {
     const {
       handleSubmit,
-      agents: { agents, open, loading, edit, saving, saveError, oldNode },
+      agents: { agents, loading, edit, saving },
       dispatch,
+      agentValue,
     } = this.props;
 
     return (
@@ -130,28 +132,44 @@ export class Agents extends React.PureComponent {
                     subtitle = '',
                     description = '',
                   }) => (
-                    <Grid key={agent} item md={4}>
+                    <Grid key={agent} item xs={12} sm={12} md={4}>
                       <ProfileCard
                         avatar={avatar}
-                        avatarClick={() =>
-                          this.load({ agent, avatar, subtitle, description })
-                        }
                         subtitle={subtitle}
                         agent={agent}
                         description={description}
                         footer={
-                          <Button
-                            onClick={() =>
-                              dispatch(
-                                push(`/agents/${encodeURIComponent(agent)}`),
-                              )
-                            }
-                            variant="raised"
-                            color="primary"
-                            style={{ marginBottom: '15px' }}
-                          >
-                            View
-                          </Button>
+                          <React.Fragment>
+                            <IconButton
+                              onClick={() =>
+                                this.load({
+                                  agent,
+                                  avatar,
+                                  subtitle,
+                                  description,
+                                })
+                              }
+                              // variant="raised"
+                              style={{
+                                marginBottom: '15px',
+                                marginRight: '5px',
+                              }}
+                            >
+                              <Edit />
+                            </IconButton>
+                            <Button
+                              onClick={() =>
+                                dispatch(
+                                  push(`/agents/${encodeURIComponent(agent)}`),
+                                )
+                              }
+                              variant="raised"
+                              color="primary"
+                              style={{ marginBottom: '15px' }}
+                            >
+                              View
+                            </Button>
+                          </React.Fragment>
                         }
                         classes={this.props.classes}
                       />
@@ -167,108 +185,89 @@ export class Agents extends React.PureComponent {
               agent="Agents"
               description="Agents help to classify or split up different chatbots."
             />
+            <Card>
+              <form onSubmit={handleSubmit(this.submit)}>
+                <CardContent>
+                  <Typography gutterBottom variant="headline" component="h2">
+                    {edit ? 'Edit' : 'Add'} Agent
+                  </Typography>
+                  <Typography component="p">
+                    Feel free to use any name you&#39;d like with or without
+                    prefixes.
+                  </Typography>
+                  <StyledField
+                    name="agent"
+                    component={TextField}
+                    fullWidth
+                    label="Agent Name"
+                    type="text"
+                  />
+                  <Collapse in={!!agentValue}>
+                    <StyledField
+                      name="avatar"
+                      component={TextField}
+                      fullWidth
+                      label="Avatar"
+                      type="text"
+                    />
+                    <StyledField
+                      name="subtitle"
+                      component={TextField}
+                      fullWidth
+                      label="Subtitle"
+                      type="text"
+                    />
+                    <StyledField
+                      name="description"
+                      component={TextField}
+                      fullWidth
+                      label="Description"
+                      type="text"
+                    />
+                  </Collapse>
+                </CardContent>
+                <CardActions>
+                  <Collapse in={!!agentValue}>
+                    <Button type="submit" color="primary">
+                      {edit && !saving && 'Edit'}
+                      {!edit && !saving && 'Submit'}
+                      {saving && <CircularProgress size={24} />}
+                    </Button>
+                    {edit && (
+                      <React.Fragment>
+                        <Button onClick={this.clear}>Clear</Button>
+                      </React.Fragment>
+                    )}
+                  </Collapse>
+                </CardActions>
+              </form>
+            </Card>
           </Grid>
         </Wrapper>
-
-        <StyledFab variant="fab" color="primary" onClick={this.addNew}>
-          +
-        </StyledFab>
-
-        <Dialog
-          open={open}
-          onClose={() => dispatch(toggleDialog())}
-          aria-labelledby="form-dialog-title"
-        >
-          <form onSubmit={handleSubmit(this.submit)}>
-            <DialogTitle id="form-dialog-title">
-              {edit && 'Edit this Agent'}
-              {!edit && 'Add new Agent'}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Agents are used to separate intents into different sections or
-                APIs. Currently Talk Flow does not differentiate between agents
-                so you will need to prefix them if you are going to mix and
-                mash.
-              </DialogContentText>
-
-              <StyledField
-                name="agent"
-                component={TextField}
-                fullWidth
-                label="Agent Name"
-                type="text"
-              />
-              <StyledField
-                name="avatar"
-                component={TextField}
-                fullWidth
-                label="Avatar"
-                type="text"
-              />
-              <StyledField
-                name="subtitle"
-                component={TextField}
-                fullWidth
-                label="Subtitle"
-                type="text"
-              />
-              <StyledField
-                name="description"
-                component={TextField}
-                fullWidth
-                label="Description"
-                type="text"
-              />
-              {saveError && (
-                <SnackBarContext
-                  message={saveError}
-                  color="warning"
-                  style={{ marginTop: '30px' }}
-                />
-              )}
-            </DialogContent>
-            <DialogActions>
-              <Button
-                onClick={() => dispatch(deleteAgent(oldNode))}
-                color="secondary"
-              >
-                Delete
-              </Button>
-              <Button onClick={() => dispatch(toggleDialog())} color="primary">
-                Cancel
-              </Button>
-              <Button type="submit" color="primary">
-                {edit && !saving && 'Edit'}
-                {!edit && !saving && 'Submit'}
-                {saving && <CircularProgress size={24} />}
-              </Button>
-            </DialogActions>
-          </form>
-        </Dialog>
       </div>
     );
   }
 }
 
 Agents.propTypes = {
+  classes: PropTypes.object,
+  agentValue: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  classes: PropTypes.object,
   agents: PropTypes.shape({
-    open: PropTypes.bool.isRequired,
-    agents: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired,
+    oldNode: PropTypes.string,
+    edit: PropTypes.bool.isRequired,
     saving: PropTypes.bool.isRequired,
+    loading: PropTypes.bool.isRequired,
+    agents: PropTypes.array.isRequired,
     saveError: PropTypes.string.isRequired,
     loadingError: PropTypes.string.isRequired,
-    edit: PropTypes.bool.isRequired,
-    oldNode: PropTypes.string,
   }),
 };
 
 const mapStateToProps = createStructuredSelector({
   agents: makeSelectAgents(),
+  agentValue: state => selector(state, 'agent'),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -284,6 +283,7 @@ const withSaga = injectSaga({ key: 'agents', saga });
 const withForm = reduxForm({
   form: 'addAgent',
   validate,
+  enableReinitialize: true,
 });
 
 export default compose(

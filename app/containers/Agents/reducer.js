@@ -18,7 +18,6 @@ import {
 } from './constants';
 
 export const initialState = fromJS({
-  open: false,
   agents: [],
   loading: true,
   saving: false,
@@ -32,7 +31,6 @@ function agentsReducer(state = initialState, action) {
   switch (action.type) {
     case TOGGLE_DIALOG:
       return state
-        .set('open', action.toggle)
         .set('edit', action.edit)
         .set('oldNode', action.oldNode)
         .set('saveError', '');
