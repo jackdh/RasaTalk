@@ -16,6 +16,7 @@ import injectReducer from 'utils/injectReducer';
 import { createStructuredSelector } from 'reselect';
 import Synonyms from 'containers/Synonyms/Loadable';
 import ProfileCard from 'components/Cards/ProfileCard';
+import GenericTable from 'components/Table/GenericTable';
 
 import {
   Grid,
@@ -26,7 +27,6 @@ import {
 } from '@material-ui/core';
 
 import saga from './saga';
-import Table from './Table';
 import reducer from './reducer';
 import Link from '../../images/link.png';
 import makeSelectEntities from './selectors';
@@ -38,7 +38,6 @@ export class Entities extends React.PureComponent {
 
   state = {
     newEntity: '',
-    entityError: '',
   };
 
   componentDidMount() {
@@ -84,10 +83,17 @@ export class Entities extends React.PureComponent {
         <Wrapper>
           <Grid item xs={8}>
             {entity && <Synonyms entity={entity} />}
-            <Table
-              entities={entities}
-              handleClick={id => dispatch(push(`/entities/${id}`))}
+            <GenericTable
+              title="Entities"
+              items={entities}
               handleDelete={remove}
+              headers={[
+                {
+                  id: 'name',
+                  label: 'Entities',
+                  cellClick: uid => dispatch(push(`/entities/${uid}`)),
+                },
+              ]}
             />
           </Grid>
           <Grid item xs={4}>

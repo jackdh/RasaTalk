@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
-import { put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest, select } from 'redux-saga/effects';
 import _debug from 'debug';
 import axios from 'axios';
-import { reset } from 'redux-form';
+import { getFormValues, reset, destroy } from 'redux-form/immutable';
 
 import {
   SAVE_AGENT,
@@ -11,6 +11,7 @@ import {
   DELETE_AGENT,
 } from './constants';
 import * as a from './actions';
+import { toggleDialog } from './actions';
 
 const debug = _debug('Agents\\saga.js');
 
@@ -33,13 +34,12 @@ export function* getAgents() {
 // Individual exports for testing
 export function* saveAgent({ agent }) {
   debug('Saving a new Agent');
-
   yield put(a.savingAgent(true));
 
   try {
-    yield axios.put('/api/agents', agent);
+    const agent = yield select(getFormValues('addAgent'));
+    yield axios.put('/api/agents', agent.toJS());
     yield put(a.saveAgentSuccess(agent));
-    yield put(reset('addAgent'));
   } catch (error) {
     debug('failed saving agent: %o', error);
     yield put(a.saveAgentFailure(error));
@@ -55,9 +55,11 @@ export function* updateAgent({ agent, oldNode }) {
   yield put(a.savingAgent(true));
   agent.oldName = oldNode;
   try {
-    yield axios.post('/api/agents', agent);
-    yield put(a.updateAgentSuccess(agent));
-    yield put(reset('addAgent'));
+    const newAgent = yield select(getFormValues('addAgent'));
+    yield axios.post('/api/agents', newAgent.set('oldNode', oldNode).toJS());
+    yield put(a.updateAgentSuccess(newAgent));
+    yield put(destroy('addAgent'));
+    yield put(toggleDialog(false));
   } catch (error) {
     debug('failed saving agent: %o', error);
     yield put(

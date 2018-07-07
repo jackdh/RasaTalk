@@ -95,6 +95,11 @@ class Node extends React.Component {
         transform: rotate(180deg);`};
     `;
 
+    const showLeft = level > 1;
+    const showRight = level > 0 && position > 1;
+    const showUp = level > 0 && position > 1;
+    const showDown = level > 0 && position !== total;
+
     return (
       <Wrapper>
         <StyledCard>
@@ -125,21 +130,18 @@ class Node extends React.Component {
         >
           <MenuItem onClick={this.add}>Add</MenuItem>
           <MenuItem onClick={this.remove}>Remove</MenuItem>
-          {level > 1 && (
+          {showLeft && (
             <MenuItem onClick={() => this.move('left')}>Move Left</MenuItem>
           )}
-          {level > 0 &&
-            position > 1 && (
-              <MenuItem onClick={() => this.move('right')}>Move Right</MenuItem>
-            )}
-          {level > 0 &&
-            position > 1 && (
-              <MenuItem onClick={() => this.move('up')}>Move Up</MenuItem>
-            )}
-          {level > 0 &&
-            position !== total && (
-              <MenuItem onClick={() => this.move('down')}>Move Down</MenuItem>
-            )}
+          {showRight && (
+            <MenuItem onClick={() => this.move('right')}>Move Right</MenuItem>
+          )}
+          {showUp && (
+            <MenuItem onClick={() => this.move('up')}>Move Up</MenuItem>
+          )}
+          {showDown && (
+            <MenuItem onClick={() => this.move('down')}>Move Down</MenuItem>
+          )}
         </Menu>
         <Collapse in={open}>
           <CollapseArea>

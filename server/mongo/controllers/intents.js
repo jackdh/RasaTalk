@@ -33,17 +33,20 @@ const removeIntent = (req, res) => {
     { agent },
     { $pull: { intents: { name: { $in: intents } } } },
     { safe: true },
-    err => {
-      if (err) {
-        debug(err);
-        res
-          .status(475)
-          .send('Sorry we failed removing those. Please check the logs.');
+  )
+    .then(model => {
+      if (model.nModified === 0) {
+        res.status(475).send("Looks like that doesn't exist in the DB");
       } else {
         res.status(275).send(`Removed ${intents.join(', ')}`);
       }
-    },
-  );
+    })
+    .catch(err => {
+      debug(err);
+      res
+        .status(475)
+        .send('Sorry we failed removing those. Please check the logs.');
+    });
 };
 
 const updateIntent = (req, res) => {

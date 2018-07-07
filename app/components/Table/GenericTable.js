@@ -1,6 +1,5 @@
-/* eslint-disable react/no-multi-comp,react/sort-comp,no-mixed-operators,react/no-unused-prop-types */
+/* eslint-disable react/no-multi-comp,react/sort-comp,no-mixed-operators */
 import React from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -17,49 +16,52 @@ import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 
+/**
+ * This is a work in progress. Currently looking like it might be easier to have individual tables for each.
+ * @type {number}
+ */
+
 let counter = 0;
-function createData(entity) {
+function createData(item) {
   counter += 1;
-  entity.id = counter;
-  return entity;
+  return { id: counter, ...item };
 }
 
-const columnData = [
-  { id: 'entity', numeric: false, disablePadding: true, label: 'Entity' },
-];
-
-class EnhancedTableHead extends React.Component {
+class GenericHead extends React.Component {
   createSortHandler = property => event => {
     this.props.onRequestSort(event, property);
   };
 
   render() {
     const {
-      onSelectAllClick,
       order,
+      headers,
       orderBy,
-      numSelected,
       rowCount,
+      numSelected,
+      displayCheckbox,
+      onSelectAllClick,
     } = this.props;
 
     return (
       <TableHead>
         <TableRow>
-          <TableCell padding="checkbox">
-            <Checkbox
-              indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={numSelected === rowCount}
-              onChange={onSelectAllClick}
-            />
-          </TableCell>
-          {columnData.map(
+          {displayCheckbox && (
+            <TableCell padding="checkbox">
+              <Checkbox
+                indeterminate={numSelected > 0 && numSelected < rowCount}
+                checked={numSelected === rowCount}
+                onChange={onSelectAllClick}
+              />
+            </TableCell>
+          )}
+          {headers.map(
             column => (
               <TableCell
                 key={column.id}
-                numeric={column.numeric}
+                numeric={column.numeric || false}
                 padding={column.disablePadding ? 'none' : 'default'}
                 sortDirection={orderBy === column.id ? order : false}
               >
@@ -86,29 +88,35 @@ class EnhancedTableHead extends React.Component {
   }
 }
 
-EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
+GenericHead.propTypes = {
   order: PropTypes.string.isRequired,
+  headers: PropTypes.array.isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
+  numSelected: PropTypes.number.isRequired,
+  onRequestSort: PropTypes.func.isRequired,
+  displayCheckbox: PropTypes.bool.isRequired,
+  onSelectAllClick: PropTypes.func.isRequired,
+};
+
+const highlightColour = (type, theme) => {
+  if (type === 'light') {
+    return {
+      color: theme.palette.secondary.main,
+      backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+    };
+  }
+  return {
+    color: theme.palette.text.primary,
+    backgroundColor: theme.palette.secondary.dark,
+  };
 };
 
 const toolbarStyles = theme => ({
   root: {
     paddingRight: theme.spacing.unit,
   },
-  highlight:
-    theme.palette.type === 'light'
-      ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-        }
-      : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
+  highlight: highlightColour(theme.palette.type, theme),
   spacer: {
     flex: '1 1 100%',
   },
@@ -120,38 +128,25 @@ const toolbarStyles = theme => ({
   },
 });
 
-let EnhancedTableToolbar = props => {
-  const { numSelected, handleDelete, classes } = props;
+let GenericToolbar = props => {
+  const { numSelected, handleDelete, title } = props;
 
   return (
-    <Toolbar
-      className={classNames(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
-    >
-      <div className={classes.title}>
+    <Toolbar>
+      <div>
         {numSelected > 0 ? (
-          <Typography color="inherit" variant="subheading">
-            {numSelected} selected
-          </Typography>
+          <Typography>{numSelected} selected</Typography>
         ) : (
           <Typography variant="title" id="tableTitle">
-            Entities
+            {title}
           </Typography>
         )}
       </div>
-      <div className={classes.spacer} />
-      <div className={classes.actions}>
-        {numSelected > 0 ? (
+      <div>
+        {numSelected > 0 && (
           <Tooltip title="Delete">
             <IconButton aria-label="Delete" onClick={() => handleDelete()}>
               <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
             </IconButton>
           </Tooltip>
         )}
@@ -160,13 +155,13 @@ let EnhancedTableToolbar = props => {
   );
 };
 
-EnhancedTableToolbar.propTypes = {
-  classes: PropTypes.object.isRequired,
+GenericToolbar.propTypes = {
+  title: PropTypes.string.isRequired,
   numSelected: PropTypes.number.isRequired,
-  handleDelete: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func,
 };
 
-EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
+GenericToolbar = withStyles(toolbarStyles)(GenericToolbar);
 
 const styles = theme => ({
   root: {
@@ -178,30 +173,35 @@ const styles = theme => ({
   },
 });
 
-class EnhancedTable extends React.Component {
+class Generic extends React.Component {
   constructor(props, context) {
     super(props, context);
 
     this.state = {
       order: 'asc',
-      orderBy: 'entity',
+      orderBy: 'intent',
       selected: [],
       data: [],
       page: 0,
-      rowsPerPage: 5,
+      rowsPerPage: 10,
+      sorting: false,
     };
   }
 
   static getDerivedStateFromProps(props, prevState) {
-    const entities = props.entities;
-    const l = [];
-    counter = 0;
-    entities.map(entity => l.push(createData(entity, 5, 5)));
-    return {
-      data: l,
-      selected:
-        prevState.data.length !== entities.length ? [] : prevState.selected,
-    };
+    if (prevState.data.length !== props.items.length) {
+      const l = [];
+      counter = 0;
+      props.items.map(item => l.push(createData(item, 5, 5)));
+      return {
+        data: l,
+        selected:
+          prevState.data.length !== props.items.length
+            ? []
+            : prevState.selected,
+      };
+    }
+    return { ...prevState };
   }
 
   handleRequestSort = (event, property) => {
@@ -217,7 +217,7 @@ class EnhancedTable extends React.Component {
         ? this.state.data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
         : this.state.data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
 
-    this.setState({ data, order, orderBy });
+    this.setState({ data, order, orderBy, sorting: true });
   };
 
   handleSelectAllClick = (event, checked) => {
@@ -267,58 +267,80 @@ class EnhancedTable extends React.Component {
     this.props.handleDelete(justIntents);
   };
 
+  clk = (event, func, value) => {
+    event.stopPropagation();
+    func(value);
+  };
+
   render() {
-    const { classes, handleClick } = this.props;
+    const {
+      classes,
+      rowClick,
+      title,
+      headers,
+      handleDelete,
+      style,
+    } = this.props;
     const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-
     return (
       <Paper className={classes.root}>
-        <EnhancedTableToolbar
-          classes={{}}
+        <GenericToolbar
+          title={title}
           handleDelete={this.handleDelete}
           numSelected={selected.length}
         />
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
-            <EnhancedTableHead
+            <GenericHead
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
               onSelectAllClick={this.handleSelectAllClick}
               onRequestSort={this.handleRequestSort}
               rowCount={data.length}
+              headers={headers}
+              displayCheckbox={!!handleDelete}
             />
             <TableBody>
               {data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(n => {
-                  const isSelected = this.isSelected(n.id);
+                .map(row => {
+                  const isSelected = this.isSelected(row.id);
                   return (
                     <TableRow
                       hover
                       role="checkbox"
                       aria-checked={isSelected}
                       tabIndex={-1}
-                      key={n.id}
+                      key={row.id}
                       selected={isSelected}
-                      style={{ cursor: 'pointer' }}
+                      style={style}
+                      onClick={() => rowClick.func(row[rowClick.data])}
                     >
-                      <TableCell padding="checkbox" style={{ width: '1px' }}>
-                        <Checkbox
-                          checked={isSelected}
-                          onClick={event => this.handleClick(event, n.id)}
-                        />
-                      </TableCell>
-                      <TableCell
-                        onClick={() => handleClick(n.name)}
-                        component="th"
-                        scope="row"
-                        padding="none"
-                      >
-                        {n.name}
-                      </TableCell>
+                      {handleDelete && (
+                        <TableCell padding="checkbox" style={{ width: '25px' }}>
+                          <Checkbox
+                            checked={isSelected}
+                            onClick={event => this.handleClick(event, row.id)}
+                          />
+                        </TableCell>
+                      )}
+                      {headers.map(cell => (
+                        <TableCell
+                          key={cell.id}
+                          numeric={cell.numeric}
+                          style={cell.style}
+                          onClick={
+                            typeof cell.cellClick !== 'undefined'
+                              ? e => this.clk(e, cell.cellClick, row[cell.id])
+                              : null
+                          }
+                        >
+                          {row[cell.id]}
+                        </TableCell>
+                      ))}
                     </TableRow>
                   );
                 })}
@@ -334,7 +356,7 @@ class EnhancedTable extends React.Component {
           component="div"
           count={data.length}
           rowsPerPage={rowsPerPage}
-          rowsPerPageOptions={[5, 10, 25, 100]}
+          rowsPerPageOptions={[5, 10, 25, 50, 100, 1000]}
           page={page}
           backIconButtonProps={{
             'aria-label': 'Previous Page',
@@ -350,24 +372,13 @@ class EnhancedTable extends React.Component {
   }
 }
 
-EnhancedTable.defaultProps = {
-  entities: [
-    {
-      _id: '5a90a9713da1e2186c68c507',
-      name: '@food',
-    },
-    {
-      _id: '5a92a6f6c614e50a60ff4f03',
-      name: '@snacks',
-    },
-  ],
-};
-
-EnhancedTable.propTypes = {
-  classes: PropTypes.object.isRequired,
+Generic.propTypes = {
+  style: PropTypes.object,
+  rowClick: PropTypes.object,
   handleDelete: PropTypes.func,
-  handleClick: PropTypes.func,
-  entities: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  title: PropTypes.string.isRequired,
+  headers: PropTypes.array.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(EnhancedTable);
+export default withStyles(styles)(Generic);

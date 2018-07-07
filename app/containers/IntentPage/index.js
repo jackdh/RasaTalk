@@ -15,9 +15,9 @@ import BackButton from 'components/BackButton';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { createStructuredSelector } from 'reselect';
-import Enhanced from 'components/Table/EnhancedTable';
 import ProfileCard from 'components/Cards/ProfileCard';
 import SnackBarContent from 'components/Snackbar/SnackbarContent';
+import GenericTable from 'components/Table/GenericTable';
 import {
   Grid,
   Card,
@@ -111,20 +111,26 @@ export class IntentPage extends React.PureComponent {
 
           <Grid item xs={8}>
             {removingIntents && <LinearProgress color="primary" />}
-            <Enhanced
-              intents={intents}
-              redirect={route =>
-                dispatch(
-                  push(
-                    `/agents/${encodeURIComponent(
-                      this.state.agent,
-                    )}/intent/${encodeURIComponent(route)}`,
-                  ),
-                )
-              }
+            <GenericTable
+              title="Intents"
+              items={intents}
               handleDelete={deleteIntents =>
                 dispatch(removeIntents(this.state.agent, deleteIntents))
               }
+              headers={[
+                {
+                  id: 'name',
+                  label: 'Intent',
+                  cellClick: route =>
+                    dispatch(
+                      push(
+                        `/agents/${encodeURIComponent(
+                          this.state.agent,
+                        )}/intent/${encodeURIComponent(route)}`,
+                      ),
+                    ),
+                },
+              ]}
             />
           </Grid>
           <Grid item xs={4}>

@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
-import { reset } from 'redux-form';
+import { reset } from 'redux-form/immutable';
 import axios from 'axios';
 
 import { GET_AGENT, ADD_INTENT, REMOVE_INTENTS } from './constants';
@@ -59,8 +59,6 @@ function* removeIntent({ intents, agent }) {
   try {
     yield axios.post(`/api/delete/${agent}/intent`, intents);
     yield put(a.removeIntentsSuccess(intents));
-  } catch (error) {
-    yield put(a.removeIntentsFailure(error));
   } finally {
     yield put(a.removingIntents(false));
   }
