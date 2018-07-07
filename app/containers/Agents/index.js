@@ -43,7 +43,13 @@ import saga from './saga';
 import reducer from './reducer';
 import makeSelectAgents from './selectors';
 import { changeTitle } from '../HomePage/actions';
-import { saveAgent, toggleDialog, getAgents, updateAgent } from './actions';
+import {
+  saveAgent,
+  toggleDialog,
+  getAgents,
+  updateAgent,
+  deleteAgent,
+} from './actions';
 
 const StyledField = styled(Field)`
   && {
@@ -236,6 +242,9 @@ export class Agents extends React.PureComponent {
                     {edit && (
                       <React.Fragment>
                         <Button onClick={this.clear}>Clear</Button>
+                        <Button onClick={() => dispatch(deleteAgent())}>
+                          Delete
+                        </Button>
                       </React.Fragment>
                     )}
                   </Collapse>

@@ -11,7 +11,7 @@ import {
   DELETE_AGENT,
 } from './constants';
 import * as a from './actions';
-import { toggleDialog } from './actions';
+import { selectOldName } from './selectors';
 
 const debug = _debug('Agents\\saga.js');
 
@@ -59,7 +59,7 @@ export function* updateAgent({ agent, oldNode }) {
     yield axios.post('/api/agents', newAgent.set('oldNode', oldNode).toJS());
     yield put(a.updateAgentSuccess(newAgent));
     yield put(destroy('addAgent'));
-    yield put(toggleDialog(false));
+    yield put(a.toggleDialog(false));
   } catch (error) {
     debug('failed saving agent: %o', error);
     yield put(
@@ -72,13 +72,15 @@ export function* updateAgent({ agent, oldNode }) {
   }
 }
 
-export function* deleteAgent({ agent }) {
+export function* deleteAgent() {
   debug('Deleting agent');
   yield put(a.deletingAgent(true));
   try {
+    const agent = yield select(selectOldName());
     yield axios.delete(`/api/agents/${agent}`);
     yield put(a.deleteAgentSuccess(agent));
-    yield put(reset('addAgent'));
+    yield put(destroy('addAgent'));
+    yield put(a.toggleDialog(false));
   } catch (error) {
     yield put(a.saveAgentFailure('Sorry something went wrong deleting that.'));
   } finally {
