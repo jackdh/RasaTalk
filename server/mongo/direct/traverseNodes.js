@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign,no-underscore-dangle */
 const SlotFiller = require('./SlotFiller');
 const { fireWebhook } = require('./webhook');
 const cache = require('global-cache');
@@ -175,7 +176,17 @@ class TraverseNodes {
           });
         }
 
-        const qkr = !node.responses[i + 1] ? node.quick_replies : null;
+        let qkr = !node.responses[i + 1] ? node.quick_replies : null;
+        if (qkr) {
+          if (qkr.length === 0) {
+            qkr = null;
+          } else {
+            qkr.forEach(q => {
+              delete q._id;
+              q.payload = q.title;
+            });
+          }
+        }
         actualResponses.push({
           output,
           quick_replies: qkr,
@@ -265,7 +276,7 @@ class TraverseNodes {
       newString = _.clone(node.recognises.condition);
       const array = node.recognises.condition.split(/ and | or /);
 
-      for (let condition of array) {
+      array.forEach(condition => {
         let valid = false;
         condition = _.trim(condition);
 
@@ -278,7 +289,7 @@ class TraverseNodes {
         }
 
         newString = _.replace(newString, condition, valid);
-      }
+      });
 
       newString = _.replace(newString, new RegExp('and', 'g'), '&&');
       newString = _.replace(newString, new RegExp('or', 'g'), '||');

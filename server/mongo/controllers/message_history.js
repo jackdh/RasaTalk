@@ -1,10 +1,11 @@
+/* eslint-disable no-param-reassign */
 const HistorySchema = require('../schemas/messageHistorySchema');
 const debug = require('debug')('messageHistory');
 
 function addToHistoryBot(uid, replies) {
-  for (const reply of replies) {
+  replies.forEach(reply => {
     reply.type = 'bot';
-  }
+  });
   return HistorySchema.findOneAndUpdate(
     { _id: uid },
     { $push: { history: { $each: replies } } },
@@ -28,7 +29,7 @@ const addToHistory = (id, message) =>
   });
 
 function getHistory(req, res) {
-  const uid = req.params.uid;
+  const { uid } = req.params;
 
   HistorySchema.findOne({ _id: uid })
     .lean()

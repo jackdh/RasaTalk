@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const DialogSchema = require('../../schemas/dialogSchema');
 const Convert = require('../utils/converstions');
 const Cache = require('../utils/cache');
@@ -28,7 +29,7 @@ function update(req, res) {
 }
 
 function toggle(req, res) {
-  const uid = req.params.uid;
+  const { uid } = req.params;
   DialogSchema.findOne({ _id: `intent_${uid}` })
     .then(model => {
       model.enabled = !model.enabled;

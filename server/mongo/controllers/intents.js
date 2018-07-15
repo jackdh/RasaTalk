@@ -1,9 +1,10 @@
+/* eslint-disable no-param-reassign */
 const IntentSchema = require('../schemas/intentsSchema');
 const debug = require('debug')('Intents');
 
 const addIntent = (req, res) => {
-  const agent = req.params.agent;
-  const intent = req.body.intent;
+  const { agent } = req.params;
+  const { intent } = req.body;
   if (!intent || intent === '') {
     res.sendStatus(400);
     return;
@@ -27,7 +28,7 @@ const addIntent = (req, res) => {
 };
 
 const removeIntent = (req, res) => {
-  const agent = req.params.agent;
+  const { agent } = req.params;
   const intents = req.body;
   IntentSchema.update(
     { agent },
@@ -50,9 +51,8 @@ const removeIntent = (req, res) => {
 };
 
 const updateIntent = (req, res) => {
-  const agent = req.params.agent;
-  const oldIntentName = req.params.intentName;
-  const intentName = req.body.intentName;
+  const { agent, oldIntentName } = req.params;
+  const { intentName } = req.body;
 
   IntentSchema.findOne({ agent, 'intents.name': intentName }, (err, model) => {
     if (err) {
@@ -84,7 +84,7 @@ const updateIntent = (req, res) => {
 };
 
 const getIntents = (req, res) => {
-  const agent = req.params.agent;
+  const { agent } = req.params;
 
   IntentSchema.findOne({ agent }, '-_id -__v -intents.expressions -intents._id')
     .lean()

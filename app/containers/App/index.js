@@ -15,7 +15,6 @@ import PropTypes from 'prop-types';
 import HomePage from 'containers/HomePage/Loadable';
 import { CssBaseline } from '@material-ui/core';
 import LoginPage from 'containers/LoginPage';
-import FeaturePage from 'containers/FeaturePage/Loadable';
 
 import Auth from 'containers/LoginPage/Auth';
 

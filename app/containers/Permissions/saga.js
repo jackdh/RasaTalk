@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { call, put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 import { GET_PERMISSIONS, SET_PERMISSIONS, SET_USER } from './constants';

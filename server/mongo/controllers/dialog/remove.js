@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const Convert = require('../utils/converstions');
 const Cache = require('../utils/cache');
 

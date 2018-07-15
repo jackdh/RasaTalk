@@ -151,6 +151,7 @@
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.3",
+    "botkit": "^0.6.14",
     "chalk": "^2.4.1",
     "classnames": "^2.2.6",
     "co": "^4.6.0",

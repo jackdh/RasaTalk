@@ -1,3 +1,4 @@
+/* eslint-disable prefer-promise-reject-errors,no-param-reassign */
 const Convert = require('../utils/converstions');
 const myCache = require('../utils/cache');
 
@@ -129,8 +130,7 @@ function moveRight(uid, map) {
 }
 
 function move(req, res) {
-  const uid = req.params.uid;
-  const direction = req.params.direction;
+  const { uid, direction } = req.params;
   Convert.hashMap().then(map => {
     const promises = [];
     if (direction === 'left') {

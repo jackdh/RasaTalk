@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const _ = require('lodash');
 const RandExp = require('randexp');
 
@@ -32,9 +33,9 @@ class TestCase {
       const totalPaths = recurseParent(this.map, startNode, [], []);
 
       const allPaths = [];
-      for (const singlePath of totalPaths) {
+      totalPaths.forEach(singlePath => {
         allPaths.push(this.getQaR(singlePath, jump));
-      }
+      });
 
       Promise.all(allPaths).then(data => {
         resolve(data);
@@ -54,7 +55,7 @@ class TestCase {
       const list = TestCase.buildListOfConditions(singlePath);
       Promise.all(list).then(values => {
         const flow = [];
-        const nodes = singlePath.nodes;
+        const { nodes } = singlePath;
         for (let i = 0; i < nodes.length; i += 1) {
           if (i !== 0 && values[i] === '') {
             const simple = TestCase.getSimpleResponses(
@@ -105,9 +106,9 @@ class TestCase {
    */
   static getSimpleQuickReplies(buttons) {
     const temp = [];
-    for (const button of buttons) {
+    buttons.forEach(button => {
       temp.push(button.title);
-    }
+    });
     return temp;
   }
 
@@ -117,9 +118,9 @@ class TestCase {
    */
   static getSimpleResponses(responses) {
     const temp = [];
-    for (const resp of responses) {
+    responses.forEach(resp => {
       temp.push(resp.output);
-    }
+    });
     return temp;
   }
 
@@ -130,7 +131,7 @@ class TestCase {
    */
   static buildListOfConditions(singlePath) {
     const list = [];
-    for (const node of singlePath.nodes) {
+    singlePath.nodes.forEach(node => {
       if (node.intent.regex) {
         const randExp = this.generateRegex(node);
         list.push(randExp); // let randExp = RandExp(node.intent.regex);
@@ -142,7 +143,7 @@ class TestCase {
           ),
         );
       }
-    }
+    });
     return list;
   }
 
@@ -203,7 +204,9 @@ function recurseParent(map, node, path, total) {
  */
 function addToTotal(path, total) {
   let pathString = '';
-  for (const node of path) pathString += node.intent.name.name + self.delimeter;
+  path.forEach(node => {
+    pathString += node.intent.name.name + self.delimeter;
+  });
   total.push({
     name: pathString.substring(0, pathString.length - 1),
     questionAndResponse: {},
@@ -244,13 +247,13 @@ function generateAll(req, res) {
         dialog()
           .getMulti(data)
           .then(nodes => {
-            for (const node of nodes) {
+            nodes.forEach(node => {
               all.push(
                 new TestCase(map, simple, jumpToEnabled).getSingleTestCase(
                   node.toObject(),
                 ),
               );
-            }
+            });
             Promise.all(all).then(d => {
               global.getAllCache = d;
               res.send(d);

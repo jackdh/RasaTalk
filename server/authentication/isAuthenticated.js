@@ -32,10 +32,11 @@ function isAuthenticated(req, res, next) {
               let perms = _.find(perm, { type: 'role', name: user.role })
                 .permissions; // Get permissions for user's role
 
-              for (const group of user.groups)
+              user.groups.forEach(group => {
                 perms = perms.concat(
                   _.find(perm, { type: 'group', name: group }).permissions,
                 ); // For each group the user is in, add the permissions.
+              });
 
               perms = _.uniq(perms.concat(user.permissions)); // Combine and unique permissions.
 

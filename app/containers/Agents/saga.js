@@ -2,7 +2,7 @@
 import { put, takeLatest, select } from 'redux-saga/effects';
 import _debug from 'debug';
 import axios from 'axios';
-import { getFormValues, reset, destroy } from 'redux-form/immutable';
+import { getFormValues, destroy } from 'redux-form/immutable';
 
 import {
   SAVE_AGENT,
@@ -32,7 +32,7 @@ export function* getAgents() {
 }
 
 // Individual exports for testing
-export function* saveAgent({ agent }) {
+export function* saveAgent() {
   debug('Saving a new Agent');
   yield put(a.savingAgent(true));
 

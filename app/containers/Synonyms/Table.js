@@ -1,4 +1,4 @@
-/* eslint-disable react/no-multi-comp,react/sort-comp,no-mixed-operators */
+/* eslint-disable react/no-multi-comp,react/sort-comp,no-mixed-operators, indent */
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -23,7 +23,8 @@ import Select from './SynonymSelect';
 const debug = require('debug')('PermSelect');
 
 let counter = 0;
-function createData(synonym) {
+function createData(synonymP) {
+  const synonym = synonymP;
   counter += 1;
   synonym.id = counter;
   return synonym;

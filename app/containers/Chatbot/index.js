@@ -3,7 +3,7 @@
  * Chatbot
  *
  */
-
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';

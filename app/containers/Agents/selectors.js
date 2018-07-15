@@ -10,7 +10,7 @@ const selectAgentsDomain = state => state.get('agents', initialState);
  * Other specific selectors
  */
 
-const selectOldName = state =>
+const selectOldName = () =>
   createSelector(selectAgentsDomain, subState => subState.get('oldNode'));
 
 /**

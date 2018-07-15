@@ -1,7 +1,8 @@
 const _ = require('lodash');
 
-export const validate = values => {
-  values = values.toJS();
+export const validate = valuesParam => {
+  const values = valuesParam.toJS();
+
   const errors = {};
 
   if (!_.get(values, 'name.name')) {

@@ -61,6 +61,7 @@ export class SimpleSnackbar extends React.PureComponent {
 
     let variant = 'info';
     if (props && props.variant !== undefined) {
+      // eslint-disable-next-line prefer-destructuring
       variant = props.variant;
     }
 

@@ -47,7 +47,7 @@ module.exports = new PassportLocalStrategy(
         // create a token string
         const token = jwt.sign(userData.email, process.env.JWTSECRET);
 
-        // eslint-disable-next-line no-underscore-dangle
+        // eslint-disable-next-line no-underscore-dangle,no-param-reassign
         delete user._doc.password;
 
         return done(null, token, user);

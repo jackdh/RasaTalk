@@ -12,15 +12,15 @@ function getSTEnabled(req, res) {
       const tempModel = model[0].toObject();
 
       const temp = [];
-      for (const st of tempModel.smallTalk) {
-        for (const stTraining of st.training) {
+      tempModel.smallTalk.forEach(st => {
+        st.training.forEach(stTraining => {
           temp.push({
             intent: tempModel.options.prefix + st.name,
             text: stTraining,
             entities: [],
           });
-        }
-      }
+        });
+      });
       res.send(temp);
     } else {
       res.send(false);
@@ -29,7 +29,7 @@ function getSTEnabled(req, res) {
 }
 
 function getST(req, res) {
-  const name = req.params.name;
+  const { name } = req.params;
   SmallTalkSchema.findOne({ name })
     .then(model => {
       if (!model) {
@@ -49,7 +49,7 @@ function getST(req, res) {
 }
 
 function upsertST(req, res) {
-  const name = req.params.name;
+  const { name } = req.params;
   SmallTalkSchema.findOneAndUpdate({ name }, req.body)
     .then(() => {
       generateServiceSideUsage();
@@ -68,9 +68,9 @@ function generateServiceSideUsage() {
 
         const temp = {};
 
-        for (const i of st.smallTalk) {
+        st.smallTalk.forEach(i => {
           temp[st.options.prefix + i.name] = i.responses;
-        }
+        });
 
         temp.enabled = st.options.enabled;
         cache.set('smallTalkServerSide', temp);

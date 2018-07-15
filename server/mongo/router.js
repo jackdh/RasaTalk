@@ -14,7 +14,7 @@ const update = require('./controllers/dialog/update');
 const remove = require('./controllers/dialog/remove');
 const parameters = require('./controllers/parameters');
 const expressions = require('./controllers/expressions');
-const generateResponse = require('./direct/generateResponse');
+const { generateResponse } = require('./direct/generateResponse');
 const permissions = require('./controllers/permissions/permissions');
 
 /** Dashboard */
@@ -153,6 +153,6 @@ router.post(
  * Generate Response
  */
 
-router.post('/reply/:uid', generateResponse.generateResponse);
+router.post('/reply/:uid', generateResponse);
 
 module.exports = router;

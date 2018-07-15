@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -155,11 +156,11 @@ Variant.defaultProps = {
 };
 
 Variant.propTypes = {
-  includeExpression: PropTypes.bool.isRequired,
-  toBeReplaced: PropTypes.string.isRequired,
-  variants: PropTypes.array.isRequired,
-  multipleExpressions: PropTypes.array.isRequired,
-  generatedExpressions: PropTypes.array.isRequired,
+  includeExpression: PropTypes.bool,
+  toBeReplaced: PropTypes.string,
+  variants: PropTypes.array,
+  multipleExpressions: PropTypes.array,
+  generatedExpressions: PropTypes.array,
   handleInputChange: PropTypes.func.isRequired,
   saveGenerated: PropTypes.func.isRequired,
 };

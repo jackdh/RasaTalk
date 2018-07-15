@@ -23,6 +23,7 @@ module.exports = new PassportLocalStrategy(
       })
         .then(user => {
           const token = jwt.sign(user.email, process.env.JWTSECRET);
+          // eslint-disable-next-line no-param-reassign
           delete user.password;
           return done(null, token, user);
         })

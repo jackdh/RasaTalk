@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 // const db = require('../mongo/mongodb');
 const SessionSchema = require('../schemas/sessionSchema');
 const debug = require('debug')('session');

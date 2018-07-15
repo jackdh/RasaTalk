@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle,consistent-return */
 const _ = require('lodash');
 
 class SlotFiller {
@@ -8,7 +8,7 @@ class SlotFiller {
 
   slotsCorrect(node, message) {
     if (node.slots) {
-      for (const reqSlot of node.slots) {
+      node.slots.forEach(reqSlot => {
         const entity = _.find(message.entities, { entity: reqSlot.entity });
         if (entity) {
           this.session._doc.entities.saved[`${reqSlot.slotID}`] = {
@@ -25,7 +25,7 @@ class SlotFiller {
             ruid: message.ruid,
           };
         }
-      }
+      });
     }
     return false;
   }
@@ -95,12 +95,12 @@ class SlotFiller {
    * @param slotEntity - Single entity requested in slot
    */
   attemptFillSlot(messageEntities, slotNode) {
-    for (const entityobj of messageEntities.entities) {
+    messageEntities.entities.forEach(entityobj => {
       if (entityobj.entity === slotNode.entity) {
         this.fillSlot(slotNode, entityobj);
         return true;
       }
-    }
+    });
     return false;
   }
 
@@ -111,11 +111,10 @@ class SlotFiller {
   refillSlot(newEntities, node) {
     Object.keys(this.session.entities.context).forEach(key => {
       if (key === node.condition) {
-        for (const singleEntity of newEntities.entities) {
+        newEntities.entities.forEach(singleEntity => {
           this.session.entities.context[key][singleEntity.entity] =
             singleEntity.value;
-          // this.session.entities.saved[key][singleEntity.entity] = singleEntity.value;
-        }
+        });
       }
     });
   }
@@ -125,8 +124,8 @@ class SlotFiller {
    * @param entityInMessage
    */
   fillSlot(node, entityInMessage) {
-    const entities = this.session.entities;
-    const context = entities.context;
+    const { entities } = this.session;
+    const { context } = entities;
     const sessionContext = this.session.context;
 
     if (context[sessionContext] === undefined) context[sessionContext] = {};
