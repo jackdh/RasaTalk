@@ -15,7 +15,7 @@ function TableList(props) {
 
   nodes.forEach(node => {
     const button = (
-      <Link to={`/talk/${node.uid}`}>
+      <Link to={`/talk/${node.uid}`} href={`/talk/${node.uid}`}>
         <Button variant="raised" color="primary">
           <Arrow />
         </Button>

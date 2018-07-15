@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const MessageSchema = require('../schemas/messageHistorySchema');
 const moment = require('moment');
 const axios = require('axios');
@@ -16,11 +17,11 @@ const fireWebhook = (session, webhook) =>
     const { data } = yield axios(options);
 
     if (webhook.save) {
-      for (const s of webhook.variables) {
+      webhook.variables.forEach(s => {
         if (_.has(data, s.path)) {
           session.entities.saved[s.as] = { value: _.get(data, s.path) };
         }
-      }
+      });
     }
     return data;
   });

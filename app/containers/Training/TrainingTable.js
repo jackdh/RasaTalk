@@ -1,4 +1,4 @@
-/* eslint-disable react/no-multi-comp,react/sort-comp,no-mixed-operators,react/no-unused-prop-types */
+/* eslint-disable react/no-multi-comp,react/sort-comp,no-mixed-operators,react/no-unused-prop-types,indent,no-underscore-dangle */
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -24,7 +24,8 @@ import Collapse from '@material-ui/core/Collapse';
 
 let counter = 0;
 
-function createData(training) {
+function createData(trainingP) {
+  const training = trainingP;
   counter += 1;
   training.id = counter;
   return training;

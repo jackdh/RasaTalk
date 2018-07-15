@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const DialogSchema = require('../../schemas/dialogSchema');
 const Convert = require('../utils/converstions');
 const generateUID = require('../utils/generateUID');

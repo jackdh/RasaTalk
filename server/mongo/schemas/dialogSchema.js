@@ -1,5 +1,5 @@
 const mongoose = require('./chatbot_db_connect');
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const quickReply = new Schema({
   title: String,

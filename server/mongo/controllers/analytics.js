@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const co = require('co');
 const axios = require('axios');
 const debug = require('debug')('analytics');

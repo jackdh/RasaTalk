@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const DialogSchema = require('../../schemas/dialogSchema');
 const debug = require('debug')('dialog/get');
 const Convert = require('../utils/converstions');
@@ -18,7 +19,7 @@ const getNode = (req, res) => {
 };
 
 function getParentAndChildren(req, res) {
-  const uid = req.params.uid;
+  const { uid } = req.params;
   if (uid) {
     Convert.getParent(uid).then(data => {
       res.send(data);
@@ -59,14 +60,14 @@ function getParentsInternal() {
       .exec()
       .then(data => {
         const groups = [];
-        for (const node of data) {
+        data.forEach(node => {
           if (!node.intent.name.group) node.intent.name.group = 'Default Nodes';
           groups.push({
             uid: node.intent.name.uid,
             name: node.intent.name.name,
             group: node.intent.name.group,
           });
-        }
+        });
         resolve(groups);
       })
       .catch(err => {

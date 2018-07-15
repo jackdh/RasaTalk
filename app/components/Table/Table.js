@@ -15,7 +15,7 @@ import tableStyle from '../variables/styles/tableStyle';
 
 function CustomTable({ ...props }) {
   const { classes, tableHead, tableData, tableHeaderColor } = props;
-  const length = tableData.length;
+  const { length } = tableData;
 
   return (
     <div className={classes.tableResponsive}>

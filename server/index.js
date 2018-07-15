@@ -31,19 +31,29 @@ const ngrok =
 // const ngrok = false;
 
 const { resolve } = require('path');
-const app = express();
+const webserver = express();
 const passport = require('passport');
 const isAuth = require('./authentication/isAuthenticated');
 
-app.use(
+/**
+ * Botkit
+ */
+const Botkit = require('botkit');
+const controller = Botkit.facebookbot({
+  debug: true,
+  verify_token: process.env.VERIFY_TOKEN,
+  access_token: process.env.PAGE_TOKEN,
+});
+
+webserver.use(
   bodyParser.urlencoded({
     parameterLimit: 10000,
     limit: '2mb',
     extended: true,
   }),
 );
-app.use(bodyParser.json());
-app.use(passport.initialize());
+webserver.use(bodyParser.json());
+webserver.use(passport.initialize());
 
 const localSignupStrategy = require('./authentication/local-signup');
 const localLoginStrategy = require('./authentication/local-signin');
@@ -54,11 +64,11 @@ passport.use('local-login', localLoginStrategy);
 // app.use('/api', myApi);
 const authRoute = require('./authentication/auth-router');
 
-app.use('/auth', authRoute);
-app.use('/api', isAuth, require('./mongo/router'));
-
+require('./botkit/facebook')(webserver, controller);
+webserver.use('/auth', authRoute);
+webserver.use('/api', isAuth, require('./mongo/router'));
 // In production we need to pass these values in instead of relying on webpack
-setup(app, {
+setup(webserver, {
   outputPath: resolve(process.cwd(), 'build'),
   publicPath: '/',
 });
@@ -69,7 +79,7 @@ const host = customHost || null; // Let http.Server use its default IPv6/4 host
 const prettyHost = customHost || 'localhost';
 
 // Start your app.
-app.listen(port, host, async err => {
+webserver.listen(port, host, async err => {
   if (err) {
     return logger.error(err.message);
   }

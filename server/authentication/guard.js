@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 function guard(...allowed) {
   return (req, res, next) => {
-    const permissions = res.locals.permissions; // he has dialog:write
+    const { permissions } = res.locals; // he has dialog:write
     const checkFor = allowed[0]; // he needs dialog:read // convert to
     if (_.includes(permissions, '*') || _.includes(permissions, checkFor)) {
       next();

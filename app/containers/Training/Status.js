@@ -7,16 +7,13 @@ import styled, { keyframes } from 'styled-components';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
-import DeleteIcon from '@material-ui/icons/Delete';
 import { createStructuredSelector } from 'reselect';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import ListItemText from '@material-ui/core/ListItemText';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 import { selectStatus } from './../RightSidebar/selectors';
 

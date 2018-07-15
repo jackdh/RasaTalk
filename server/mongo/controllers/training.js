@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle,no-param-reassign */
 const IntentSchema = require('../schemas/intentsSchema');
 const EntitiesSchema = require('../schemas/entitiesSchema');
 const ExpressionSchema = require('../schemas/expressionsSchema');
@@ -37,9 +37,9 @@ class Generate {
   }
 
   work() {
-    for (const intent of this.intents) {
+    this.intents.forEach(intent => {
       this.totalIntents += 1;
-      for (const expression of intent.expressions) {
+      intent.expressions.forEach(expression => {
         this.totalExpressions += 1;
 
         this.intent = intent;
@@ -57,16 +57,16 @@ class Generate {
           this.expression = this.addStringVariables(this.expression); // Convert the this.expression to include the type of entity.
           this.addToFinal(this.insertEntities(expression)); // TODO speed up the concat
         }
-      }
+      });
       if (intent.regex) {
-        for (const regex of intent.regex) {
+        intent.regex.forEach(regex => {
           this.regexs.push({
             name: intent.name,
             pattern: regex,
           });
-        }
+        });
       }
-    }
+    });
     debug('Training');
     debug('Intents, ', this.totalIntents);
     debug('Entities, ', this.totalExpressions);
@@ -112,7 +112,7 @@ class Generate {
       entities: [],
     });
     const matches = expression.value.match(this.reg);
-    for (const match of matches) {
+    matches.forEach(match => {
       const split = match.split('|');
       const entityValue = split[1].slice(0, -1);
       const entityName = split[0].substr(1);
@@ -135,7 +135,7 @@ class Generate {
           });
 
           expression = _.replace(item.text, match, entityValue);
-          for (const synonym of synonyms) {
+          synonyms.forEach(synonym => {
             const tempEnts = _.clone(backup.entities);
             tempEnts.pop();
             start = backup.text.indexOf(match);
@@ -151,11 +151,10 @@ class Generate {
               intent: backup.intent,
               entities: tempEnts,
             });
-          }
+          });
         }
       }
-    }
-
+    });
     return list;
   }
 
@@ -177,7 +176,7 @@ class Generate {
 }
 
 function generateJSON(req, res) {
-  const agent = req.params.agent;
+  const { agent } = req.params;
   if (agent === 'null') {
     res.sendStatus(400);
     return;

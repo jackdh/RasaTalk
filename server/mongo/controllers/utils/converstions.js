@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const DialogSchema = require('../../schemas/dialogSchema');
 const cache = require('global-cache');
 const debug = require('debug')('Converstions');
@@ -9,7 +10,9 @@ const debug = require('debug')('Converstions');
  */
 function convert(arrOfArr) {
   const all = {};
-  for (const node of arrOfArr) all[node.intent.name.uid] = node;
+  arrOfArr.forEach(node => {
+    all[node.intent.name.uid] = node;
+  });
   cache.set('mapCache', all);
 
   let children = [];
@@ -22,9 +25,9 @@ function convert(arrOfArr) {
     if (recPoint.child) {
       recursive(recAll, recAll[recPoint.child], final, toObject);
     }
-    for (const slot of recPoint.intent.slots) {
+    recPoint.intent.slots.forEach(slot => {
       final.push(slot);
-    }
+    });
     recPoint.intent.parent = recPoint.parent;
     recPoint.intent.child = recPoint.child;
     if (toObject) {
@@ -111,7 +114,7 @@ function nodeDetails(map, node) {
     }
     all.push(details);
 
-    const next = node.next;
+    const { next } = node;
     if (next && node.parent !== null) {
       const nextNode = map[next];
       if (!nextNode) {
@@ -139,7 +142,9 @@ function hashMap() {
     DialogSchema.find({}, (err, arrOfArr) => {
       if (err) throw err;
       const all = {};
-      for (const node of arrOfArr) all[node.intent.name.uid] = node;
+      arrOfArr.forEach(node => {
+        all[node.intent.name.uid] = node;
+      });
       resolve(all);
     });
   });

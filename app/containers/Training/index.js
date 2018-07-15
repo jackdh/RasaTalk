@@ -87,7 +87,6 @@ export class Training extends React.PureComponent {
     super(props);
     this.state = {
       agent: '',
-      auto: false,
     };
   }
 

@@ -1,8 +1,7 @@
 const OptionsSchema = require('../schemas/optionsSchema');
 
 function save(req, res) {
-  const name = req.params.name;
-  const data = req.params.data;
+  const { name, data } = req.params;
   OptionsSchema.update(
     { name },
     { $set: { 'options.text': data } },

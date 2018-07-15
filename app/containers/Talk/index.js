@@ -31,7 +31,6 @@ import reducer from './reducer';
 import { changeTitle } from '../HomePage/actions';
 import { loadParents, addNode } from './actions';
 import { selectParents, selectLoading } from './selectors';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 export class Talk extends React.Component {
   // eslint-disable-line react/prefer-stateless-function

@@ -22,7 +22,7 @@ const StyledButton = styled(Button)`
 
 function BackButton(props) {
   return (
-    <Link to={props.link} style={{ zIndex: 1200 }}>
+    <Link href={props.link} to={props.link} style={{ zIndex: 1200 }}>
       <Tooltip title={props.tooltip}>
         <StyledButton variant="fab" color="primary" aria-label="add">
           <Back />

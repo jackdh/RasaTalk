@@ -5,8 +5,7 @@ const _ = require('lodash');
 const debug = require('debug')('Expressions.js');
 
 const getExpressions = (req, res) => {
-  const agent = req.params.agent;
-  const intent = req.params.intent;
+  const { agent, intent } = req.params;
 
   IntentSchema.findOne({ agent, 'intents.name': intent })
     .lean()
@@ -27,7 +26,7 @@ const getExpressions = (req, res) => {
 
 const addExpressions = (req, res) => {
   const { agent, intent } = req.params;
-  const expressions = req.body.expressions;
+  const { expressions } = req.body;
 
   if (!expressions || expressions === '') {
     res.sendStatus(500);

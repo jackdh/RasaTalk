@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle,jsx-a11y/no-static-element-interactions */
+/* eslint-disable no-underscore-dangle,jsx-a11y/no-static-element-interactions,indent */
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
@@ -129,7 +129,11 @@ export class Text extends React.Component {
           title={entity.entity}
           placement="top"
         >
-          <span key={end} onClick={event => this.clickEntity(event, entity)}>
+          <span
+            key={end}
+            onClick={event => this.clickEntity(event, entity)}
+            onKeyDown={() => {}}
+          >
             {end}
           </span>
         </Tooltip>,
@@ -222,11 +226,11 @@ Text.defaultProps = {
 
 Text.propTypes = {
   classes: PropTypes.object,
+  entities: PropTypes.array,
+  theme: PropTypes.object.isRequired,
+  addEntity: PropTypes.func.isRequired,
   expression: PropTypes.object.isRequired,
   removeEntity: PropTypes.func.isRequired,
-  entities: PropTypes.array.isRequired,
-  addEntity: PropTypes.func.isRequired,
-  theme: PropTypes.object.isRequired,
 };
 
 export default withTheme()(Text);
