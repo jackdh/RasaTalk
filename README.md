@@ -7,6 +7,8 @@
 
 Rasa Talk is a Dialog Management tool built on top of Rasa NLU. It was built out of a desire for a open source on premise dialog management system. Originally inspired by Rasa UI inspiration was taken from watson conversation.
 
+Rasa Talk can be used as just a training data generator but can also hook your chatbot up to Facebook/Skype/Slack whatever!
+
 <h2 align="center">Demo</h2>
 
 http://www.talk.jackdh.com (User: demo@jackdh.com Pass: demo1234)
@@ -84,6 +86,12 @@ yarn start
 * Test the chatbot directly to see output of dialog management.
 
 <img width="165" src="https://user-images.githubusercontent.com/1907451/43040806-8f3aad62-8d45-11e8-9d95-7b7e72ef3fb7.gif" alt="Directly see NLU results and chatbot outputs." />
+
+<h3 align="center">Facebook / Skype / Third parties.</h3>
+
+Due to the constumisable nature of RT it's possible to hook it up to practically any third party chatbot you'd like. For starters I've included a quick example of how you might use [Botkit](https://github.com/howdyai/botkit) as a middleware to get to Facebook
+
+The main example can be seen [here](https://github.com/jackdh/RasaTalk/blob/master/server/botkit/facebook.js). This involves taking input from Facebook, hitting our internal API to generate a response and returning the output.
 
 <h2 align="center">Still to come!</h3>
 
