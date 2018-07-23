@@ -47,6 +47,8 @@ yarn start
 * Entities - Create multiple entities with their synonyms.
 * Entity insertion - Highlight to insert entities into expressions
 
+<img height="240" src="https://user-images.githubusercontent.com/1907451/43040681-12e4def2-8d42-11e8-8347-c73babe072fb.gif" alt="Quickly add training data with entities" />
+
 <h3>Dialog Management</h3>
 
 * Watson Conversation style dialog management.
@@ -61,7 +63,7 @@ yarn start
 * Save user responses for future use within nodes or API's
 * Create quick reply buttons.
 
-<img height="240" src="https://user-images.githubusercontent.com/1907451/43040681-12e4def2-8d42-11e8-8347-c73babe072fb.gif" alt="Quickly add training data with entities" />
+
 
 <h3>Permission Based Editing</h3>
 
