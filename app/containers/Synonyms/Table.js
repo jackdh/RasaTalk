@@ -1,4 +1,4 @@
-/* eslint-disable react/no-multi-comp,react/sort-comp,no-mixed-operators, indent */
+/* eslint-disable react/no-multi-comp,react/sort-comp,no-mixed-operators, indent, no-underscore-dangle */
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -307,7 +307,7 @@ class EnhancedTable extends React.Component {
                       role="checkbox"
                       aria-checked={isSelected}
                       tabIndex={-1}
-                      key={n.id}
+                      key={n._id}
                       selected={isSelected}
                       style={{ cursor: 'pointer' }}
                     >
