@@ -87,15 +87,16 @@ yarn start
 ### Small Talk
 - Implement simple small talk.
 
-## Todo
-- Increase test coverage to 100%.
-- Add Travis / Appveyor
-- Provide autocomplete options for fields such as nodes.
-- Better validation / error notifications.
+## Todo / Help Wanted
+- [ ] Increase test coverage to 100%.
+- [ ] Add Travis
+- [ ] Provide autocomplete options for fields such as nodes.
+- [ ] Better validation / error notifications.
+- [ ] Create in app third party integration.
+- [ ] Update docker to work fully.
 
 ## Known issues
 - Prettier is picking up a non existent issue with spacing.
-- Entities are not switching correctly requiring a reload on that page.
 - Dashboard analytics need a default value.
 
 ## Thanks
