@@ -41,8 +41,8 @@ const isAuth = require('./authentication/isAuthenticated');
 const Botkit = require('botkit');
 const controller = Botkit.facebookbot({
   debug: true,
-  verify_token: process.env.VERIFY_TOKEN,
-  access_token: process.env.PAGE_TOKEN,
+  verify_token: 'null',
+  access_token: 'null',
 });
 
 webserver.use(

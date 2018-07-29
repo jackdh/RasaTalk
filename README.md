@@ -121,7 +121,6 @@ The main example can be seen [here](https://github.com/jackdh/RasaTalk/blob/mast
 <h3>Known issues</h3>
 
 * Prettier is picking up a non existent issue with spacing.
-* Entities are not switching correctly requiring a reload on that page.
 * Dashboard analytics need a default value.
 
 <h3>Thanks</h3>
