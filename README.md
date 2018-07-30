@@ -9,9 +9,11 @@ Rasa Talk is a Dialog Management tool built on top of Rasa NLU. It was built out
 
 Rasa Talk can be used as just a training data generator but can also hook your chatbot up to Facebook/Skype/Slack whatever!
 
+Feel free to message me on [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/RasaTalk/Lobby)
+
 <h2 align="center">Demo</h2>
 
-http://www.talk.jackdh.com (User: demo@jackdh.com Pass: demo1234)
+ http://www.talk.jackdh.com (User: demo@jackdh.com Pass: demo1234)
 
 <img src="https://user-images.githubusercontent.com/1907451/43040505-2d57dc30-8d3d-11e8-9bb9-8ac65bf48a67.gif" alt="" height="300" />
 
