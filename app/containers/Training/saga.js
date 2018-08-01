@@ -4,7 +4,6 @@ import { delay } from 'redux-saga';
 import axios from 'axios';
 
 import {
-  GET_AGENTS,
   GET_JSON,
   GET_ALL,
   VIEW_JSON,
@@ -13,25 +12,10 @@ import {
   POLL_STOP,
 } from './constants';
 import * as a from './actions';
+
 import { getStatusSuccess } from '../RightSidebar/actions';
 
 const debug = require('debug')('Training\\saga.js');
-
-export function* getAgents() {
-  debug('Getting Agents');
-
-  yield put(a.gettingAgent(true));
-
-  try {
-    const { data } = yield call(axios.get, '/api/agents');
-    yield put(a.gettingAgentsSuccess(data));
-  } catch (error) {
-    debug('failed getting agents: %o', error);
-    yield put(a.gettingAgentsFailure(error));
-  } finally {
-    yield put(a.gettingAgent(false));
-  }
-}
 
 export function* getJSON({ agent }) {
   debug(`Getting JSON for agent: ${agent}`);
@@ -114,6 +98,5 @@ export default function* TrainingSaga() {
   yield takeLatest(GET_ALL, getAll);
   yield takeLatest(GET_JSON, getJSON);
   yield takeLatest(VIEW_JSON, viewJSON);
-  yield takeLatest(GET_AGENTS, getAgents);
   yield takeLatest(TRAIN_JSON, trainJSON);
 }

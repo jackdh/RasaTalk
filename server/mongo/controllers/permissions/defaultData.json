@@ -2,7 +2,30 @@
   {
     "type": "permissions",
     "name": "pages",
-    "permissions": ["*", "dashboard:read","admin:read", "admin:write", "talk:read", "talk:write", "agents:read", "agents:write", "entities:read", "entities:write", "training:read", "training:write", "settings:read", "settings:write", "insights:read", "insights:write", "rasa:read", "rasa:write", "smallTalk:read", "smallTalk:write"]
+    "permissions": [
+      "*",
+      "dashboard:read",
+      "admin:read",
+      "admin:write",
+      "talk:read",
+      "talk:write",
+      "agents:read",
+      "agents:write",
+      "entities:read",
+      "entities:write",
+      "training:read",
+      "training:write",
+      "settings:read",
+      "settings:write",
+      "insights:read",
+      "insights:write",
+      "rasa:read",
+      "rasa:write",
+      "smallTalk:read",
+      "smallTalk:write",
+      "thirdParty:read",
+      "thirdParty:write"
+    ]
   },
   {
     "type": "role",
@@ -12,12 +35,28 @@
   {
     "type": "role",
     "name": "editor",
-    "permissions": ["agents:write", "entities:write", "training:write", "settings:write", "insights:write", "rasa:write", "talk:write"]
+    "permissions": [
+      "agents:write",
+      "entities:write",
+      "training:write",
+      "settings:write",
+      "insights:write",
+      "rasa:write",
+      "talk:write"
+    ]
   },
   {
     "type": "role",
     "name": "reader",
-    "permissions": ["agents:read", "entities:read", "training:read", "settings:read", "insights:read", "rasa:read", "talk:read" ]
+    "permissions": [
+      "agents:read",
+      "entities:read",
+      "training:read",
+      "settings:read",
+      "insights:read",
+      "rasa:read",
+      "talk:read"
+    ]
   },
   {
     "type": "role",

@@ -16,6 +16,7 @@ const parameters = require('./controllers/parameters');
 const expressions = require('./controllers/expressions');
 const { generateResponse } = require('./direct/generateResponse');
 const permissions = require('./controllers/permissions/permissions');
+const thirdParty = require('./controllers/thirdParty');
 
 /** Dashboard */
 
@@ -154,5 +155,16 @@ router.post(
  */
 
 router.post('/reply/:uid', generateResponse);
+
+/**
+ * Third Parties
+ */
+
+router.get('/thirdParty', guard('thirdParty:read'), thirdParty.getThirdParties);
+router.post(
+  '/thirdParty/facebook',
+  guard('thirdParty:write'),
+  thirdParty.updateFacebook,
+);
 
 module.exports = router;

@@ -9,7 +9,6 @@ import { fromJS } from 'immutable';
 import * as c from './constants';
 
 export const initialState = fromJS({
-  agents: [],
   loading: true,
   loadingError: '',
   getting: false,
@@ -20,12 +19,6 @@ export const initialState = fromJS({
 
 function trainingReducer(state = initialState, action) {
   switch (action.type) {
-    case c.GETTING_AGENTS_SUCCESS:
-      return state.set('agents', action.agents);
-    case c.GETTING_AGENTS:
-      return state.set('loading', action.loading);
-    case c.GETTING_AGENTS_FAILURE:
-      return state.set('loadingError', action.error);
     case c.GETTING_JSON_SUCCESS:
       return state.set('json', action.json).update('training', training => {
         const contains = !!training.find(o => o._id === action.json._id);

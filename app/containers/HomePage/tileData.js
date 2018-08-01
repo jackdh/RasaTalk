@@ -5,6 +5,7 @@ import Dialog from '@material-ui/icons/Forum';
 import SupervisorAccount from '@material-ui/icons/SupervisorAccount';
 import Entities from '@material-ui/icons/Link';
 import Training from '@material-ui/icons/Train';
+import Public from '@material-ui/icons/Public';
 
 export const topLists = [
   {
@@ -44,5 +45,10 @@ export const mainList = [
     icon: Training,
     text: 'Training',
     link: '/training',
+  },
+  {
+    icon: Public,
+    text: 'Third Parties',
+    link: '/thirdParty',
   },
 ];

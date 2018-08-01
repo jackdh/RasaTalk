@@ -6,17 +6,6 @@
 
 import * as c from './constants';
 
-export const getAgents = () => ({ type: c.GET_AGENTS });
-export const gettingAgent = loading => ({ type: c.GETTING_AGENTS, loading });
-export const gettingAgentsSuccess = agents => ({
-  type: c.GETTING_AGENTS_SUCCESS,
-  agents,
-});
-export const gettingAgentsFailure = error => ({
-  type: c.GETTING_AGENTS_FAILURE,
-  error,
-});
-
 export const getJSON = agent => ({ type: c.GET_JSON, agent });
 export const gettingJSON = getting => ({ type: c.GETTING_JSON, getting });
 export const gettingJSONSuccess = json => ({
