@@ -42,7 +42,7 @@ yarn start
 
 <h2 align="center">Features</h2>
 
-<h3 align="center">Facebook / Skype / Third parties.</h3>
+<h3>Facebook / Skype / Third parties.</h3>
 <p align="center">
   <img height="300" src="https://user-images.githubusercontent.com/1907451/43543637-86c5a2b4-95c8-11e8-9e92-3d7e7196e333.png" alt="Third Party Intregration" /> 
 <p>
@@ -56,6 +56,7 @@ Currently Facebook has been enabled with Slack and many more still to come!
 * Intents / Expressions - Build multiple varied expressions within the agents either manually or with the variant generator.
 * Entities - Create multiple entities with their synonyms.
 * Entity insertion - Highlight to insert entities into expressions
+
 <p align="center">
 <img height="240" src="https://user-images.githubusercontent.com/1907451/43040681-12e4def2-8d42-11e8-8347-c73babe072fb.gif" alt="Quickly add training data with entities" />
 <p>
@@ -72,6 +73,11 @@ Currently Facebook has been enabled with Slack and many more still to come!
 * Conditional based responses, webhooks, jump to's.
 * Save user responses for future use within nodes or API's
 * Create quick reply buttons.
+
+<p align="center">
+<img height="240" src="https://user-images.githubusercontent.com/1907451/43543931-5ea59d7e-95c9-11e8-833c-c4208a7fc38e.gif" alt="Dialog management" />
+  <img height="240" src="https://user-images.githubusercontent.com/1907451/43544032-abe3743a-95c9-11e8-9f8a-228c15458389.gif" alt="Updating Nodes" />
+<p>
 
 
 
