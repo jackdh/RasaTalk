@@ -11,6 +11,9 @@ const selectThirdPartyDomain = state => state.get('thirdParty', initialState);
  * Other specific selectors
  */
 
+const selectFacebook = () =>
+  createSelector(selectThirdPartyDomain, s => s.get('facebook').toJS());
+
 /**
  * Default selector used by ThirdParty
  */
@@ -19,4 +22,4 @@ const makeSelectThirdParty = () =>
   createSelector(selectThirdPartyDomain, substate => substate.toJS());
 
 export default makeSelectThirdParty;
-export { selectThirdPartyDomain };
+export { selectThirdPartyDomain, selectFacebook };

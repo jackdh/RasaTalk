@@ -25,15 +25,18 @@ import Expressions from 'containers/Expression/Loadable';
 import Dashboard from 'containers/DashboardPage/Loadable';
 import Permissions from 'containers/Permissions/Loadable';
 import TalkFlow from 'containers/SingleTalkFlow/Loadable';
+import ThirdParty from 'containers/ThirdParty/Loadable';
 import axios from 'axios';
 
 import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
 import Snackbar from './Snackbar';
 import reducer from './reducer';
 import Drawer from './Drawer';
+import saga from './saga';
 
-import { changeTitle, setUser } from './actions';
 import { makeSelectTitle, selectUser } from './selectors';
+import { changeTitle, setUser } from './actions';
 
 axios.defaults.headers.common.Authorization = localStorage.getItem('token');
 
@@ -134,6 +137,11 @@ export class HomePage extends React.Component {
               name="Synonyms"
               component={Synonyms}
             />
+            <Route
+              path="/thirdParty"
+              name="Third Parties"
+              component={ThirdParty}
+            />
 
             <Route path="/training" name="Training" component={Training} />
             <Route path="/" name="Dashboard" component={Dashboard} />
@@ -168,6 +176,8 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
+const withSaga = injectSaga({ key: 'home', saga });
+
 const withConnect = connect(
   mapStateToProps,
   mapDispatchToProps,
@@ -175,6 +185,7 @@ const withConnect = connect(
 const withReducer = injectReducer({ key: 'home', reducer });
 
 export default compose(
+  withSaga,
   withReducer,
   withConnect,
 )(HomePage);

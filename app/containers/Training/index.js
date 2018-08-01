@@ -43,17 +43,10 @@ import reducer from './reducer';
 import Table from './TrainingTable';
 import saga, { watcher } from './saga';
 
-import { changeTitle } from '../HomePage/actions';
+import { changeTitle, getAgents } from '../HomePage/actions';
+import { selectAgents } from '../HomePage/selectors';
+import { getJSON, getAll, train, viewJSON, startWatch } from './actions';
 import {
-  getAgents,
-  getJSON,
-  getAll,
-  train,
-  viewJSON,
-  startWatch,
-} from './actions';
-import {
-  selectAgents,
   selectLoading,
   selectGetting,
   selectJSON,

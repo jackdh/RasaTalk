@@ -1,16 +1,3 @@
-/*
- * HomeReducer
- *
- * The reducer takes care of our data. Using actions, we can change our
- * application state.
- * To add a new action, add it to the switch statement in the reducer function
- *
- * Example:
- * case YOUR_ACTION_CONSTANT:
- *   return state.set('yourStateVariable', true);
- *
- *
- */
 import { fromJS } from 'immutable';
 
 import {
@@ -19,6 +6,9 @@ import {
   SHOW_SNACKBAR,
   HIDE_SNACKBAR,
   REMOVE_LOGIN_TOKEN,
+  GETTING_AGENTS_SUCCESS,
+  GETTING_AGENTS_FAILURE,
+  GETTING_AGENTS,
 } from './constants';
 
 // The initial state of the App
@@ -32,10 +22,18 @@ export const initialState = fromJS({
   redirect: '',
   stats: {},
   rasa: {},
+  agents: [],
+  gettingAgents: false,
 });
 
 function homeReducer(state = initialState, action) {
   switch (action.type) {
+    case GETTING_AGENTS_SUCCESS:
+      return state.set('agents', action.agents);
+    case GETTING_AGENTS:
+      return state.set('gettingAgents', action.loading);
+    case GETTING_AGENTS_FAILURE:
+      return state.set('loadingError', action.error);
     case CHANGE_TITLE:
       return state.set('title', action.title);
     case SET_USER:

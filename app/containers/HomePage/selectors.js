@@ -7,11 +7,14 @@
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
+/**
+ * Direct selector to the training state domain
+ */
 const selectHome = state => state.get('home', initialState);
 
-const makeSelectUsername = () =>
-  createSelector(selectHome, homeState => homeState.get('username'));
-
+/**
+ * Other specific selectors
+ */
 const makeSelectTitle = () =>
   createSelector(selectHome, homeState => homeState.get('title'));
 
@@ -26,15 +29,14 @@ const selectOpen = () =>
 const selectMessage = () =>
   createSelector(selectHome, state => state.get('snackBarMessage'));
 
-const selectProps = () =>
-  createSelector(selectHome, state => state.get('snackbarProps'));
+const selectAgents = () =>
+  createSelector(selectHome, state => state.get('agents'));
 
 export {
   selectHome,
-  makeSelectUsername,
   makeSelectTitle,
   selectUser,
   selectOpen,
   selectMessage,
-  selectProps,
+  selectAgents,
 };

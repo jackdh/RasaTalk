@@ -1,20 +1,3 @@
-/*
- * Home Actions
- *
- * Actions change things in your application
- * Since this boilerplate uses a uni-directional data flow, specifically redux,
- * we have these actions which are the only way your application interacts with
- * your application state. This guarantees that your state is up to date and nobody
- * messes it up weirdly somewhere.
- *
- * To add a new Action:
- * 1) Import your constant
- * 2) Add a function like this:
- *    export function yourAction(var) {
- *        return { type: YOUR_ACTION_CONSTANT, var: var }
- *    }
- */
-
 import * as c from './constants';
 
 /**
@@ -46,4 +29,15 @@ export const showSnackbar = (message, props) => ({
 
 export const hideSnackbar = () => ({
   type: c.HIDE_SNACKBAR,
+});
+
+export const getAgents = () => ({ type: c.GET_AGENTS });
+export const gettingAgent = loading => ({ type: c.GETTING_AGENTS, loading });
+export const gettingAgentsSuccess = agents => ({
+  type: c.GETTING_AGENTS_SUCCESS,
+  agents,
+});
+export const gettingAgentsFailure = error => ({
+  type: c.GETTING_AGENTS_FAILURE,
+  error,
 });
