@@ -14,9 +14,9 @@ Feel free to message me on [![Gitter chat](https://badges.gitter.im/gitterHQ/git
 <h2 align="center">Demo</h2>
 
  http://www.talk.jackdh.com (User: demo@jackdh.com Pass: demo1234)
-
+<p align="center">
 <img src="https://user-images.githubusercontent.com/1907451/43040505-2d57dc30-8d3d-11e8-9bb9-8ac65bf48a67.gif" alt="" height="300" />
-
+<p>
 <h2 align="center">Installation</h2>
 
 Either start MongoDB with Rasa NLU docker or host them separately. Make sure to update the .env file with the correct URLS!
@@ -42,15 +42,23 @@ yarn start
 
 <h2 align="center">Features</h2>
 
+<h3 align="center">Facebook / Skype / Third parties.</h3>
+<p align="center">
+  <img height="300" src="https://user-images.githubusercontent.com/1907451/43543637-86c5a2b4-95c8-11e8-9e92-3d7e7196e333.png" alt="Third Party Intregration" /> 
+<p>
+Due to the constumisable nature of RT it's possible to hook it up to practically any third party chatbot you'd like. For starters I've included a quick example of how you might use [Botkit](https://github.com/howdyai/botkit) as a middleware to get to Facebook
+
+Currently Facebook has been enabled with Slack and many more still to come!
+
 <h3>Generate Rasa NLU Training Data</h3>
 
 * Agents - Create multiple agents to host multiple chatbots from one backend.
 * Intents / Expressions - Build multiple varied expressions within the agents either manually or with the variant generator.
 * Entities - Create multiple entities with their synonyms.
 * Entity insertion - Highlight to insert entities into expressions
-
+<p align="center">
 <img height="240" src="https://user-images.githubusercontent.com/1907451/43040681-12e4def2-8d42-11e8-8347-c73babe072fb.gif" alt="Quickly add training data with entities" />
-
+<p>
 <h3>Dialog Management</h3>
 
 * Watson Conversation style dialog management.
@@ -72,31 +80,25 @@ yarn start
 * Role based, Group Based & individual user permissions.
 * Create secure user accounts using PassportJS
 * Limit user access to certain features within the application.
-
+<p align="center">
 <img height="240" src="https://user-images.githubusercontent.com/1907451/43040787-bff04ca6-8d44-11e8-859c-29e3b3e9ac64.gif" alt="Fine grain permission control" />
-
+<p>
 <h3>Training Rasa</h3>
 
 * Convert Intents into training data.
 * Accurate entity insertion (Not just search and replace)
 * View current training time.
 * View models currently in training.
-
+<p align="center">
 <img height="400" src="https://user-images.githubusercontent.com/1907451/43040796-0e81f7c0-8d45-11e8-8147-b461e19aa849.gif" alt="Generate, download & train Rasa UI." />
-
+<p>
 <h3>Built in Chatbot / Rasa parsers</h3>
 
 * Ping the Rasa server directly to get a JSON response.
 * Test the chatbot directly to see output of dialog management.
-
+<p align="center">
 <img width="165" src="https://user-images.githubusercontent.com/1907451/43040806-8f3aad62-8d45-11e8-9d95-7b7e72ef3fb7.gif" alt="Directly see NLU results and chatbot outputs." />
-
-<h3 align="center">Facebook / Skype / Third parties.</h3>
-
-Due to the constumisable nature of RT it's possible to hook it up to practically any third party chatbot you'd like. For starters I've included a quick example of how you might use [Botkit](https://github.com/howdyai/botkit) as a middleware to get to Facebook
-
-The main example can be seen [here](https://github.com/jackdh/RasaTalk/blob/master/server/botkit/facebook.js). This involves taking input from Facebook, hitting our internal API to generate a response and returning the output.
-
+<p>
 <h2 align="center">Still to come!</h3>
 
 
