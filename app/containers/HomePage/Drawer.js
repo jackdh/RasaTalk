@@ -220,7 +220,12 @@ class MiniDrawer extends React.Component {
                   <ListItemIcon>
                     <value.icon />
                   </ListItemIcon>
-                  <ListItemText primary={value.text} />
+                  <ListItemText
+                    primary={
+                      <span style={{ color: 'white' }}>{value.text}</span>
+                    }
+                    style={{ color: 'white' }}
+                  />
                 </ListItem>
               </StyledNavLink>
             ))}
@@ -237,7 +242,12 @@ class MiniDrawer extends React.Component {
                   <ListItemIcon>
                     <value.icon />
                   </ListItemIcon>
-                  <ListItemText primary={value.text} />
+                  <ListItemText
+                    primary={
+                      <span style={{ color: 'white' }}>{value.text}</span>
+                    }
+                    style={{ color: 'white' }}
+                  />
                 </ListItem>
               </StyledNavLink>
             ))}
