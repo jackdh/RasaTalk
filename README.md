@@ -22,7 +22,9 @@ Feel free to message me on [![Gitter chat](https://badges.gitter.im/gitterHQ/git
 
 Either start MongoDB with Rasa NLU docker or host them separately. Make sure to update the .env file with the correct URLS!
 ```
-git clone ...
+git clone https://github.com/jackdh/RasaTalk/
+Rename example.env to '.env'
+Update the variables to include your MongoDB server IP and Rasa NLU IP.
 yarn
 yarn start
 ```
