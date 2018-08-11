@@ -21,7 +21,19 @@ function updateFacebook(req, res) {
   });
 }
 
+function updateSlack(req, res) {
+  debug('Updating Slack %O', req.body);
+  req.body.type = 'slack';
+  ThirdPartySchema.update({ type: 'slack' }, req.body, {
+    upsert: true,
+    setDefaultsOnInsert: true,
+  }).then(() => {
+    res.status(275).send('Slack updated!');
+  });
+}
+
 module.exports = {
   getThirdParties,
   updateFacebook,
+  updateSlack,
 };

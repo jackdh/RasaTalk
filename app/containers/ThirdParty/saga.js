@@ -1,9 +1,9 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
-import { SAVE_FACEBOOK, GET_ALL } from './constants';
+import { SAVE_FACEBOOK, SAVE_SLACK, GET_ALL } from './constants';
 import * as a from './actions';
-import { selectFacebook } from './selectors';
+import { selectFacebook, selectSlack } from './selectors';
 
 export function* getAll() {
   yield put(a.gettingAll(true));
@@ -30,8 +30,22 @@ export function* saveFacebook() {
   }
 }
 
+export function* saveSlack() {
+  yield put(a.savingSlack(true));
+  try {
+    const slack = yield select(selectSlack());
+    yield call(axios.post, '/api/thirdParty/slack', slack);
+    yield put(a.saveSlackSuccess());
+  } catch (error) {
+    yield put(a.saveSlackFailure(error));
+  } finally {
+    yield put(a.savingSlack(false));
+  }
+}
+
 // Individual exports for testing
 export default function* defaultSaga() {
   yield takeLatest(SAVE_FACEBOOK, saveFacebook);
+  yield takeLatest(SAVE_SLACK, saveSlack);
   yield takeLatest(GET_ALL, getAll);
 }

@@ -9,10 +9,16 @@ import * as c from './constants';
 
 export const initialState = fromJS({
   facebook: {
-    enabled: true,
+    enabled: false,
     agent: '',
     access_token: '',
     verify_token: '',
+  },
+  slack: {
+    enabled: false,
+    agent: '',
+    client_id: '',
+    client_secret: '',
   },
 });
 
@@ -24,7 +30,7 @@ function thirdPartyReducer(state = initialState, action) {
         .setIn([action.name.split('.')[0], 'touched'], true);
     case c.GET_ALL_SUCCESS: {
       /**
-       * TODO This is awfull however I cannot think of a succinct way to do this yet for all TP's.
+       * TODO This is awful however I cannot think of a succinct way to do this yet for all TP's.
        */
       let newState = state;
       action.data.forEach(item => {
@@ -38,6 +44,14 @@ function thirdPartyReducer(state = initialState, action) {
           newState = newState.setIn(
             ['facebook', 'verify_token'],
             item.verify_token,
+          );
+        } else if (item.type === 'slack') {
+          newState = newState.setIn(['slack', 'enabled'], item.enabled);
+          newState = newState.setIn(['slack', 'agent'], item.agent);
+          newState = newState.setIn(['slack', 'client_id'], item.client_id);
+          newState = newState.setIn(
+            ['slack', 'client_secret'],
+            item.client_secret,
           );
         }
       });

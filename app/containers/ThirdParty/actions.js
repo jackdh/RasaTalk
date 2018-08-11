@@ -27,3 +27,11 @@ export const saveFacebookFailure = error => ({
   type: c.SAVE_FACEBOOK_FAILURE,
   error,
 });
+
+export const saveSlack = () => ({ type: c.SAVE_SLACK });
+export const savingSlack = toggle => ({ type: c.SAVING_SLACK, toggle });
+export const saveSlackSuccess = () => ({ type: c.SAVE_SLACK_SUCCESS });
+export const saveSlackFailure = error => ({
+  type: c.SAVE_SLACK_FAILURE,
+  error,
+});

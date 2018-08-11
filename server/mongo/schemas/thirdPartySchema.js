@@ -4,13 +4,15 @@ const { Schema } = mongoose;
 
 const thirdPartySchema = new Schema({
   type: { type: String },
-  enabled: { type: Boolean, default: false },
-  debug: { type: Boolean, default: false },
+  client_id: { type: String },
   access_token: { type: String },
   verify_token: { type: String },
-  require_appsecret_proof: { type: Boolean, default: false },
-  require_delivery: { type: Boolean, default: false },
+  client_secret: { type: String },
   agent: { type: String, required: true },
+  debug: { type: Boolean, default: false },
+  enabled: { type: Boolean, default: false },
+  require_delivery: { type: Boolean, default: false },
+  require_appsecret_proof: { type: Boolean, default: false },
 });
 
 // the schema is useless so far

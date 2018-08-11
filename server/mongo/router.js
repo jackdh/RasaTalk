@@ -161,10 +161,17 @@ router.post('/reply/:uid', generateResponse);
  */
 
 router.get('/thirdParty', guard('thirdParty:read'), thirdParty.getThirdParties);
+
 router.post(
   '/thirdParty/facebook',
   guard('thirdParty:write'),
   thirdParty.updateFacebook,
+);
+
+router.post(
+  '/thirdParty/slack',
+  guard('thirdParty:write'),
+  thirdParty.updateSlack,
 );
 
 module.exports = router;
