@@ -174,4 +174,10 @@ router.post(
   thirdParty.updateSlack,
 );
 
+router.post(
+  '/thirdParty/microsoftTeams',
+  guard('thirdParty:write'),
+  thirdParty.updateMicrosoftTeams,
+);
+
 module.exports = router;

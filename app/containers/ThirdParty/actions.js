@@ -35,3 +35,16 @@ export const saveSlackFailure = error => ({
   type: c.SAVE_SLACK_FAILURE,
   error,
 });
+
+export const saveMicrosoftTeams = () => ({ type: c.SAVE_MICROSOFT_TEAMS });
+export const savingMicrosoftTeams = toggle => ({
+  type: c.SAVING_MICROSOFT_TEAMS,
+  toggle,
+});
+export const saveMicrosoftTeamsSuccess = () => ({
+  type: c.SAVE_MICROSOFT_TEAMS_SUCCESS,
+});
+export const saveMicrosoftTeamsFailure = error => ({
+  type: c.SAVE_MICROSOFT_TEAMS_FAILURE,
+  error,
+});

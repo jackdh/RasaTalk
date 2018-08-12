@@ -32,8 +32,20 @@ function updateSlack(req, res) {
   });
 }
 
+function updateMicrosoftTeams(req, res) {
+  debug('Updating Microsoft Teams %O', req.body);
+  req.body.type = 'microsoftTeams';
+  ThirdPartySchema.update({ type: 'microsoftTeams' }, req.body, {
+    upsert: true,
+    setDefaultsOnInsert: true,
+  }).then(() => {
+    res.status(275).send('Microsoft Teams updated!');
+  });
+}
+
 module.exports = {
   getThirdParties,
   updateFacebook,
   updateSlack,
+  updateMicrosoftTeams,
 };

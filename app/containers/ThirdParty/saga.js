@@ -1,9 +1,14 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
-import { SAVE_FACEBOOK, SAVE_SLACK, GET_ALL } from './constants';
+import {
+  SAVE_FACEBOOK,
+  SAVE_SLACK,
+  SAVE_MICROSOFT_TEAMS,
+  GET_ALL,
+} from './constants';
 import * as a from './actions';
-import { selectFacebook, selectSlack } from './selectors';
+import { selectFacebook, selectSlack, selectMicrosoftTeams } from './selectors';
 
 export function* getAll() {
   yield put(a.gettingAll(true));
@@ -43,9 +48,23 @@ export function* saveSlack() {
   }
 }
 
+export function* saveMicrosoftTeams() {
+  yield put(a.savingMicrosoftTeams(true));
+  try {
+    const microsoftTeams = yield select(selectMicrosoftTeams());
+    yield call(axios.post, '/api/thirdParty/microsoftTeams', microsoftTeams);
+    yield put(a.saveMicrosoftTeamsSuccess());
+  } catch (error) {
+    yield put(a.saveMicrosoftTeamsFailure(error));
+  } finally {
+    yield put(a.savingMicrosoftTeams(false));
+  }
+}
+
 // Individual exports for testing
 export default function* defaultSaga() {
   yield takeLatest(SAVE_FACEBOOK, saveFacebook);
   yield takeLatest(SAVE_SLACK, saveSlack);
+  yield takeLatest(SAVE_MICROSOFT_TEAMS, saveMicrosoftTeams);
   yield takeLatest(GET_ALL, getAll);
 }

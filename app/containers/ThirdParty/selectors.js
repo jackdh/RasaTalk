@@ -17,6 +17,9 @@ const selectFacebook = () =>
 const selectSlack = () =>
   createSelector(selectThirdPartyDomain, s => s.get('slack').toJS());
 
+const selectMicrosoftTeams = () =>
+  createSelector(selectThirdPartyDomain, s => s.get('microsoftTeams').toJS());
+
 /**
  * Default selector used by ThirdParty
  */
@@ -25,4 +28,9 @@ const makeSelectThirdParty = () =>
   createSelector(selectThirdPartyDomain, substate => substate.toJS());
 
 export default makeSelectThirdParty;
-export { selectThirdPartyDomain, selectFacebook, selectSlack };
+export {
+  selectThirdPartyDomain,
+  selectFacebook,
+  selectSlack,
+  selectMicrosoftTeams,
+};

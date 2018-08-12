@@ -10,13 +10,11 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Card, CardContent, CardMedia } from '@material-ui/core';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import styled from 'styled-components';
 
-import { selectFacebook, selectSlack } from './selectors';
+import { selectFacebook, selectSlack, selectMicrosoftTeams } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { getAll, updateForm } from './actions';
@@ -26,21 +24,7 @@ import { selectAgents } from '../HomePage/selectors';
 
 import Facebook from './Facebook';
 import Slack from './Slack';
-
-const TPCard = styled(Card)`
-  && {
-    width: 300px;
-    display: inline-block;
-    margin-right: 15px;
-  }
-`;
-
-const StyledHeader = styled(CardMedia)`
-  && {
-    height: 0;
-    padding-top: 56.25%; // 16:9
-  }
-`;
+import MicrosoftTeams from './MicrosoftTeams';
 
 /* eslint-disable react/prefer-stateless-function */
 export class ThirdParty extends React.PureComponent {
@@ -51,7 +35,14 @@ export class ThirdParty extends React.PureComponent {
   }
 
   render() {
-    const { facebook, slack, handleUpdateForm, agents, dispatch } = this.props;
+    const {
+      facebook,
+      slack,
+      microsoftTeams,
+      handleUpdateForm,
+      agents,
+      dispatch,
+    } = this.props;
     return (
       <div>
         <Helmet>
@@ -71,13 +62,12 @@ export class ThirdParty extends React.PureComponent {
             agents={agents}
             dispatch={dispatch}
           />
-          <TPCard>
-            <StyledHeader
-              image="https://i.imgur.com/mvXdfqu.jpg"
-              title="Microsoft Teams Logo"
-            />
-            <CardContent />
-          </TPCard>
+          <MicrosoftTeams
+            stats={microsoftTeams}
+            handleUpdateForm={handleUpdateForm}
+            agents={agents}
+            dispatch={dispatch}
+          />
         </div>
       </div>
     );
@@ -90,6 +80,7 @@ ThirdParty.propTypes = {
   getAgents: PropTypes.func.isRequired,
   facebook: PropTypes.object.isRequired,
   slack: PropTypes.object.isRequired,
+  microsoftTeams: PropTypes.object.isRequired,
   changeTitle: PropTypes.func.isRequired,
   handleUpdateForm: PropTypes.func.isRequired,
   agents: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
@@ -98,6 +89,7 @@ ThirdParty.propTypes = {
 const mapStateToProps = createStructuredSelector({
   facebook: selectFacebook(),
   slack: selectSlack(),
+  microsoftTeams: selectMicrosoftTeams(),
   agents: selectAgents(),
 });
 

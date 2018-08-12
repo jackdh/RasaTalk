@@ -20,6 +20,12 @@ export const initialState = fromJS({
     client_id: '',
     client_secret: '',
   },
+  microsoftTeams: {
+    enabled: false,
+    agent: '',
+    client_id: '',
+    client_secret: '',
+  },
 });
 
 function thirdPartyReducer(state = initialState, action) {
@@ -53,6 +59,20 @@ function thirdPartyReducer(state = initialState, action) {
             ['slack', 'client_secret'],
             item.client_secret,
           );
+        } else if (item.type === 'microsoftTeams') {
+          newState = newState.setIn(
+            ['microsoftTeams', 'enabled'],
+            item.enabled,
+          );
+          newState = newState.setIn(['microsoftTeams', 'agent'], item.agent);
+          newState = newState.setIn(
+            ['microsoftTeams', 'client_id'],
+            item.client_id,
+          );
+          newState = newState.setIn(
+            ['microsoftTeams', 'client_secret'],
+            item.client_secret,
+          );
         }
       });
       return newState;
@@ -61,6 +81,14 @@ function thirdPartyReducer(state = initialState, action) {
       return state.setIn(['facebook', 'saving'], action.toggle);
     case c.SAVE_FACEBOOK_SUCCESS:
       return state.setIn(['facebook', 'touched'], false);
+    case c.SAVING_SLACK:
+      return state.setIn(['slack', 'saving'], action.toggle);
+    case c.SAVE_SLACK_SUCCESS:
+      return state.setIn(['slack', 'touched'], false);
+    case c.SAVING_MICROSOFT_TEAMS:
+      return state.setIn(['microsoftTeams', 'saving'], action.toggle);
+    case c.SAVE_MICROSOFT_TEAMS_SUCCESS:
+      return state.setIn(['microsoftTeams', 'touched'], false);
     default:
       return state;
   }
