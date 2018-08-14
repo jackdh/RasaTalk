@@ -94,7 +94,7 @@ export class Synonyms extends React.PureComponent {
           <ProfileCard
             loading={false}
             agent="Synonyms"
-            description="Think of a synonym as a different way to say an entity. EG: An Entity of MobileDevice could be phone, smartphone or iPhone"
+            description="Variants will only be used when the highlighted word in the training data matches the Synonym. Otherwise it will just link the matched word to this synonym."
             avatar={Link}
           />
           <Card style={{ marginTop: '30px' }}>
