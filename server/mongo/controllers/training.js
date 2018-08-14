@@ -143,7 +143,7 @@ class Generate {
             tempEnts.push({
               start,
               end,
-              value: synonym,
+              value: entityValue,
               entity: entityName,
             });
             list.push({
