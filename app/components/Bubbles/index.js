@@ -47,12 +47,8 @@ function Bubbles(props) {
   return (
     <Wrapper>
       {group.map((message, i) => (
-        <React.Fragment>
-          <Bubble
-            key={`${message.text}-${i}`}
-            type={message.type}
-            elevation={4}
-          >
+        <React.Fragment key={`${message.text}-${i}`}>
+          <Bubble type={message.type} elevation={4}>
             <Typography>{message.text}</Typography>
           </Bubble>
           {message.quick_replies &&
