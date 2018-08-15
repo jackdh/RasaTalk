@@ -27,7 +27,7 @@ export const initialState = fromJS({
 function talkFlowReducer(state = initialState, action) {
   switch (action.type) {
     case c.SET_NODE_UID:
-      return state.set('node', action.node);
+      return state.set('uid', action.uid);
     case c.SET_EDIT_UID:
       return state.set('editNode', action.uid);
 

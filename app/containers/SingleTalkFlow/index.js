@@ -66,6 +66,9 @@ export class SingleTalkFlow extends React.PureComponent {
   componentDidMount() {
     this.props.changeTitle(`Flow: ${this.props.match.params.nodeuid}`);
     this.props.setCurrentNode(this.props.match.params.nodeuid);
+    if (this.props.node) {
+      this.props.setNode(this.props.match.params.nodeuid);
+    }
   }
 
   render() {
