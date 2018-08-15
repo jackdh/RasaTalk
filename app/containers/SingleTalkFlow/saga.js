@@ -21,12 +21,12 @@ import {
 
 const debug = _debug('SingleTalkFlow\\saga.js');
 
-export function* getNodeFamily({ node }) {
-  debug('Getting Node Family for %s', node);
+export function* getNodeFamily({ uid }) {
+  debug('Getting Node Family for %s', uid);
   yield put(requestingNodeFamily(true));
 
   try {
-    const { data } = yield axios.get(`/api/node-family/${node}`);
+    const { data } = yield axios.get(`/api/node-family/${uid}`);
     yield put(nodeFamilyLoaded(data));
   } catch (error) {
     debug('Failed getting node family %O', error);
