@@ -10,6 +10,7 @@ const trainingSchema = new Schema(
     agent: { type: String, required: true },
     training: { type: Boolean, default: false },
     trained: { type: Boolean, default: false },
+    timeTaken: String,
   },
   { usePushEach: true },
 );
