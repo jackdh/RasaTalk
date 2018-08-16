@@ -33,6 +33,7 @@ function createData(trainingP) {
 
 const columnData = [
   { id: 'date', numeric: false, disablePadding: true, label: 'Date' },
+  { id: 'duration', numeric: false, disablePadding: true, label: 'Duration' },
   { id: 'agent', numeric: false, disablePadding: true, label: 'Agent' },
   { id: 'model', numeric: false, disablePadding: true, label: 'Model' },
   { id: 'view', numeric: true, disablePadding: false, label: 'View' },
@@ -333,15 +334,15 @@ class EnhancedTable extends React.Component {
                           />
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
-                          {' '}
                           {n.date}
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
-                          {' '}
+                          {n.timeTaken}
+                        </TableCell>
+                        <TableCell component="th" scope="row" padding="none">
                           {n.agent}
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
-                          {' '}
                           {n.model}
                         </TableCell>
                         <TableCell component="th" scope="row" numeric>

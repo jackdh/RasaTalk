@@ -4,6 +4,7 @@ const EntitiesSchema = require('../schemas/entitiesSchema');
 const ExpressionSchema = require('../schemas/expressionsSchema');
 const TrainingSchema = require('../schemas/trainingSchema');
 const axios = require('axios');
+const moment = require('moment');
 
 const _ = require('lodash');
 const debug = require('debug')('Training');
@@ -255,6 +256,7 @@ function train(req, res) {
   TrainingSchema.findOne({ _id })
     .then(model => {
       if (model) {
+        const start = moment();
         axios
           .post(
             `${process.env.RASASERVER}/train?project=${model.agent}`,
@@ -262,7 +264,11 @@ function train(req, res) {
           )
           .then(result => {
             if (_.startsWith(result.data.info, 'new model trained: ')) {
+              const end = moment();
+              const duration = end.diff(start);
+              const timeDuration = moment.utc(duration).format('HH:mm:ss');
               model.model = _.last(result.data.info.split(' '));
+              model.timeTaken = timeDuration;
               model.save().then(m => {
                 delete m.data;
                 return res.send(m);
