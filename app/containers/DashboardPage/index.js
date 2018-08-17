@@ -85,8 +85,8 @@ export class DashboardPage extends React.PureComponent {
             <StatsCard
               icon={InsertChart}
               iconColor="blue"
-              title="Intents"
-              description={`${stats.intents}`}
+              title="Agents"
+              description={`${stats.agents}`}
               small="#"
               statIcon={SupervisorAccount}
               statText={`${stats.expressions} expressions`}

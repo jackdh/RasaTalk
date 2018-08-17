@@ -14,6 +14,7 @@ const UserSchema = new mongoose.Schema({
   groups: [String],
   permissions: [String],
   gravatar: String,
+  date: { type: Date, default: Date.now },
 });
 
 /**
