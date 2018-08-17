@@ -14,7 +14,7 @@ function getDashboard(req, res) {
     const [
       expressions,
       messageHistorys,
-      intents,
+      agents,
       dialogs,
       sessions,
       users,
@@ -29,7 +29,7 @@ function getDashboard(req, res) {
     return {
       expressions,
       messageHistorys,
-      intents,
+      agents,
       dialogs,
       sessions,
       users,
