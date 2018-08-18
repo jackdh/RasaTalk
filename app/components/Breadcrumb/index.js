@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 const StyledSpan = styled.span`
   color: rgba(0, 0, 0, 0.45);
-  -webkit-transition: color 0.3s;
   transition: color 0.3s;
   :hover {
     color: #40a9ff;

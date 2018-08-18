@@ -33,9 +33,7 @@ const Wrapper = styled.div`
 `;
 
 const Image = styled.img`
-  //position: absolute;
   width: 200px;
-  //top: 0;
 `;
 
 const Sub = styled(Typography)`

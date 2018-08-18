@@ -28,7 +28,6 @@ const Loading = styled(Typography)`
     overflow: hidden;
     display: inline-block;
     vertical-align: bottom;
-    -webkit-animation: ${grow} steps(4, end) 900ms infinite;
     animation: ${grow} steps(4, end) 900ms infinite;
     content: '\\2026'; /* ascii code for the ellipsis character */
     width: 6px;

@@ -46,7 +46,7 @@ const TPCard = styled(Card)`
 const StyledHeader = styled(CardMedia)`
   && {
     height: 0;
-    padding-top: 56.25%; // 16:9
+    padding-top: 56.25%;
   }
 `;
 
