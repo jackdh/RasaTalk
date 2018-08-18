@@ -3,7 +3,7 @@ const {
 } = require('../mongo/direct/generateResponse');
 const ThirdPartySchema = require('../mongo/schemas/thirdPartySchema');
 
-const getVerfiy = () =>
+const getVerify = () =>
   new Promise((resolve, reject) => {
     ThirdPartySchema.findOne({ type: 'facebook' }).then(model => {
       if (model.enabled) {
@@ -46,7 +46,7 @@ module.exports = (webserver, controller) => {
   // Perform the FB webhook verification handshake with your verify token
   webserver.get('/facebook/receive', (req, res) => {
     if (req.query['hub.mode'] === 'subscribe') {
-      getVerfiy().then(verify => {
+      getVerify().then(verify => {
         if (req.query['hub.verify_token'] === verify) {
           res.send(req.query['hub.challenge']);
         } else {
