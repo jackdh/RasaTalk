@@ -43,9 +43,21 @@ function updateMicrosoftTeams(req, res) {
   });
 }
 
+function updateTelegram(req, res) {
+  debug('Updating Telegram %O', req.body);
+  req.body.type = 'telegram';
+  ThirdPartySchema.update({ type: 'telegram' }, req.body, {
+    upsert: true,
+    setDefaultsOnInsert: true,
+  }).then(() => {
+    res.status(275).send('Telegram updated!');
+  });
+}
+
 module.exports = {
   getThirdParties,
   updateFacebook,
   updateSlack,
   updateMicrosoftTeams,
+  updateTelegram,
 };

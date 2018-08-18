@@ -20,6 +20,9 @@ const selectSlack = () =>
 const selectMicrosoftTeams = () =>
   createSelector(selectThirdPartyDomain, s => s.get('microsoftTeams').toJS());
 
+const selectTelegram = () =>
+  createSelector(selectThirdPartyDomain, s => s.get('telegram').toJS());
+
 /**
  * Default selector used by ThirdParty
  */
@@ -33,4 +36,5 @@ export {
   selectFacebook,
   selectSlack,
   selectMicrosoftTeams,
+  selectTelegram,
 };

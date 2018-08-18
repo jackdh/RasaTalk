@@ -48,3 +48,11 @@ export const saveMicrosoftTeamsFailure = error => ({
   type: c.SAVE_MICROSOFT_TEAMS_FAILURE,
   error,
 });
+
+export const saveTelegram = () => ({ type: c.SAVE_TELEGRAM });
+export const savingTelegram = toggle => ({ type: c.SAVING_TELEGRAM, toggle });
+export const saveTelegramSuccess = () => ({ type: c.SAVE_TELEGRAM_SUCCESS });
+export const saveTelegramFailure = error => ({
+  type: c.SAVE_TELEGRAM_FAILURE,
+  error,
+});

@@ -26,6 +26,12 @@ export const initialState = fromJS({
     client_id: '',
     client_secret: '',
   },
+  telegram: {
+    enabled: false,
+    agent: '',
+    client_id: '',
+    token: '',
+  },
 });
 
 function thirdPartyReducer(state = initialState, action) {
@@ -37,6 +43,8 @@ function thirdPartyReducer(state = initialState, action) {
     case c.GET_ALL_SUCCESS: {
       /**
        * TODO This is awful however I cannot think of a succinct way to do this yet for all TP's.
+       * TODO Maybe you could use the same enabled/agent one for all of them, and then create a function
+       * TODO where you can retrieve the field name of the last two depending on the item.type?
        */
       let newState = state;
       action.data.forEach(item => {
@@ -73,6 +81,11 @@ function thirdPartyReducer(state = initialState, action) {
             ['microsoftTeams', 'client_secret'],
             item.client_secret,
           );
+        } else if (item.type === 'telegram') {
+          newState = newState.setIn(['telegram', 'enabled'], item.enabled);
+          newState = newState.setIn(['telegram', 'agent'], item.agent);
+          newState = newState.setIn(['telegram', 'client_id'], item.client_id);
+          newState = newState.setIn(['telegram', 'token'], item.token);
         }
       });
       return newState;

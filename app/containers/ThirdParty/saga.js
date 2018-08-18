@@ -5,10 +5,16 @@ import {
   SAVE_FACEBOOK,
   SAVE_SLACK,
   SAVE_MICROSOFT_TEAMS,
+  SAVE_TELEGRAM,
   GET_ALL,
 } from './constants';
 import * as a from './actions';
-import { selectFacebook, selectSlack, selectMicrosoftTeams } from './selectors';
+import {
+  selectFacebook,
+  selectSlack,
+  selectMicrosoftTeams,
+  selectTelegram,
+} from './selectors';
 
 export function* getAll() {
   yield put(a.gettingAll(true));
@@ -61,10 +67,24 @@ export function* saveMicrosoftTeams() {
   }
 }
 
+export function* saveTelegram() {
+  yield put(a.savingTelegram(true));
+  try {
+    const telegram = yield select(selectTelegram());
+    yield call(axios.post, '/api/thirdParty/telegram', telegram);
+    yield put(a.saveTelegramSuccess());
+  } catch (error) {
+    yield put(a.saveTelegramFailure(error));
+  } finally {
+    yield put(a.savingTelegram(false));
+  }
+}
+
 // Individual exports for testing
 export default function* defaultSaga() {
   yield takeLatest(SAVE_FACEBOOK, saveFacebook);
   yield takeLatest(SAVE_SLACK, saveSlack);
   yield takeLatest(SAVE_MICROSOFT_TEAMS, saveMicrosoftTeams);
+  yield takeLatest(SAVE_TELEGRAM, saveTelegram);
   yield takeLatest(GET_ALL, getAll);
 }

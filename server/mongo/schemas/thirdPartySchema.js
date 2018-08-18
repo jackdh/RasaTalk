@@ -8,6 +8,7 @@ const thirdPartySchema = new Schema({
   access_token: { type: String },
   verify_token: { type: String },
   client_secret: { type: String },
+  token: { type: String },
   agent: { type: String, required: true },
   debug: { type: Boolean, default: false },
   enabled: { type: Boolean, default: false },

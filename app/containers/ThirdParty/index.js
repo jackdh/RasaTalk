@@ -14,7 +14,12 @@ import { compose } from 'redux';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
-import { selectFacebook, selectSlack, selectMicrosoftTeams } from './selectors';
+import {
+  selectFacebook,
+  selectSlack,
+  selectMicrosoftTeams,
+  selectTelegram,
+} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { getAll, updateForm } from './actions';
@@ -25,6 +30,7 @@ import { selectAgents } from '../HomePage/selectors';
 import Facebook from './Facebook';
 import Slack from './Slack';
 import MicrosoftTeams from './MicrosoftTeams';
+import Telegram from './Telegram';
 
 /* eslint-disable react/prefer-stateless-function */
 export class ThirdParty extends React.PureComponent {
@@ -39,6 +45,7 @@ export class ThirdParty extends React.PureComponent {
       facebook,
       slack,
       microsoftTeams,
+      telegram,
       handleUpdateForm,
       agents,
       dispatch,
@@ -68,6 +75,12 @@ export class ThirdParty extends React.PureComponent {
             agents={agents}
             dispatch={dispatch}
           />
+          <Telegram
+            stats={telegram}
+            handleUpdateForm={handleUpdateForm}
+            agents={agents}
+            dispatch={dispatch}
+          />
         </div>
       </div>
     );
@@ -81,6 +94,7 @@ ThirdParty.propTypes = {
   facebook: PropTypes.object.isRequired,
   slack: PropTypes.object.isRequired,
   microsoftTeams: PropTypes.object.isRequired,
+  telegram: PropTypes.object.isRequired,
   changeTitle: PropTypes.func.isRequired,
   handleUpdateForm: PropTypes.func.isRequired,
   agents: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
@@ -90,6 +104,7 @@ const mapStateToProps = createStructuredSelector({
   facebook: selectFacebook(),
   slack: selectSlack(),
   microsoftTeams: selectMicrosoftTeams(),
+  telegram: selectTelegram(),
   agents: selectAgents(),
 });
 
