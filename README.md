@@ -20,7 +20,11 @@ Feel free to message me on [![Gitter chat](https://badges.gitter.im/gitterHQ/git
 <p>
 <h2 align="center">Installation</h2>
 
-Either start MongoDB with Rasa NLU docker or host them separately. Make sure to update the .env file with the correct URLS!
+**Prerequisites**
+
+ - Database: [Mongodb](https://www.mongodb.com/) - You can run this locally or online like [mlab](https://mlab.com/)
+ - Chatbot Brain: [Rasa NLU](https://rasa.com/docs/nlu/) - I reccommend running with [Docker](https://hub.docker.com/r/rasa/rasa_nlu/)
+
 ```
 git clone https://github.com/jackdh/RasaTalk/
 Rename example.env to '.env'
