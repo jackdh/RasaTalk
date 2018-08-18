@@ -36,8 +36,6 @@ const Switch = ButtonGroup.extend`
   padding-top: 0.75em;
 `;
 
-const Wrapper = styled.div``;
-
 class Node extends React.Component {
   state = {
     open: true,
@@ -101,7 +99,7 @@ class Node extends React.Component {
     const showDown = level > 0 && position !== total;
 
     return (
-      <Wrapper>
+      <div>
         <StyledCard>
           <CardInner>
             {children.length > 0 && (
@@ -164,7 +162,7 @@ class Node extends React.Component {
               ))}
           </CollapseArea>
         </Collapse>
-      </Wrapper>
+      </div>
     );
   }
 }
