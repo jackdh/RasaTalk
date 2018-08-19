@@ -33,6 +33,8 @@ yarn
 yarn start
 ```
 
+**Or view https://github.com/jackdh/RasaTalk/wiki/Setup for a more detailed setup guide**
+
 <h2 align="center">Up and Running</h2>
 
 
