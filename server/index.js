@@ -39,10 +39,18 @@ const isAuth = require('./authentication/isAuthenticated');
  * Botkit
  */
 const Botkit = require('botkit');
-const controller = Botkit.facebookbot({
+const facebookController = Botkit.facebookbot({
   debug: true,
   verify_token: 'null',
   access_token: 'null',
+});
+
+const slackController = Botkit.slackbot({
+  debug: true,
+  clientId: 'null',
+  clientSecret: 'null',
+  // https://api.slack.com/docs/oauth-scopes
+  scopes: ['bot'],
 });
 
 webserver.use(
@@ -64,7 +72,8 @@ passport.use('local-login', localLoginStrategy);
 // app.use('/api', myApi);
 const authRoute = require('./authentication/auth-router');
 
-require('./botkit/facebook')(webserver, controller);
+require('./botkit/facebook')(webserver, facebookController);
+require('./botkit/slack')(webserver, slackController);
 webserver.use('/auth', authRoute);
 webserver.use('/api', isAuth, require('./mongo/router'));
 // In production we need to pass these values in instead of relying on webpack
