@@ -1,5 +1,6 @@
 import * as React from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
 export class Timer extends React.Component {
   constructor(props) {
@@ -20,8 +21,20 @@ export class Timer extends React.Component {
 
   render() {
     const { difference } = this.state;
-    return <span className="timer">{difference}</span>;
+    const { palette } = this.props;
+    return (
+      <span
+        className="timer"
+        style={{ color: palette.type === 'dark' ? '#fff' : '#000' }}
+      >
+        {difference}
+      </span>
+    );
   }
 }
+
+Timer.propTypes = {
+  palette: PropTypes.object,
+};
 
 export default Timer;

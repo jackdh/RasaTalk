@@ -234,8 +234,14 @@ export class Training extends React.PureComponent {
               <CardContent>
                 {inTraining && (
                   <TimerWrapper>
-                    <span>Currently Training</span>
-                    <Timer />
+                    <span
+                      style={{
+                        color: palette.type === 'dark' ? '#fff' : '#000',
+                      }}
+                    >
+                      Currently Training
+                    </span>
+                    <Timer palette={palette} />
                   </TimerWrapper>
                 )}
                 <Status />
