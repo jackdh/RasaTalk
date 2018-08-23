@@ -47,6 +47,14 @@ function getParents(req, res) {
     });
 }
 
+function formatParent(node) {
+  return {
+    uid: node.intent.name.uid,
+    name: node.intent.name.name,
+    group: node.intent.name.group ? node.intent.name.group : 'Default Nodes',
+  };
+}
+
 /**
  * We do not return items with Regex / Conditions due to only wanting real parents and not jumped to ones.
  * @returns {Promise<any>}
@@ -59,16 +67,21 @@ function getParentsInternal() {
       .lean()
       .exec()
       .then(data => {
-        const groups = [];
+        // convert to map
+        const all = {};
         data.forEach(node => {
-          if (!node.intent.name.group) node.intent.name.group = 'Default Nodes';
-          groups.push({
-            uid: node.intent.name.uid,
-            name: node.intent.name.name,
-            group: node.intent.name.group,
-          });
+          all[node.intent.name.uid] = node;
         });
-        resolve(groups);
+
+        const final = [];
+        let head = all[Object.keys(all)[0]];
+        while (head.previous) head = all[head.previous];
+        while (head.next) {
+          final.push(formatParent(head));
+          head = all[head.next];
+        }
+        final.push(formatParent(head));
+        resolve(final);
       })
       .catch(err => {
         reject(err);
