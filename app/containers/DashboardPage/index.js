@@ -75,7 +75,9 @@ export class DashboardPage extends React.PureComponent {
               icon={QuestionAnswer}
               iconColor="red"
               title="Chats"
-              description={stats.messageHistorys ? stats.messageHistorys : 'Down' }
+              description={
+                stats.messageHistorys ? stats.messageHistorys : 'Down'
+              }
               small="#"
               statIcon={SupervisorAccount}
               statText={`Sessions: ${stats.sessions}`}

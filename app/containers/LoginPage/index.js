@@ -107,7 +107,7 @@ export class LoginPage extends React.PureComponent {
             <RegisterForm
               loading={loading}
               onSubmit={() => this.props.dispatch(registerRequest())}
-              loginError={registerError}
+              registerError={registerError}
             />
           </SwipeableViews>
         </StyledCard>

@@ -50,8 +50,8 @@ function generateResponseInternal(uid, message, project, model) {
 }
 
 /**
-* This is a simple wrapper function for the above generate response. It exposes the main generate response method to API calls.
-*/
+ * This is a simple wrapper function for the above generate response. It exposes the main generate response method to API calls.
+ */
 function generateResponse(req, res) {
   const { uid } = req.params;
   const { message, project, model } = req.body;

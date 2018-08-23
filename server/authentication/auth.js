@@ -120,7 +120,7 @@ function signup(req, res, next) {
 
   return passport.authenticate('local-signup', (err, token, user) => {
     if (err) {
-      if (err.name === 'BulkWriteError') {
+      if (err.message.indexOf('duplicate key error') !== -1) {
         // the 11000 Mongo code is for a duplication email error
         // the 409 HTTP status code is for conflict error
         return res.status(409).json({
