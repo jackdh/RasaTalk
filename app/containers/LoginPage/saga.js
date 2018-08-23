@@ -35,7 +35,8 @@ export function* authorise() {
     return { success: true, token, user };
   } catch ({ request: { response } }) {
     debug('Authorise: We got an error %O', response);
-    yield put(loginRequestFailure(JSON.parse(response).message));
+    const error = JSON.parse(response).message;
+    yield put(loginRequestFailure(error));
     return { success: false };
   } finally {
     yield put(loading(false));
