@@ -15,7 +15,7 @@ export const initialState = fromJS({
   json: {},
   training: [],
   inTraining: false,
-}); // Status is stored in RightSidebar as it is always needed.
+});
 
 function trainingReducer(state = initialState, action) {
   switch (action.type) {
