@@ -2,7 +2,18 @@ import { fromJS } from 'immutable';
 import talkReducer from '../reducer';
 
 describe('talkReducer', () => {
+  let state;
+  beforeEach(() => {
+    state = fromJS({
+      parentsLoaded: false,
+      errorMessage: '',
+      parents: [],
+      loading: true,
+      goTo: '',
+    });
+  });
   it('returns the initial state', () => {
-    expect(talkReducer(undefined, {})).toEqual(fromJS({}));
+    const expected = state;
+    expect(talkReducer(undefined, {})).toEqual(expected);
   });
 });
