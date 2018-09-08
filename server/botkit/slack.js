@@ -31,8 +31,6 @@ const getPageToken = () =>
 module.exports = (webserver, controller) => {
   webserver.post('/slack/receive', (req, res) => {
     getPageToken().then(({ clientSecret, agent }) => {
-      res.status(200);
-      res.send('ok');
       const bot = controller.spawn({});
       bot.botkit.config.client_secret = clientSecret;
       bot.botkit.config.agent = agent;
@@ -52,13 +50,12 @@ module.exports = (webserver, controller) => {
     }
   });
 
-  controller.hears('.*', 'message_received', (bot, message) => {
-    // do something!
+  controller.hears('interactive', 'direct_message', (bot, message) => {
+    bot.reply(message, 'I heard a message.');
     bot.startConversation(message, (err, convo) => {
       generateResponseInternal(
         message.user,
-        // TODO: why are there two messages (message.message.text) in the facebook one?
-        message.text,
+        message.message.text,
         bot.botkit.config.agent,
       ).then(replies => {
         replies.forEach(reply => {
