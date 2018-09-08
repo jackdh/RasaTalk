@@ -50,7 +50,7 @@ const slackController = Botkit.slackbot({
   clientId: 'null',
   clientSecret: 'null',
   // https://api.slack.com/docs/oauth-scopes
-  scopes: ['bot'],
+  scopes: ['incoming-webhook', 'bot'],
 });
 
 webserver.use(
