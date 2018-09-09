@@ -38,16 +38,19 @@ const isAuth = require('./authentication/isAuthenticated');
 /**
  * Botkit
  */
+const mongoStorage = require('./botkit/storage')();
 const Botkit = require('botkit');
 const facebookController = Botkit.facebookbot({
   debug: true,
   verify_token: 'null',
   access_token: 'null',
+  storage: mongoStorage,
 });
 
 const slackController = Botkit.slackbot({
   debug: true,
   clientId: 'null',
+  storage: mongoStorage,
   clientSecret: 'null',
   // https://api.slack.com/docs/oauth-scopes
   scopes: ['incoming-webhook', 'bot'],

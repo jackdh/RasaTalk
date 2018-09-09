@@ -41,7 +41,9 @@ function generateResponseInternal(uid, message, project, model) {
 function generateResponse(req, res) {
   const { uid } = req.params;
   const { message, project, model } = req.body;
-  res.send(generateResponseInternal(uid, message, project, model));
+  generateResponseInternal(uid, message, project, model).then(replies => {
+    res.send(replies);
+  });
 }
 
 module.exports = {
