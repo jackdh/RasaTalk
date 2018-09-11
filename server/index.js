@@ -1,5 +1,30 @@
 /* eslint consistent-return:0 */
 require('dotenv').config();
+const fs = require('fs');
+const http = require('http');
+const https = require('https');
+
+let credentials = {};
+if (process.env.HTTPS) {
+  const key = fs.readFileSync(
+    '/etc/letsencrypt/live/talk.jackdh.com/privkey.pem',
+    'utf8',
+  );
+  const cert = fs.readFileSync(
+    '/etc/letsencrypt/live/talk.jackdh.com/cert.pem',
+    'utf8',
+  );
+  const ca = fs.readFileSync(
+    '/etc/letsencrypt/live/talk.jackdh.com/chain.pem',
+    'utf8',
+  );
+  credentials = {
+    key,
+    cert,
+    ca,
+  };
+}
+
 const debug = require('debug')('Server/index');
 const express = require('express');
 const logger = require('./logger');
@@ -78,8 +103,17 @@ const customHost = argv.host || process.env.HOST;
 const host = customHost || null; // Let http.Server use its default IPv6/4 host
 const prettyHost = customHost || 'localhost';
 
-// Start your app.
-webserver.listen(port, host, async err => {
+const httpServer = http.createServer(webserver);
+
+if (process.env.HTTPS) {
+  const httpsServer = https.createServer(credentials, webserver);
+  // Start your app.
+  httpsServer.listen(443, () => {
+    logger.appStarted(443, prettyHost, true);
+  });
+}
+
+httpServer.listen(port, host, async err => {
   if (err) {
     return logger.error(err.message);
   }

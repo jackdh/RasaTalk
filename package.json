@@ -164,6 +164,8 @@
     "global-cache": "^1.2.1",
     "history": "4.7.2",
     "hoist-non-react-statics": "2.5.5",
+    "http": "^0.0.0",
+    "https": "^1.0.0",
     "immutable": "3.8.2",
     "intl": "1.2.5",
     "invariant": "2.2.4",
