@@ -130,12 +130,15 @@ Currently Facebook has been enabled with Slack and many more still to come!
 
 * Implement simple small talk.
 
-<h3>Todo</h3>
+<h3>Todo / Help requested!</h3>
 
 * Increase test coverage to 100%.
 * Add Travis / Appveyor
 * Provide autocomplete options for fields such as nodes.
 * Better validation / error notifications.
+* Add rename option for intents / expressions
+* Add backup option for node / training data.
+* Add sockets for chat as well as update notifications.
 
 <h3>Known issues</h3>
 
