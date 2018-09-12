@@ -13,7 +13,7 @@ Feel free to message me on [![Gitter chat](https://badges.gitter.im/gitterHQ/git
 
 <h2 align="center">Demo</h2>
 
- [http://www.talk.jackdh.com](http://www.talk.jackdh.com) (User: demo@jackdh.com Pass: demo1234) - Currently **down** due to traffic sorry! It'll be up shortly!
+ [https://www.talk.jackdh.com](http://www.talk.jackdh.com) (User: demo@jackdh.com Pass: demo1234)
  
 <p align="center">
 <img src="https://user-images.githubusercontent.com/1907451/43040505-2d57dc30-8d3d-11e8-9bb9-8ac65bf48a67.gif" alt="" height="500" />
