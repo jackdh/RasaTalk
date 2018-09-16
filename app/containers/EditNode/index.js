@@ -49,6 +49,7 @@ import makeSelectEditNode, { selectActive } from './selectors';
 import { Body, Header, Wrapper } from './form/styles';
 import { loadNode, saveNode } from './actions';
 import { setEditNode } from '../SingleTalkFlow/actions';
+import { selectHead } from '../SingleTalkFlow/selectors';
 
 const ButtonSection = styled.div`
   margin: 15px;
@@ -101,9 +102,11 @@ export class EditNode extends React.PureComponent {
       submitting,
       submitFailed,
       editnodetwo: { loading },
+      headNode,
+      node,
     } = this.props;
     const fv = values ? values.toJS() : {};
-
+    const isParent = headNode === node;
     return (
       <Wrapper>
         <Header>
@@ -146,14 +149,16 @@ export class EditNode extends React.PureComponent {
                   label="Name"
                   type="text"
                 />
-                <Field
-                  name="name.group"
-                  component={TextField}
-                  fullWidth
-                  placeholder="Food Group"
-                  label="Group"
-                  type="text"
-                />
+                {isParent && (
+                  <Field
+                    name="name.group"
+                    component={TextField}
+                    fullWidth
+                    placeholder="Food Group"
+                    label="Group"
+                    type="text"
+                  />
+                )}
               </FlexRow>
               <React.Fragment>
                 <FlexCheckbox name="Node Enabled">
@@ -463,6 +468,7 @@ export class EditNode extends React.PureComponent {
 EditNode.propTypes = {
   dispatch: PropTypes.func.isRequired,
   node: PropTypes.string,
+  headNode: PropTypes.string,
   values: PropTypes.object,
   editnodetwo: PropTypes.object,
   handleSubmit: PropTypes.func,
@@ -477,6 +483,7 @@ const mapStateToProps = createStructuredSelector({
   editnodetwo: makeSelectEditNode(),
   values: getFormValues('EditNode'),
   isActive: selectActive(),
+  headNode: selectHead(),
 });
 
 function mapDispatchToProps(dispatch) {
