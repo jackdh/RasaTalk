@@ -11,7 +11,15 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Grid } from '@material-ui/core';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Grid,
+  TextField,
+  CardActions,
+  Button,
+} from '@material-ui/core';
 import BackButton from 'components/BackButton';
 import ProfileCard from 'components/Cards/ProfileCard';
 import Wrapper from 'components/Grid/Wrapper';
@@ -32,6 +40,9 @@ import {
   removeExpression,
   addParameter,
   removeParameter,
+  updateIntentName,
+  saveUpdatedIntentName,
+  setIntentName,
 } from './actions';
 import { getAgent } from '../IntentPage/actions';
 
@@ -46,6 +57,7 @@ export class Expression extends React.Component {
       changeTitle(`Agent: ${this.agent} / Intent: ${this.intent}`),
     );
     this.props.dispatch(getExpressions(this.agent, this.intent));
+    this.props.dispatch(setIntentName(this.intent));
     this.props.dispatch(getAgent(this.agent));
     this.props.dispatch(getEntities());
   }
@@ -65,11 +77,34 @@ export class Expression extends React.Component {
     this.props.addEntity(this.agent, this.intent, entity);
   };
 
+  handleIntentNameSave = () => {
+    this.props.dispatch(saveUpdatedIntentName(this.agent));
+  };
+
+  handleIntentNameChange = event => {
+    if (
+      event.key === 'Enter' &&
+      this.props.expression.originalIntentName !==
+        this.props.expression.updatingIntentName
+    ) {
+      this.handleIntentNameSave();
+    }
+  };
+
   render() {
     const {
-      expression: { expressions, loading, error },
+      expression: {
+        expressions,
+        loading,
+        error,
+        intentName,
+        originalIntentName,
+        updatingIntentName,
+      },
       entities,
+      dispatch,
     } = this.props;
+    const diff = intentName !== originalIntentName;
     return (
       <div>
         <Helmet>
@@ -100,6 +135,34 @@ export class Expression extends React.Component {
               description="Agents help to classify or split up different chatbots."
               avatar="none"
             />
+            <Card style={{ marginTop: '30px' }}>
+              <CardHeader
+                title="Update intent name"
+                subheader="You will need to retrain the chatbot when updating the intent name"
+              />
+              <CardContent>
+                <TextField
+                  id="intentRename"
+                  label="Intent Name"
+                  value={intentName}
+                  onKeyPress={this.handleIntentNameChange}
+                  onChange={e => dispatch(updateIntentName(e.target.value))}
+                  fullWidth
+                  disabled={updatingIntentName}
+                />
+              </CardContent>
+              <CardActions>
+                {diff && (
+                  <Button
+                    onClick={() => this.handleIntentNameSave()}
+                    size="small"
+                    disabled={updatingIntentName}
+                  >
+                    Save
+                  </Button>
+                )}
+              </CardActions>
+            </Card>
           </Grid>
         </Wrapper>
       </div>

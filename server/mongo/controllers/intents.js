@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 const IntentSchema = require('../schemas/intentsSchema');
 const debug = require('debug')('Intents');
+const co = require('co');
 
 const addIntent = (req, res) => {
   const { agent } = req.params;
@@ -100,9 +101,35 @@ const getIntents = (req, res) => {
     });
 };
 
+const updateIntentName = (req, res) => {
+  co(function* t() {
+    const { agent, intent } = req.params;
+    const newIntent = req.body.intent;
+    const data = yield IntentSchema.findOne({
+      agent,
+      'intents.name': newIntent,
+    });
+    if (!data) {
+      yield IntentSchema.update(
+        { agent, 'intents.name': intent },
+        { $set: { 'intents.$.name': newIntent } },
+      );
+      return true;
+    }
+    throw new Error('That name already exists');
+  })
+    .then(() => {
+      res.status(275).send('Intent Updated!');
+    })
+    .catch(error => {
+      res.status(401).send(error.message);
+    });
+};
+
 module.exports = {
   addIntent,
   removeIntent,
   getIntents,
   updateIntent,
+  updateIntentName,
 };

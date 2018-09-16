@@ -7,11 +7,10 @@
 import { fromJS } from 'immutable';
 import * as c from './constants';
 export const initialState = fromJS({
-  node: '',
   editNode: '',
 
   name: '',
-  uid: '',
+  parentNode: '',
   children: [],
   enabled: false,
 
@@ -26,8 +25,8 @@ export const initialState = fromJS({
 
 function talkFlowReducer(state = initialState, action) {
   switch (action.type) {
-    case c.SET_NODE_UID:
-      return state.set('uid', action.uid);
+    case c.SET_PARENT_NODE:
+      return state.set('parentNode', action.uid);
     case c.SET_EDIT_UID:
       return state.set('editNode', action.uid);
 

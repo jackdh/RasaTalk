@@ -1,4 +1,5 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest, select, call } from 'redux-saga/effects';
+import { push } from 'react-router-redux';
 import axios from 'axios';
 import * as a from './actions';
 import {
@@ -8,7 +9,9 @@ import {
   ADD_PARAMETER,
   REMOVE_PARAMETER,
   GET_ENTITIES,
+  SAVE_UPDATED_INTENT_NAME,
 } from './constants';
+import { selectIntent, selectOriginal } from './selectors';
 const debug = require('debug')('Expression Saga');
 
 export function* getExpression({ agent, intent }) {
@@ -120,6 +123,25 @@ export function* getEntities() {
   }
 }
 
+export function* updateIntentName({ agent }) {
+  debug('updating Intent name');
+
+  yield put(a.savingUpdatedIntentName(true));
+  try {
+    const intent = yield select(selectIntent());
+    const originalIntent = yield select(selectOriginal());
+    yield call(axios.patch, `/api/intents/${agent}/intent/${originalIntent}`, {
+      intent,
+    });
+    yield put(a.setIntentName(intent));
+    yield put(push(`/agents/${agent}/intent/${intent}`));
+  } catch (error) {
+    debug(error.message);
+  } finally {
+    yield put(a.savingUpdatedIntentName(false));
+  }
+}
+
 // Individual exports for testing
 export default function* defaultSaga() {
   yield [
@@ -129,5 +151,6 @@ export default function* defaultSaga() {
     takeLatest(GET_ENTITIES, getEntities),
     takeLatest(ADD_PARAMETER, addParameter),
     takeLatest(REMOVE_PARAMETER, removeParameter),
+    takeLatest(SAVE_UPDATED_INTENT_NAME, updateIntentName),
   ];
 }

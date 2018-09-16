@@ -12,7 +12,7 @@
 
 import * as c from './constants';
 
-export const setCurrentNode = uid => ({ type: c.SET_NODE_UID, uid });
+export const setCurrentNode = uid => ({ type: c.SET_PARENT_NODE, uid });
 export const setEditNode = uid => ({ type: c.SET_EDIT_UID, uid });
 
 export const loadNodeFamily = () => ({ type: c.LOAD_NODE_FAMILY });

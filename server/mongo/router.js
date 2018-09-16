@@ -59,6 +59,11 @@ router.post(
   guard('agents:write'),
   intents.removeIntent,
 );
+router.patch(
+  '/intents/:agent/intent/:intent',
+  guard('agents:write'),
+  intents.updateIntentName,
+);
 
 // /** Expressions * */
 router.get(

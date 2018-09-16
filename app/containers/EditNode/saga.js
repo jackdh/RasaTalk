@@ -49,6 +49,4 @@ function* saveNode() {
 export default function* defaultSaga() {
   yield takeLatest(LOAD_NODE, loadNode);
   yield takeLatest(SAVE_NODE, saveNode);
-  yield takeLatest('@@redux-form/ARRAY_REMOVE', saveNode);
-  yield takeLatest('@@redux-form/BLUR', saveNode);
 }

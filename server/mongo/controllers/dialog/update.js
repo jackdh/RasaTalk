@@ -4,6 +4,13 @@ const Convert = require('../utils/converstions');
 const Cache = require('../utils/cache');
 const debug = require('debug')('dialog.js');
 
+function validateUpdate(node) {
+  if (!node.head) {
+    return { valid: false, reason: 'Missing head' };
+  }
+  return { valid: true };
+}
+
 /**
  * New update for Rasa Talk
  *
@@ -11,21 +18,27 @@ const debug = require('debug')('dialog.js');
  * @param res
  */
 function update(req, res) {
-  DialogSchema.findOneAndUpdate(
-    { 'intent.name.uid': req.params.uid },
-    { $set: { intent: req.body } },
-  )
-    .then(() => {
-      Convert.getParent(req.body.head).then(data => {
-        data.statusMessage = 'Node Saved';
-        res.status(275).send(data);
-        return null;
+  const validateUpdate1 = validateUpdate(req.body);
+  if (!validateUpdate1.valid) {
+    res.status(475).send(validateUpdate1.reason);
+  } else {
+    DialogSchema.findOneAndUpdate(
+      { 'intent.name.uid': req.params.uid },
+      { $set: { intent: req.body } },
+    )
+      .then(() => {
+        Convert.getParent(req.body.head).then(data => {
+          if (!data) throw new Error('Failed to convert in update');
+          data.statusMessage = 'Node Saved';
+          res.status(275).send(data);
+          return null;
+        });
+      })
+      .catch(error => {
+        debug(error);
+        res.status(475).send('Failed saving, please check the logs for errors');
       });
-    })
-    .catch(error => {
-      debug(error);
-      res.status(475).send('Failed saving, please check the logs for errors');
-    });
+  }
 }
 
 function toggle(req, res) {

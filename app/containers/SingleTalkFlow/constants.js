@@ -7,7 +7,7 @@
 export const DEFAULT_ACTION = 'app/SingleTalkFlow/DEFAULT_ACTION';
 const DEFAULT = 'app/SingleTalkFlow/';
 
-export const SET_NODE_UID = `${DEFAULT}SET_NODE_UID`;
+export const SET_PARENT_NODE = `${DEFAULT}SET_PARENT_NODE`;
 export const SET_EDIT_UID = `${DEFAULT}SET_EDIT_UID`;
 
 export const LOAD_NODE_FAMILY = `${DEFAULT}LOAD_NODE_FAMILY`;

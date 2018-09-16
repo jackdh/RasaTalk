@@ -3,7 +3,7 @@ import _debug from 'debug';
 import { push } from 'react-router-redux';
 import { put, takeLatest } from 'redux-saga/effects';
 
-import { ADD_NODE, MOVE_NODE, REMOVE_NODE, SET_NODE_UID } from './constants';
+import { ADD_NODE, MOVE_NODE, REMOVE_NODE, SET_PARENT_NODE } from './constants';
 import {
   requestingNodeFamily,
   nodeFamilyLoaded,
@@ -85,7 +85,7 @@ export function* moveNode({ uid, direction }) {
 
 export default function* SingleTalkFlowSaga() {
   yield [
-    takeLatest(SET_NODE_UID, getNodeFamily),
+    takeLatest(SET_PARENT_NODE, getNodeFamily),
     takeLatest(ADD_NODE, addNode),
     takeLatest(REMOVE_NODE, removeNode),
     takeLatest(MOVE_NODE, moveNode),

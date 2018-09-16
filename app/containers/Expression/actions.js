@@ -6,6 +6,17 @@
 
 import * as c from './constants';
 
+export const setIntentName = name => ({ type: c.SET_INTENT_NAME, name });
+export const updateIntentName = name => ({ type: c.UPDATE_INTENT_NAME, name });
+export const saveUpdatedIntentName = agent => ({
+  type: c.SAVE_UPDATED_INTENT_NAME,
+  agent,
+});
+export const savingUpdatedIntentName = toggle => ({
+  type: c.SAVING_UPDATED_INTENT_NAME,
+  toggle,
+});
+
 export const getExpressions = (agent, intent) => ({
   type: c.GET_EXPRESSION,
   agent,

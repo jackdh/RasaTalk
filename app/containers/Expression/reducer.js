@@ -13,10 +13,23 @@ export const initialState = fromJS({
   entities: [],
   loading: true,
   error: '',
+
+  intentName: '',
+  originalIntentName: '',
+  updatingIntentName: false,
 });
 
 function expressionReducer(state = initialState, action) {
   switch (action.type) {
+    case c.SET_INTENT_NAME:
+      return state
+        .set('intentName', action.name)
+        .set('originalIntentName', action.name);
+    case c.SAVING_UPDATED_INTENT_NAME:
+      return state.set('updatingIntentName', action.toggle);
+    case c.UPDATE_INTENT_NAME: {
+      return state.set('intentName', action.name);
+    }
     case c.ADD_EXPRESSION_SUCCESS: {
       const exp = action.expressions.map(expression => ({
         value: expression,

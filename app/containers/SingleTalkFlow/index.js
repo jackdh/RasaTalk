@@ -73,7 +73,6 @@ export class SingleTalkFlow extends React.PureComponent {
 
   render() {
     const { node } = this.props;
-
     return (
       <div>
         <Helmet>
@@ -91,6 +90,7 @@ export class SingleTalkFlow extends React.PureComponent {
                 remove={this.props.removeNode}
                 move={this.props.moveNode}
                 setNode={this.props.setNode}
+                isParent
               />
             </Nodes>
             <Edit open={!!node.trim()}>
