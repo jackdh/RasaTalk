@@ -5,7 +5,7 @@ const ip = require('ip');
 
 const divider = chalk.gray('\n-----------------------------------');
 
-let mongoC = 'X';
+let mongoC = chalk.green('✓');
 /**
  * Logger middleware, you can customize it to make messages more personal
  */
