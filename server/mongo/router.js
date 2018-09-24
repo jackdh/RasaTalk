@@ -165,7 +165,11 @@ router.post('/reply/:uid', generateResponse);
  * Third Parties
  */
 
-router.get('/thirdParty', guard('thirdParty:read'), thirdParty.getThirdParties);
+router.get(
+  '/thirdParty',
+  guard('thirdParty:readAPI'),
+  thirdParty.getThirdParties,
+);
 router.post(
   '/thirdParty/facebook',
   guard('thirdParty:write'),

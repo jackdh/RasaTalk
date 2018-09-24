@@ -24,6 +24,7 @@
       "smallTalk:read",
       "smallTalk:write",
       "thirdParty:read",
+      "thirdParty:readAPI",
       "thirdParty:write"
     ]
   },
@@ -55,7 +56,11 @@
       "settings:read",
       "insights:read",
       "rasa:read",
-      "talk:read"
+      "talk:read",
+      "dashboard:read",
+      "admin:read",
+      "smallTalk:read",
+      "thirdParty:read"
     ]
   },
   {
