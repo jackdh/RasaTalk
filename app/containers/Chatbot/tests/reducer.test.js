@@ -13,6 +13,6 @@ describe('chatbotReducer', () => {
   });
   it('returns the initial state', () => {
     const expected = state;
-    expect(chatbotReducer(undefined, {})).toEqual(expected);
+    expect(chatbotReducer(state, {})).toEqual(expected);
   });
 });

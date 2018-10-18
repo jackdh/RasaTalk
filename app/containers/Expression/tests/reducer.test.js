@@ -9,6 +9,10 @@ describe('expressionReducer', () => {
       entities: [],
       loading: true,
       error: '',
+
+      intentName: '',
+      originalIntentName: '',
+      updatingIntentName: false,
     });
   });
   it('returns the initial state', () => {

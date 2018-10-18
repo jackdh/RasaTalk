@@ -5,11 +5,10 @@ describe('talkFlowReducer', () => {
   let state;
   beforeEach(() => {
     state = fromJS({
-      node: '',
       editNode: '',
 
       name: '',
-      uid: '',
+      parentNode: '',
       children: [],
       enabled: false,
 
@@ -24,6 +23,7 @@ describe('talkFlowReducer', () => {
   });
   it('returns the initial state', () => {
     const expected = state;
-    expect(talkFlowReducer(undefined, {})).toEqual(expected);
+    const reducer = talkFlowReducer(undefined, {});
+    expect(reducer).toEqual(expected);
   });
 });
