@@ -11,6 +11,8 @@ Rasa Talk can be used as just a training data generator but can also hook your c
 
 Feel free to message me on [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/RasaTalk/Lobby)
 
+<img align="center" src="https://travis-ci.org/jackdh/RasaTalk.svg?branch=master" />
+
 <h2 align="center">Demo</h2>
 
  [https://www.talk.jackdh.com](http://www.talk.jackdh.com) (User: demo@jackdh.com Pass: demo1234)
