@@ -110,9 +110,7 @@ export class EditNode extends React.PureComponent {
     return (
       <Wrapper>
         <Header>
-          <Typography variant="title">
-            {fv.name && `${fv.name.name}`}
-          </Typography>
+          <Typography variant="h6">{fv.name && `${fv.name.name}`}</Typography>
           {loading ? (
             <CircularProgress />
           ) : dirty ? (
@@ -124,7 +122,7 @@ export class EditNode extends React.PureComponent {
           {fv.name && (
             <Tooltip id="tooltip-icon" title="Copy">
               <CopyToClipboard text={fv.name.uid}>
-                <Typography variant="subheading" style={{ cursor: 'pointer' }}>
+                <Typography variant="subtitle1" style={{ cursor: 'pointer' }}>
                   {fv.name && `${fv.name.uid}`}
                 </Typography>
               </CopyToClipboard>

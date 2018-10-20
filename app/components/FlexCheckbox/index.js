@@ -19,7 +19,7 @@ const Text = styled(Typography)`
 function FlexCheckbox(props) {
   return (
     <FlexRow style={{ flexGrow: '0' }}>
-      <Text variant="body2">{props.name}</Text>
+      <Text variant="body1">{props.name}</Text>
       {props.children}
     </FlexRow>
   );

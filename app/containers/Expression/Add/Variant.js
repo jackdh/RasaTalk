@@ -58,7 +58,7 @@ export default class Variant extends Component {
         <CardContent>
           <Grid container spacing={32}>
             <Grid item xs={4}>
-              <Typography variant="title" gutterBottom>
+              <Typography variant="h6" gutterBottom>
                 Search For:
               </Typography>
               <TextField
@@ -72,7 +72,7 @@ export default class Variant extends Component {
               />
             </Grid>
             <Grid item xs={4}>
-              <Typography variant="title" gutterBottom>
+              <Typography variant="h6" gutterBottom>
                 In:
               </Typography>
               <TextField
@@ -87,7 +87,7 @@ export default class Variant extends Component {
               />
             </Grid>
             <Grid item xs={4}>
-              <Typography variant="title" gutterBottom>
+              <Typography variant="h6" gutterBottom>
                 Replace it With:
               </Typography>
               <TextField
@@ -110,7 +110,7 @@ export default class Variant extends Component {
                 <Button
                   type="button"
                   color="primary"
-                  variant="raised"
+                  variant="contained"
                   fullWidth
                   onClick={this.searchAndReplace}
                 >
@@ -133,7 +133,7 @@ export default class Variant extends Component {
                 style={{ marginTop: '30px' }}
                 type="button"
                 color="primary"
-                variant="raised"
+                variant="contained"
                 fullWidth
                 onClick={saveGenerated}
               >

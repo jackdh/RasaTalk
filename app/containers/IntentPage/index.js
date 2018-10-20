@@ -143,7 +143,7 @@ export class IntentPage extends React.PureComponent {
             />
             <Card>
               <CardContent>
-                <Typography gutterBottom variant="headline" component="h2">
+                <Typography gutterBottom variant="h5" component="h2">
                   Add Intent
                 </Typography>
                 <Typography component="p">

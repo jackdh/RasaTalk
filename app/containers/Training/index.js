@@ -139,7 +139,7 @@ export class Training extends React.PureComponent {
                 <ExpansionPanel style={{ margin: '30px 2px 2px 1px' }}>
                   <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography
-                      variant="title"
+                      variant="h6"
                       style={{ alignSelf: 'center', flexGrow: 1 }}
                     >
                       Generated JSON
@@ -206,7 +206,7 @@ export class Training extends React.PureComponent {
                   <Button
                     onClick={() => handleGetJSON(this.state.agent)}
                     disabled={!this.state.agent || loading}
-                    variant="raised"
+                    variant="contained"
                     color="primary"
                   >
                     Generate Training Data
@@ -217,7 +217,7 @@ export class Training extends React.PureComponent {
                   <Tooltip id="tooltip-fab" title={`Agent: ${json.agent}`}>
                     <Button
                       onClick={() => handleTrain(json._id)}
-                      variant="raised"
+                      variant="contained"
                       color="primary"
                     >
                       Train

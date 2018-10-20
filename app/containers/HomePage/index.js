@@ -75,6 +75,9 @@ export class HomePage extends React.Component {
           contrastText: '#000',
         },
       },
+      typography: {
+        useNextVariants: true,
+      },
     });
 
   changeTheme = () => {

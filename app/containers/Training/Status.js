@@ -57,10 +57,10 @@ export class Status extends React.PureComponent {
           <ExpansionPanel key={`Status-${index}`}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               {!(available_projects[project].status === 'training') && (
-                <Typography variant="title">{project}</Typography>
+                <Typography variant="h6">{project}</Typography>
               )}
               {available_projects[project].status === 'training' && (
-                <Loading variant="title">Training: {project}</Loading>
+                <Loading variant="h6">Training: {project}</Loading>
               )}
             </ExpansionPanelSummary>
             <StyleListItem>

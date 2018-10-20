@@ -115,7 +115,7 @@ export class Talk extends React.Component {
             />
             <Card style={{ marginTop: '30px' }}>
               <CardContent>
-                <Typography gutterBottom variant="headline" component="h2">
+                <Typography gutterBottom variant="h5" component="h2">
                   Add new node
                 </Typography>
                 <Typography component="p">

@@ -155,7 +155,7 @@ export class Agents extends React.PureComponent {
                                   description,
                                 })
                               }
-                              // variant="raised"
+                              // variant="contained"
                               style={{
                                 marginBottom: '15px',
                                 marginRight: '5px',
@@ -169,7 +169,7 @@ export class Agents extends React.PureComponent {
                                   push(`/agents/${encodeURIComponent(agent)}`),
                                 )
                               }
-                              variant="raised"
+                              variant="contained"
                               color="primary"
                               style={{ marginBottom: '15px' }}
                             >
@@ -194,7 +194,7 @@ export class Agents extends React.PureComponent {
             <Card>
               <form onSubmit={handleSubmit(this.submit)}>
                 <CardContent>
-                  <Typography gutterBottom variant="headline" component="h2">
+                  <Typography gutterBottom variant="h5" component="h2">
                     {edit ? 'Edit' : 'Add'} Agent
                   </Typography>
                   <Typography component="p">

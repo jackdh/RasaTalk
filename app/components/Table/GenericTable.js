@@ -137,7 +137,7 @@ let GenericToolbar = props => {
         {numSelected > 0 ? (
           <Typography>{numSelected} selected</Typography>
         ) : (
-          <Typography variant="title" id="tableTitle">
+          <Typography variant="h6" id="tableTitle">
             {title}
           </Typography>
         )}

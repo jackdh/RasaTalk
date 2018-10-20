@@ -9,7 +9,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChatIcon from '@material-ui/icons/Chat';
 import Exit from '@material-ui/icons/ExitToApp';
 import { withTheme } from '@material-ui/core/styles';
-import Light from '@material-ui/icons/LightbulbOutline';
+// import Light from '@material-ui/icons/LightbulbOutline';
+import Light from '@material-ui/icons/Brightness5';
 import { Toolbar, IconButton, Typography, Avatar } from '@material-ui/core';
 
 export class MyToolBar extends React.PureComponent {
@@ -76,7 +77,7 @@ export class MyToolBar extends React.PureComponent {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="title" noWrap className={classes.flex}>
+        <Typography variant="h6" noWrap className={classes.flex}>
           {title}
         </Typography>
 
@@ -109,7 +110,7 @@ export class MyToolBar extends React.PureComponent {
 
         <Settings>
           <StyledAvatar alt="User Avatar from Gravatar" src={user.gravatar} />
-          <Name variant="subheading">{user.name}</Name>
+          <Name variant="subtitle1">{user.name}</Name>
         </Settings>
       </Toolbar>
     );

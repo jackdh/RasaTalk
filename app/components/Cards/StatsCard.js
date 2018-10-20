@@ -26,11 +26,7 @@ const StatsCard = ({ ...props }) => {
         <Typography component="p" className={classes.cardCategory}>
           {title}
         </Typography>
-        <Typography
-          variant="headline"
-          component="h2"
-          className={classes.cardTitle}
-        >
+        <Typography variant="h5" component="h2" className={classes.cardTitle}>
           {description}{' '}
           {small !== undefined ? (
             <small className={classes.cardTitleSmall}>{small}</small>
