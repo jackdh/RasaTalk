@@ -21,6 +21,7 @@ import {
   SupervisorAccount,
   Timeline,
 } from '@material-ui/icons/';
+import isNumber from 'lodash/isNumber';
 
 import reducer from './reducer';
 import saga from './saga';
@@ -76,7 +77,7 @@ export class DashboardPage extends React.PureComponent {
               iconColor="red"
               title="Chats"
               description={
-                stats.messageHistorys ? stats.messageHistorys : 'Down'
+                isNumber(stats.messageHistorys) ? stats.messageHistorys : 'Down'
               }
               small="#"
               statIcon={SupervisorAccount}
@@ -88,7 +89,7 @@ export class DashboardPage extends React.PureComponent {
               icon={InsertChart}
               iconColor="blue"
               title="Agents"
-              description={stats.agents ? stats.agents : 'Down'}
+              description={isNumber(stats.agents) ? stats.agents : 'Down'}
               small="#"
               statIcon={SupervisorAccount}
               statText={`${stats.expressions} expressions`}
