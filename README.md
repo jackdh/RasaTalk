@@ -25,7 +25,7 @@ Feel free to message me on [![Gitter chat](https://badges.gitter.im/gitterHQ/git
 **Prerequisites**
 
  - Database: [Mongodb](https://www.mongodb.com/) - You can run this locally or online like [mlab](https://mlab.com/)
- - Chatbot Brain: [Rasa NLU](https://rasa.com/docs/nlu/) - I reccommend running with [Docker](https://hub.docker.com/r/rasa/rasa_nlu/)
+ - Chatbot Brain: [Rasa NLU](https://rasa.com/docs/nlu/) - I recommend running with [Docker](https://hub.docker.com/r/rasa/rasa_nlu/)
 
 ```
 git clone https://github.com/jackdh/RasaTalk/
@@ -34,6 +34,12 @@ Update the variables to include your MongoDB server IP and Rasa NLU IP.
 yarn
 yarn start
 ```
+
+**Docker**
+
+Update `.env` or `docker-compose.yml` with selected environment variables. (Mongodb volumes do not work on windows)
+
+`docker-compose up`
 
 **Or view https://github.com/jackdh/RasaTalk/wiki/Setup for a more detailed setup guide**
 

@@ -1,42 +1,39 @@
-version: '2'
+version: '3.2'
+#Mongo volumes currently do not work on windows.
 services:
   rasatalk:
     build:
       context: .
       dockerfile: ./internals/docker/Dockerfile
     command: npm run start:prod
-    networks:
-      - my-net
     environment:
       - MONGOCONNECTIONSTRING=mongodb://mongo:27017/rasa-talk
       - RASASERVER=http://rasa:5000
       - DEBUG=*,-babel
       - PORT=80
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
       - ./app:/code/app
       - ./package.json:/code/package.json
       - ./yarn.lock:/code/yarn.lock
       - ./server:/code/server
+    links:
+      - "rasa"
+      - "mongodb"
+
   rasa:
     container_name: "rasa"
     image: rasa/rasa_nlu
     restart: always
-    networks:
-      - my-net
     volumes:
       - ./data/rasa/projects:/app/projects
       - ./data/rasa/logs:/app/logs
       - ./data/rasa/data:/app/data
+
   mongodb:
     container_name: "mongo"
     image: mongo
     restart: always
-    networks:
-      - my-net
     volumes:
       - ./data/mongo:/data/db
-networks:
-  my-net:
-    driver: bridge
