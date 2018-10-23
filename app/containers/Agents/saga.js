@@ -32,13 +32,13 @@ export function* getAgents() {
 }
 
 // Individual exports for testing
-export function* saveAgent() {
+export function* saveAgent({ agent }) {
   debug('Saving a new Agent');
   yield put(a.savingAgent(true));
 
   try {
-    const agent = yield select(getFormValues('addAgent'));
-    yield axios.put('/api/agents', agent.toJS());
+    debugger;
+    yield axios.put('/api/agents', agent);
     yield put(a.saveAgentSuccess(agent));
   } catch (error) {
     debug('failed saving agent: %o', error);
