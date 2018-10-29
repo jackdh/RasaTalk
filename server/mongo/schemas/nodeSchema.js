@@ -15,6 +15,7 @@ const nodeSchema = new Schema({
   child: String,
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now },
+  securityGroup: { type: String, default: 'default' },
   intent: {
     enabled: { type: Boolean, default: false },
     name: {

@@ -1,4 +1,4 @@
-const DialogSchema = require('../../schemas/dialogSchema');
+const DialogSchema = require('../../schemas/nodeSchema');
 const moment = require('moment');
 const cache = require('global-cache');
 const Convert = require('./converstions');

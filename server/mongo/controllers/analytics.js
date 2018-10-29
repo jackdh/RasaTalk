@@ -5,7 +5,7 @@ const debug = require('debug')('analytics');
 const expressionSchema = require('../schemas/expressionsSchema');
 const messageHistorySchema = require('../schemas/messageHistorySchema');
 const intentSchema = require('../schemas/intentsSchema');
-const dialogSchema = require('../schemas/dialogSchema');
+const dialogSchema = require('../schemas/nodeSchema');
 const sessionSchema = require('../schemas/sessionSchema');
 const userSchema = require('../../authentication/models/user');
 

@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-const DialogSchema = require('../../schemas/dialogSchema');
+const DialogSchema = require('../../schemas/nodeSchema');
 const debug = require('debug')('dialog/get');
 const Convert = require('../utils/converstions');
 

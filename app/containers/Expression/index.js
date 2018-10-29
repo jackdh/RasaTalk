@@ -44,7 +44,7 @@ import {
   saveUpdatedIntentName,
   setIntentName,
 } from './actions';
-import { getAgent } from '../IntentPage/actions';
+import { getAgent } from '../NodePage/actions';
 
 export class Expression extends React.Component {
   // eslint-disable-line react/prefer-stateless-function

@@ -7,7 +7,7 @@ import { GET_AGENT, ADD_INTENT, REMOVE_INTENTS } from './constants';
 
 import * as a from './actions';
 
-const debug = require('debug')('IntentPage\\saga.js');
+const debug = require('debug')('NodePage\\saga.js');
 
 function* getAgent({ agent }) {
   debug(`Adding Agent ${agent}`);

@@ -1,6 +1,6 @@
 /*
  *
- * IntentPage actions
+ * NodePage actions
  *
  */
 

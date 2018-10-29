@@ -1,6 +1,6 @@
 /*
  *
- * IntentPage reducer
+ * NodePage reducer
  *
  */
 

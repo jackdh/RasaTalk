@@ -16,7 +16,7 @@ const selectIntentPageDomain = state => state.get('intentPage', initialState);
 // );
 
 /**
- * Default selector used by IntentPage
+ * Default selector used by NodePage
  */
 
 const makeSelectIntentPage = () =>

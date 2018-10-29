@@ -19,7 +19,7 @@ import Entities from 'containers/Entities/Loadable';
 import Synonyms from 'containers/Synonyms/Loadable';
 import Feedback from 'containers/Feedback/Loadable';
 import Training from 'containers/Training/Loadable';
-import Intents from 'containers/IntentPage/Loadable';
+import Intents from 'containers/NodePage/Loadable';
 import SmallTalk from 'containers/SmallTalk/Loadable';
 import Expressions from 'containers/Expression/Loadable';
 import Dashboard from 'containers/DashboardPage/Loadable';
