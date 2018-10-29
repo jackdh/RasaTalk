@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for Sidebar
+ * Asynchronously loads the component for NodeWrapper
  *
  */
 

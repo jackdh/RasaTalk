@@ -3,9 +3,11 @@ const router = express.Router();
 const agents = require('./controllers/agents');
 const add = require('./controllers/dialog/add');
 const get = require('./controllers/dialog/get');
+const move = require('./controllers/dialog/move');
+const { createNodeWrapper } = require('./controllers/dialog/wrapper');
+
 const intents = require('./controllers/intents');
 const guard = require('../authentication/guard');
-const move = require('./controllers/dialog/move');
 const training = require('./controllers/training');
 const entities = require('./controllers/entities');
 const smallTalk = require('./controllers/smallTalk');
@@ -22,6 +24,10 @@ const thirdParty = require('./controllers/thirdParty');
 
 router.get('/stats/', guard('dashboard:read'), analytics.getDashboard);
 router.get('/stats/rasa', guard('dashboard:read'), analytics.getRasaStats);
+
+/** Node Wrapper */
+
+router.post('/node-wrapper', guard('talk:write'), createNodeWrapper);
 
 /** Dialog */
 router.get('/node-single/:uid', guard('talk:read'), get.getNode);

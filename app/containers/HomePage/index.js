@@ -26,6 +26,7 @@ import Dashboard from 'containers/DashboardPage/Loadable';
 import Permissions from 'containers/Permissions/Loadable';
 import TalkFlow from 'containers/SingleTalkFlow/Loadable';
 import ThirdParty from 'containers/ThirdParty/Loadable';
+import NodeWrapper from 'containers/NodeWrapper/Loadable';
 import axios from 'axios';
 
 import injectReducer from 'utils/injectReducer';
@@ -108,6 +109,7 @@ export class HomePage extends React.Component {
             <Route path="/history" name="History" component={History} />
 
             <Route path="/feedback" name="Feedback" component={Feedback} />
+            <Route path="/talkGroups" exact component={NodeWrapper} />
             <Route path="/talk" exact name="Talk" component={Talk} />
             <Route
               path="/talk/:nodeuid"

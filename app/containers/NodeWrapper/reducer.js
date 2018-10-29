@@ -1,6 +1,6 @@
 /*
  *
- * Sidebar reducer
+ * NodeWrapper reducer
  *
  */
 
@@ -9,7 +9,7 @@ import { DEFAULT_ACTION } from './constants';
 
 export const initialState = fromJS({});
 
-function sidebarReducer(state = initialState, action) {
+function nodeWrapperReducer(state = initialState, action) {
   switch (action.type) {
     case DEFAULT_ACTION:
       return state;
@@ -18,4 +18,4 @@ function sidebarReducer(state = initialState, action) {
   }
 }
 
-export default sidebarReducer;
+export default nodeWrapperReducer;

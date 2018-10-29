@@ -1,9 +1,9 @@
 // import React from 'react';
 // import { shallow } from 'enzyme';
 
-// import { Sidebar } from '../index';
+// import { NodeWrapper } from '../index';
 
-describe('<Sidebar />', () => {
+describe('<NodeWrapper />', () => {
   it('Expect to have unit tests specified', () => {
     expect(true).toEqual(true);
   });

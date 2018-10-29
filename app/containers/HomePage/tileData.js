@@ -1,5 +1,4 @@
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import Refresh from '@material-ui/icons/Refresh';
 import LockIcon from '@material-ui/icons/Lock';
 import Dialog from '@material-ui/icons/Forum';
 import SupervisorAccount from '@material-ui/icons/SupervisorAccount';
@@ -13,11 +12,6 @@ export const topLists = [
     text: 'Dashboard',
     link: '/',
   },
-  {
-    icon: Refresh,
-    text: 'WipeCache',
-    link: '/',
-  },
 ];
 
 export const mainList = [
@@ -29,7 +23,7 @@ export const mainList = [
   {
     icon: Dialog,
     text: 'Talk',
-    link: '/talk',
+    link: '/talkGroups',
   },
   {
     icon: SupervisorAccount,
