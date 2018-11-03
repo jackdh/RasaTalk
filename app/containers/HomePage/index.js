@@ -24,7 +24,7 @@ import Expressions from 'containers/Expression/Loadable';
 import Dashboard from 'containers/DashboardPage/Loadable';
 import Permissions from 'containers/Permissions/Loadable';
 import ThirdParty from 'containers/ThirdParty/Loadable';
-import NodeWrapper from 'containers/NodeWrapper/Loadable';
+import TalkWrapper from 'containers/TalkWrapper/Loadable';
 import axios from 'axios';
 
 import injectReducer from 'utils/injectReducer';
@@ -107,7 +107,7 @@ export class HomePage extends React.Component {
 
             <Route path="/feedback" name="Feedback" component={Feedback} />
 
-            <Route path="/talkGroups" component={NodeWrapper} />
+            <Route path="/talkGroups" component={TalkWrapper} />
 
             <Route path="/smalltalk" name="Small Talk" component={SmallTalk} />
 

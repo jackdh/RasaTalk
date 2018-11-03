@@ -26,7 +26,7 @@ const StyledText = styled(TextField)`
   }
 `;
 
-function AddNodeWrapper(props) {
+function AddTalkWrapper(props) {
   const {
     values,
     touched,
@@ -117,10 +117,10 @@ const formikEnhancer = withFormik({
   handleSubmit: (payload, rest) => {
     rest.props.handleSubmit(payload, rest.resetForm);
   },
-  displayName: 'NodeWrapper',
+  displayName: 'TalkWrapper',
 });
 
-AddNodeWrapper.propTypes = {
+AddTalkWrapper.propTypes = {
   handleSubmit: PropTypes.func,
   values: PropTypes.object,
   touched: PropTypes.object,
@@ -130,4 +130,4 @@ AddNodeWrapper.propTypes = {
   saving: PropTypes.bool,
 };
 
-export default formikEnhancer(AddNodeWrapper);
+export default formikEnhancer(AddTalkWrapper);

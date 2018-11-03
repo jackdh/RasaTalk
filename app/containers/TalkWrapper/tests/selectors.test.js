@@ -1,7 +1,7 @@
 // import { fromJS } from 'immutable';
-// import { selectNodeWrapperDomain } from '../selectors';
+// import { selectTalkWrapperDomain } from '../selectors';
 
-describe('selectNodeWrapperDomain', () => {
+describe('selectTalkWrapperDomain', () => {
   it('Expect to have unit tests specified', () => {
     expect(true).toEqual(true);
   });

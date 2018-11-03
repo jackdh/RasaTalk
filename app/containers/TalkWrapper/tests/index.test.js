@@ -1,9 +1,9 @@
 // import React from 'react';
 // import { shallow } from 'enzyme';
 
-// import { NodeWrapper } from '../index';
+// import { TalkWrapper } from '../index';
 
-describe('<NodeWrapper />', () => {
+describe('<TalkWrapper />', () => {
   it('Expect to have unit tests specified', () => {
     expect(true).toEqual(true);
   });

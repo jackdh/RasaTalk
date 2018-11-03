@@ -16,7 +16,6 @@ export const toggleDialog = (toggle = false, edit = false, oldNode = '') => ({
 export const saveAgent = agent => ({
   type: c.SAVE_AGENT,
   agent,
-  finished,
 });
 
 export const updateAgent = (agent, oldNode) => ({

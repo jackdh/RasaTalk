@@ -37,7 +37,6 @@ export function* saveAgent({ agent }) {
   yield put(a.savingAgent(true));
 
   try {
-    debugger;
     yield axios.put('/api/agents', agent);
     yield put(a.saveAgentSuccess(agent));
   } catch (error) {

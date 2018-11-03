@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for NodeWrapper
+ * Asynchronously loads the component for TalkWrapper
  *
  */
 

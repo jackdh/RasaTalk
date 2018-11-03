@@ -1,6 +1,6 @@
 /*
  *
- * NodeWrapper reducer
+ * TalkWrapper reducer
  *
  */
 
@@ -12,15 +12,15 @@ export const initialState = fromJS({
   groups: [],
 });
 
-function nodeWrapperReducer(state = initialState, action) {
+function TalkWrapperReducer(state = initialState, action) {
   switch (action.type) {
-    case c.ADDING_NODE_WRAPPERS:
+    case c.ADDING_TALK_WRAPPERS:
       return state.set('adding', action.toggle);
-    case c.GET_NODE_WRAPPERS_SUCCESS:
+    case c.GET_TALK_WRAPPERS_SUCCESS:
       return state.set('groups', action.groups);
     default:
       return state;
   }
 }
 
-export default nodeWrapperReducer;
+export default TalkWrapperReducer;
