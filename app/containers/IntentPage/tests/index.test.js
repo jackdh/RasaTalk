@@ -1,9 +1,9 @@
 // import React from 'react';
 // import { shallow } from 'enzyme';
 
-// import { NodePage } from '../index';
+// import { IntentPage } from '../index';
 
-describe('<NodePage />', () => {
+describe('<IntentPage />', () => {
   it('Expect to have unit tests specified', () => {
     expect(true).toEqual(true);
   });

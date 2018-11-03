@@ -1,10 +1,10 @@
 /*
  *
- * NodePage constants
+ * IntentPage constants
  *
  */
 
-export const DEFAULT = 'app/NodePage/';
+export const DEFAULT = 'app/IntentPage/';
 
 export const GET_AGENT = `${DEFAULT}GET_AGENT`;
 export const GETTING_AGENT = `${DEFAULT}GETTING_AGENT`;

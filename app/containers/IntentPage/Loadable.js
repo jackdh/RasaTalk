@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for NodePage
+ * Asynchronously loads the component for IntentPage
  *
  */
 

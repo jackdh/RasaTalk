@@ -12,19 +12,17 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Talk from 'containers/Talk/Loadable';
 import Agents from 'containers/Agents/Loadable';
 import History from 'containers/History/Loadable';
 import Entities from 'containers/Entities/Loadable';
 import Synonyms from 'containers/Synonyms/Loadable';
 import Feedback from 'containers/Feedback/Loadable';
 import Training from 'containers/Training/Loadable';
-import Intents from 'containers/NodePage/Loadable';
+import Intents from 'containers/IntentPage/Loadable';
 import SmallTalk from 'containers/SmallTalk/Loadable';
 import Expressions from 'containers/Expression/Loadable';
 import Dashboard from 'containers/DashboardPage/Loadable';
 import Permissions from 'containers/Permissions/Loadable';
-import TalkFlow from 'containers/SingleTalkFlow/Loadable';
 import ThirdParty from 'containers/ThirdParty/Loadable';
 import NodeWrapper from 'containers/NodeWrapper/Loadable';
 import axios from 'axios';
@@ -108,13 +106,9 @@ export class HomePage extends React.Component {
             <Route path="/history" name="History" component={History} />
 
             <Route path="/feedback" name="Feedback" component={Feedback} />
-            <Route path="/talkGroups" exact component={NodeWrapper} />
-            <Route path="/talk" exact name="Talk" component={Talk} />
-            <Route
-              path="/talk/:nodeuid"
-              name="Talk Flow"
-              component={TalkFlow}
-            />
+
+            <Route path="/talkGroups" component={NodeWrapper} />
+
             <Route path="/smalltalk" name="Small Talk" component={SmallTalk} />
 
             <Route exact path="/agents" name="Agents" component={Agents} />
