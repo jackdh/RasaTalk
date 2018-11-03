@@ -29,6 +29,8 @@ const profileCardStyle = {
     height: 'auto',
     verticalAlign: 'middle',
     border: '0',
+    minHeight: '130px',
+    minWidth: '130px',
   },
   textAlign: {
     textAlign: 'center',

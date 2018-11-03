@@ -5,14 +5,19 @@
  */
 
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION } from './constants';
+import * as c from './constants';
 
-export const initialState = fromJS({});
+export const initialState = fromJS({
+  adding: false,
+  groups: [],
+});
 
 function nodeWrapperReducer(state = initialState, action) {
   switch (action.type) {
-    case DEFAULT_ACTION:
-      return state;
+    case c.ADDING_NODE_WRAPPERS:
+      return state.set('adding', action.toggle);
+    case c.GET_NODE_WRAPPERS_SUCCESS:
+      return state.set('groups', action.groups);
     default:
       return state;
   }

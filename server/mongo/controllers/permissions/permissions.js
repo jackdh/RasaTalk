@@ -1,6 +1,36 @@
 const permissionSchema = require('../../schemas/permissionsSchema');
 const usersSchema = require('../../../authentication/models/user');
 const debug = require('debug')('Permissions.js Controller');
+const co = require('co');
+const _ = require('lodash');
+
+function addPermission(permission) {
+  return co(function* t() {
+    const model = yield permissionSchema.findOne({
+      type: 'permissions',
+    });
+
+    if (!_.includes(model.permissions, `${permission}:read`)) {
+      model.permissions.push(`${permission}:read`);
+    }
+    if (!_.includes(model.permissions, `${permission}:write`)) {
+      model.permissions.push(`${permission}:write`);
+    }
+
+    yield model.save();
+    return true;
+  });
+}
+
+function addPermissionToUser(permission, email) {
+  return co(function* t() {
+    const user = yield usersSchema.findOne({ email });
+    user.permissions.push(`${permission}:read`);
+    user.permissions.push(`${permission}:write`);
+    yield user.save();
+    return true;
+  });
+}
 
 function getPermissions(req, res) {
   permissionSchema
@@ -86,4 +116,6 @@ module.exports = {
   updateRoles,
   updateGroups,
   updateUser,
+  addPermission,
+  addPermissionToUser,
 };

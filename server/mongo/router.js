@@ -4,7 +4,10 @@ const agents = require('./controllers/agents');
 const add = require('./controllers/dialog/add');
 const get = require('./controllers/dialog/get');
 const move = require('./controllers/dialog/move');
-const { createNodeWrapper } = require('./controllers/dialog/wrapper');
+const {
+  createNodeWrapper,
+  getNodeWrappers,
+} = require('./controllers/dialog/wrapper');
 
 const intents = require('./controllers/intents');
 const guard = require('../authentication/guard');
@@ -27,6 +30,7 @@ router.get('/stats/rasa', guard('dashboard:read'), analytics.getRasaStats);
 
 /** Node Wrapper */
 
+router.get('/node-wrapper', guard('talk:read'), getNodeWrappers);
 router.post('/node-wrapper', guard('talk:write'), createNodeWrapper);
 
 /** Dialog */

@@ -42,17 +42,22 @@ function isAuthenticated(req, res, next) {
 
     let perms = _.find(perm, { type: 'role', name: user.role }).permissions; // Get permissions for user's role
 
-    user.groups.forEach(group => {
-      perms = perms.concat(
-        _.find(perm, { type: 'group', name: group }).permissions,
-      ); // For each group the user is in, add the permissions.
-    });
+    if (_.includes(perms, '*')) {
+      perms = _.find(perm, { type: 'permissions' }).permissions;
+    } else {
+      user.groups.forEach(group => {
+        perms = perms.concat(
+          _.find(perm, { type: 'group', name: group }).permissions,
+        ); // For each group the user is in, add the permissions.
+      });
 
-    perms = _.uniq(perms.concat(user.permissions)); // Combine and unique permissions.
+      perms = _.uniq(perms.concat(user.permissions)); // Combine and unique permissions.
+    }
 
     res.header('permissions', JSON.stringify(perms));
 
     res.locals.permissions = perms;
+    res.locals.user = decoded;
   })
     .then(() => {
       next();

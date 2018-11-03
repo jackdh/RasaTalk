@@ -110,7 +110,7 @@ function ProfileCard({ ...props }) {
           style={{ cursor: 'pointer' }}
           avatar={
             <img
-              src={avatar !== '' && !loading ? avatar : defaultAvatar}
+              src={avatar && avatar !== '' && !loading ? avatar : defaultAvatar}
               alt="..."
               className={classes.img}
             />

@@ -4,6 +4,10 @@ const { Schema } = mongoose;
 
 const nodeWrappers = new Schema({
   name: { type: String, required: true },
+  avatar: String,
+  subtitle: String,
+  description: String,
+  _id: { type: String, required: true },
 });
 
 // the schema is useless so far
