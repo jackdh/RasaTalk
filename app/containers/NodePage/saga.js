@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router/immutable';
 import { reset } from 'redux-form/immutable';
 import axios from 'axios';
 

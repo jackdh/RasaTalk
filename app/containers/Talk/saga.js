@@ -1,5 +1,5 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router/immutable';
 import axios from 'axios';
 import _debug from 'debug';
 

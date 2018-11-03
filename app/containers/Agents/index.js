@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import IIcon from 'images/iIcon.png';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router/immutable';
 import defaultAvatar from 'images/agent.png';
 import Wrapper from 'components/Grid/Wrapper';
 import { createStructuredSelector } from 'reselect';

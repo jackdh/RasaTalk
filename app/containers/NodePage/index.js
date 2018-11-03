@@ -9,7 +9,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router/immutable';
 import Wrapper from 'components/Grid/Wrapper';
 import BackButton from 'components/BackButton';
 import injectSaga from 'utils/injectSaga';

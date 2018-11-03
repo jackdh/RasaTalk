@@ -1,6 +1,6 @@
 import axios from 'axios';
 import _debug from 'debug';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router/immutable';
 import { put, takeLatest } from 'redux-saga/effects';
 
 import { ADD_NODE, MOVE_NODE, REMOVE_NODE, SET_PARENT_NODE } from './constants';

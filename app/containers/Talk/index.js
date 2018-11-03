@@ -9,7 +9,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router/immutable';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { createStructuredSelector } from 'reselect';
