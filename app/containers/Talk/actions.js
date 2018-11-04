@@ -15,7 +15,7 @@ import {
   ADD_NODE_FAILURE,
 } from './constants';
 
-export const loadParents = () => ({ type: LOAD_PARENTS });
+export const loadParents = talkWrapper => ({ type: LOAD_PARENTS, talkWrapper });
 
 /**
  * Load the all the parent nodes
@@ -46,7 +46,11 @@ export const parentsLoadedError = error => ({
   error,
 });
 
-export const addNode = name => ({ type: ADD_NODE, name });
+export const addNode = (talkWrapper, name) => ({
+  type: ADD_NODE,
+  talkWrapper,
+  name,
+});
 
 export const addingNode = adding => ({ type: ADDING_NODE, adding });
 

@@ -13,6 +13,10 @@
 import * as c from './constants';
 
 export const setCurrentNode = uid => ({ type: c.SET_PARENT_NODE, uid });
+export const setTalkWrapper = talkWrapper => ({
+  type: c.SET_TALKWRAPPER,
+  talkWrapper,
+});
 export const setEditNode = uid => ({ type: c.SET_EDIT_UID, uid });
 
 export const loadNodeFamily = () => ({ type: c.LOAD_NODE_FAMILY });

@@ -4,9 +4,9 @@
  * TODO research what these selectors are.
  */
 
+import find from 'lodash/find';
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
-
 /**
  * Direct selector to the training state domain
  */
@@ -32,6 +32,15 @@ const selectMessage = () =>
 const selectAgents = () =>
   createSelector(selectHome, state => state.get('agents'));
 
+const selectTalkWrapper = agent =>
+  createSelector(selectHome, s => find(s.get('talkWrappers'), { _id: agent }));
+
+const selectTalkWrappers = () =>
+  createSelector(selectHome, s => s.get('talkWrappers'));
+
+const selectAddingTalkWrappers = () =>
+  createSelector(selectHome, s => s.get('addingTalkWrappers'));
+
 export {
   selectHome,
   makeSelectTitle,
@@ -39,4 +48,7 @@ export {
   selectOpen,
   selectMessage,
   selectAgents,
+  selectTalkWrapper,
+  selectTalkWrappers,
+  selectAddingTalkWrappers,
 };

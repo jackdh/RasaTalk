@@ -7,6 +7,7 @@
 export const DEFAULT_ACTION = 'app/SingleTalkFlow/DEFAULT_ACTION';
 const DEFAULT = 'app/SingleTalkFlow/';
 
+export const SET_TALKWRAPPER = `${DEFAULT}SET_TALKWRAPPER`;
 export const SET_PARENT_NODE = `${DEFAULT}SET_PARENT_NODE`;
 export const SET_EDIT_UID = `${DEFAULT}SET_EDIT_UID`;
 

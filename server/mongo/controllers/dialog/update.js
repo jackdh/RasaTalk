@@ -3,6 +3,7 @@ const DialogSchema = require('../../schemas/nodeSchema');
 const Convert = require('../utils/converstions');
 const Cache = require('../utils/cache');
 const debug = require('debug')('dialog.js');
+const co = require('co');
 
 function validateUpdate(node) {
   if (!node.head) {
@@ -19,43 +20,48 @@ function validateUpdate(node) {
  */
 function update(req, res) {
   const validateUpdate1 = validateUpdate(req.body);
-  if (!validateUpdate1.valid) {
-    res.status(475).send(validateUpdate1.reason);
-  } else {
-    DialogSchema.findOneAndUpdate(
-      { 'intent.name.uid': req.params.uid },
+
+  co(function* t() {
+    const { uid, talkWrapper } = req.params;
+    if (!validateUpdate1.valid) throw new Error(validateUpdate1.reason);
+
+    yield DialogSchema.findOneAndUpdate(
+      { 'intent.name.uid': uid },
       { $set: { intent: req.body } },
-    )
-      .then(() => {
-        Convert.getParent(req.body.head).then(data => {
-          if (!data) throw new Error('Failed to convert in update');
-          data.statusMessage = 'Node Saved';
-          res.status(275).send(data);
-          return null;
-        });
-      })
-      .catch(error => {
-        debug(error);
-        res.status(475).send('Failed saving, please check the logs for errors');
-      });
-  }
+    );
+
+    const data = yield Convert.getParent(talkWrapper, req.body.head);
+    if (!data) throw new Error('Failed to find that node');
+    data.statusMessage = 'Node Saved!';
+    return data;
+  })
+    .then(s => {
+      res.status(275).send(s);
+    })
+    .catch(e => {
+      debug(e);
+      res.status(375).send(e.message);
+    });
 }
 
 function toggle(req, res) {
+  // TODO I don't think this is used any more remove.
   const { uid } = req.params;
-  DialogSchema.findOne({ _id: `intent_${uid}` })
-    .then(model => {
-      model.enabled = !model.enabled;
-      model.save().then(() => {
-        const map = Cache.get('mapCache'); // Update this to use the new cache.
-        map[uid].enabled = !map[uid].enabled;
-        Cache.set('mapCache', map);
-        res.send(200);
-      });
+  co(function* t() {
+    const model = yield DialogSchema.findOne({ _id: `intent_${uid}` });
+    model.enabled = !model.enabled;
+    yield model.save();
+    const map = Cache.get('mapCache'); // Update this to use the new cache.
+    map[uid].enabled = !map[uid].enabled;
+    Cache.set('mapCache', map);
+    return true;
+  })
+    .then(() => {
+      res.sendStatus(200);
     })
-    .catch(err => {
-      debug(err);
-      res.sendStatus(500);
+    .catch(e => {
+      debug(e);
+      res.status(475).send('Failed toggling that node.');
     });
 }
 

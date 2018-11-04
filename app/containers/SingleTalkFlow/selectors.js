@@ -4,14 +4,14 @@ import { initialState } from './reducer';
 /**
  * Direct selector to the talkFlow state domain
  */
-const selectTalkFlowDomain = state => state.get('talkFlow', initialState);
+const stfd = state => state.get('talkFlow', initialState);
 
 /**
  * Other specific selectors
  */
 
 export const makeSelectFamily = () =>
-  createSelector(selectTalkFlowDomain, substate => ({
+  createSelector(stfd, substate => ({
     name: substate.get('name'),
     uid: substate.get('parentNode'),
     children: substate.get('children'),
@@ -19,9 +19,12 @@ export const makeSelectFamily = () =>
   }));
 
 export const selectEditNode = () =>
-  createSelector(selectTalkFlowDomain, state => state.get('editNode'));
+  createSelector(stfd, state => state.get('editNode'));
+
+export const selectTalkWrapper = () =>
+  createSelector(stfd, s => s.get('talkWrapper'));
 
 export const selectHead = () =>
-  createSelector(selectTalkFlowDomain, state => state.get('parentNode'));
+  createSelector(stfd, state => state.get('parentNode'));
 
 export default makeSelectFamily;

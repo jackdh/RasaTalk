@@ -216,7 +216,8 @@ function addToTotal(path, total) {
 }
 
 function generateCase(req, res) {
-  Convert.hashMap().then(map => {
+  const { talkWrapper } = req.params;
+  Convert.hashMap(talkWrapper).then(map => {
     dialog()
       .getSingle(req.params.id)
       .then(node => {
@@ -240,10 +241,11 @@ function generateAll(req, res) {
   const all = [];
   const simple = req.params.simple === 'true';
   const jumpToEnabled = req.params.jumpToEnabled === 'true';
+  const { talkWrapper } = req.params;
   dialog()
     .getParentsInternal()
     .then(data => {
-      Convert.hashMap().then(map => {
+      Convert.hashMap(talkWrapper).then(map => {
         dialog()
           .getMulti(data)
           .then(nodes => {

@@ -13,6 +13,7 @@ export const initialState = fromJS({
   parentNode: '',
   children: [],
   enabled: false,
+  talkWrapper: '',
 
   details: {
     responses: 0,
@@ -25,6 +26,8 @@ export const initialState = fromJS({
 
 function talkFlowReducer(state = initialState, action) {
   switch (action.type) {
+    case c.SET_TALKWRAPPER:
+      return state.set('talkWrapper', action.talkWrapper);
     case c.SET_PARENT_NODE:
       return state.set('parentNode', action.uid);
     case c.SET_EDIT_UID:

@@ -16,15 +16,20 @@ import Wrapper from 'components/Grid/Wrapper';
 import { Link, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import Talk from 'containers/Talk/Loadable';
+import SingleTalkFlow from 'containers/SingleTalkFlow/Loadable';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import makeSelectTalkWrapper from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { getTalkWrappers, addTalkWrappers } from './actions';
-import { changeTitle } from '../HomePage/actions';
+import { addTalkWrappers } from './actions';
+import { changeTitle, getTalkWrappers } from '../HomePage/actions';
 import AddTalkWrapper from './AddTalkWrapper';
+import {
+  selectTalkWrappers,
+  selectAddingTalkWrappers,
+} from '../../containers/HomePage/selectors';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -38,11 +43,7 @@ export class TalkWrapper extends React.PureComponent {
   }
 
   render() {
-    const {
-      dispatch,
-      TalkWrapper: { adding, groups },
-      match,
-    } = this.props;
+    const { dispatch, match, groups, adding } = this.props;
     return (
       <div>
         <Helmet>
@@ -51,6 +52,11 @@ export class TalkWrapper extends React.PureComponent {
         </Helmet>
 
         <Route path={`${match.path}/:groupid`} exact component={Talk} />
+        <Route
+          path={`${match.path}/:groupid/:nodeuid`}
+          exact
+          component={SingleTalkFlow}
+        />
         <Route
           path={match.path}
           exact
@@ -108,12 +114,15 @@ export class TalkWrapper extends React.PureComponent {
 TalkWrapper.propTypes = {
   dispatch: PropTypes.func.isRequired,
   classes: PropTypes.object,
-  TalkWrapper: PropTypes.object,
   match: PropTypes.object,
+  groups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  adding: PropTypes.bool,
 };
 
 const mapStateToProps = createStructuredSelector({
   TalkWrapper: makeSelectTalkWrapper(),
+  groups: selectTalkWrappers(),
+  adding: selectAddingTalkWrappers(),
 });
 
 function mapDispatchToProps(dispatch) {

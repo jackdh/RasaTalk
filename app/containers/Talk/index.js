@@ -16,7 +16,7 @@ import { createStructuredSelector } from 'reselect';
 import Wrapper from 'components/Grid/Wrapper';
 import ProfileCard from 'components/Cards/ProfileCard';
 import Table from 'components/Table/GenericTable';
-
+import BackButton from 'components/BackButton';
 import {
   Grid,
   Card,
@@ -25,9 +25,9 @@ import {
   TextField,
 } from '@material-ui/core';
 
+import { selectTalkWrapper } from '../../containers/HomePage/selectors';
 import saga from './saga';
 import reducer from './reducer';
-// import Table from './TalkTable';
 import { changeTitle } from '../HomePage/actions';
 import { loadParents, addNode } from './actions';
 import { selectParents, selectLoading } from './selectors';
@@ -41,12 +41,14 @@ export class Talk extends React.Component {
 
   componentDidMount() {
     this.props.changeTitle('Talk');
-    this.props.loadParents();
+    this.props.loadParents(this.props.match.params.groupid);
   }
 
   handleKeyPress = e => {
     if (e.key === 'Enter') {
-      this.props.addNew(this.state.newNode);
+      this.props.dispatch(
+        addNode(this.props.match.params.groupid, this.state.newNode),
+      );
     }
   };
 
@@ -57,14 +59,14 @@ export class Talk extends React.Component {
   };
 
   render() {
-    const { all, loading, goTo } = this.props;
+    const { all, loading, goTo, sideInfo } = this.props;
     return (
       <div>
         <Helmet>
           <title>Talk</title>
           <meta name="description" content="Description of Talk" />
         </Helmet>
-
+        <BackButton tooltip="Back to groups" link="/talkGroups/" />
         <Wrapper>
           <Grid item xs={8}>
             <Table
@@ -106,13 +108,16 @@ export class Talk extends React.Component {
           </Grid>
 
           <Grid item xs={4}>
-            <ProfileCard
-              loading={loading}
-              subtitle="Get connecting!"
-              agent="Talk Flow"
-              description="Currently you can just have one set of dialogs, however there will soon be multiple."
-              avatar="https://s3.eu-west-2.amazonaws.com/rasatalk/i46krMC.png"
-            />
+            {!sideInfo && <ProfileCard loading />}
+            {sideInfo && (
+              <ProfileCard
+                loading={loading}
+                subtitle={sideInfo.subtitle}
+                agent={sideInfo.name}
+                description={sideInfo.description}
+                avatar={sideInfo.avatar}
+              />
+            )}
             <Card style={{ marginTop: '30px' }}>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
@@ -145,33 +150,36 @@ export class Talk extends React.Component {
 }
 
 Talk.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   loadParents: PropTypes.func.isRequired,
   changeTitle: PropTypes.func.isRequired,
-  addNew: PropTypes.func.isRequired,
   goTo: PropTypes.func.isRequired,
   all: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   loading: PropTypes.bool.isRequired,
+  match: PropTypes.object.isRequired,
+  sideInfo: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = createStructuredSelector({
-  all: selectParents(),
-  loading: selectLoading(),
-});
+function mapStateToProps(state, ownProps) {
+  return createStructuredSelector({
+    all: selectParents(),
+    loading: selectLoading(),
+    sideInfo: selectTalkWrapper(ownProps.match.params.groupid),
+  });
+}
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
     changeTitle: title => {
       dispatch(changeTitle(title));
     },
-    loadParents: () => {
-      dispatch(loadParents());
-    },
-    addNew: name => {
-      dispatch(addNode(name));
+    loadParents: s => {
+      dispatch(loadParents(s));
     },
     goTo: uid => {
-      dispatch(push(`/talk/${uid}`));
+      dispatch(push(`${ownProps.match.params.groupid}/${uid}`));
     },
+    dispatch,
   };
 }
 

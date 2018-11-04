@@ -1,7 +1,7 @@
 import axios from 'axios';
 import _debug from 'debug';
 import { push } from 'connected-react-router/immutable';
-import { put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest, select } from 'redux-saga/effects';
 
 import { ADD_NODE, MOVE_NODE, REMOVE_NODE, SET_PARENT_NODE } from './constants';
 import {
@@ -18,6 +18,7 @@ import {
   moveNodeFailure,
   movingNode,
 } from './actions';
+import { selectTalkWrapper } from './selectors';
 
 const debug = _debug('SingleTalkFlow\\saga.js');
 
@@ -26,7 +27,8 @@ export function* getNodeFamily({ uid }) {
   yield put(requestingNodeFamily(true));
 
   try {
-    const { data } = yield axios.get(`/api/node-family/${uid}`);
+    const talkWrapper = yield select(selectTalkWrapper());
+    const { data } = yield axios.get(`/api/node-family/${talkWrapper}/${uid}`);
     yield put(nodeFamilyLoaded(data));
   } catch (error) {
     debug('Failed getting node family %O', error);
@@ -41,7 +43,8 @@ export function* addNode({ uid }) {
   yield put(addingNode(true));
 
   try {
-    const { data } = yield axios.post(`/api/node-add/${uid}`);
+    const talkWrapper = yield select(selectTalkWrapper());
+    const { data } = yield axios.post(`/api/node-add/${talkWrapper}/${uid}`);
     yield put(addNodeSuccess(data));
   } catch (error) {
     debug('Failed adding new node for uuid %s error: %O', uid, error);
@@ -55,11 +58,14 @@ export function* removeNode({ uid }) {
   debug(`Adding new node for uuid: ${uid}`);
   yield put(removingNode(true));
   try {
-    const { data } = yield axios.delete(`/api/node-remove/${uid}`);
+    const talkWrapper = yield select(selectTalkWrapper());
+    const { data } = yield axios.delete(
+      `/api/node-remove/${talkWrapper}/${uid}`,
+    );
     if (data) {
       yield put(removeNodeSuccess(data));
     } else {
-      yield put(push('/talk'));
+      yield put(push(`/talkGroups/${talkWrapper}`));
     }
   } catch (error) {
     debug('Failed removing new node for uuid %s error: %O', uid, error);
@@ -73,7 +79,10 @@ export function* moveNode({ uid, direction }) {
   debug(`Adding new node for uuid: ${uid}`);
   yield put(movingNode(true));
   try {
-    const { data } = yield axios.post(`/api/node-move/${uid}/${direction}`);
+    const talkWrapper = yield select(selectTalkWrapper());
+    const { data } = yield axios.post(
+      `/api/node-move/${talkWrapper}/${uid}/${direction}`,
+    );
     yield put(moveNodeSuccess(data));
   } catch (error) {
     debug('Failed moving new node for uuid %s error: %O', uid, error);

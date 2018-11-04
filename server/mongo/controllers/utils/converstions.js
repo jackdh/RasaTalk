@@ -65,9 +65,9 @@ function convert(arrOfArr) {
   return final;
 }
 
-function getParentNew(uid) {
+function getParentNew(talkWrapper, uid) {
   return new Promise(resolve => {
-    hashMap().then(map => {
+    hashMap(talkWrapper).then(map => {
       const test = nodeDetails(map, map[uid]);
       resolve(test[0]);
     });
@@ -137,9 +137,9 @@ function nodeDetails(map, node) {
  *
  * @returns {Promise} -> HashMap
  */
-function hashMap() {
+function hashMap(talkWrapper) {
   return new Promise(resolve => {
-    DialogSchema.find({}, (err, arrOfArr) => {
+    DialogSchema.find({ wrapperName: talkWrapper }, (err, arrOfArr) => {
       if (err) throw err;
       const all = {};
       arrOfArr.forEach(node => {

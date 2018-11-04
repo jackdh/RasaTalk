@@ -31,6 +31,7 @@ import {
   removeNode,
   moveNode,
   setEditNode,
+  setTalkWrapper,
 } from './actions';
 
 const slideIn = keyframes`100% { transform: translateX(0%); }`;
@@ -64,6 +65,7 @@ export class SingleTalkFlow extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
 
   componentDidMount() {
+    this.props.setTalkWrapper(this.props.match.params.groupid);
     this.props.changeTitle(`Flow: ${this.props.match.params.nodeuid}`);
     this.props.setCurrentNode(this.props.match.params.nodeuid);
     if (this.props.node) {
@@ -72,14 +74,19 @@ export class SingleTalkFlow extends React.PureComponent {
   }
 
   render() {
-    const { node } = this.props;
+    const {
+      node,
+      match: {
+        params: { groupid },
+      },
+    } = this.props;
     return (
       <div>
         <Helmet>
           <title>TalkFlow</title>
           <meta name="description" content="Description of TalkFlow" />
         </Helmet>
-        <BackButton tooltip="Back to nodes" link="/talk" />
+        <BackButton tooltip="Back to nodes" link={`/talkGroups/${groupid}`} />
 
         <Wrapper>
           <Grid item xs={12} style={{ display: 'flex' }}>
@@ -107,11 +114,6 @@ SingleTalkFlow.propTypes = {
   node: PropTypes.string,
   changeTitle: PropTypes.func.isRequired,
   setCurrentNode: PropTypes.func.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      nodeuid: PropTypes.string,
-    }),
-  }),
   family: PropTypes.shape({
     name: PropTypes.string,
     uid: PropTypes.string,
@@ -120,7 +122,9 @@ SingleTalkFlow.propTypes = {
   addNode: PropTypes.func,
   removeNode: PropTypes.func,
   moveNode: PropTypes.func,
+  setTalkWrapper: PropTypes.func,
   setNode: PropTypes.func,
+  match: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -130,6 +134,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
+    setTalkWrapper: t => dispatch(setTalkWrapper(t)),
     changeTitle: title => dispatch(changeTitle(title)),
     setCurrentNode: node => dispatch(setCurrentNode(node)),
     addNode: uid => dispatch(addNode(uid)),

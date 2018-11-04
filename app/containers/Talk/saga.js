@@ -14,13 +14,12 @@ import { LOAD_PARENTS, ADD_NODE } from './constants';
 
 const debug = _debug('Talk\\Saga.js');
 
-export function* getParents() {
+export function* getParents({ talkWrapper }) {
   debug('Getting Parents');
-
   yield put(requestingParents(true));
 
   try {
-    const { data } = yield axios.get('/api/parents');
+    const { data } = yield axios.get(`/api/parents/${talkWrapper}`);
     yield put(parentsLoaded(data));
   } catch (error) {
     debug('Failed getting parents: %o', error);
@@ -30,12 +29,12 @@ export function* getParents() {
   }
 }
 
-export function* addNode({ name }) {
+export function* addNode({ talkWrapper, name }) {
   debug('Adding Node');
   yield put(addingNode(true));
   try {
-    const { data } = yield axios.post('/api/node-add/', { name });
-    yield put(push(`/talk/${data}`));
+    const { data } = yield axios.post(`/api/node-add/${talkWrapper}`, { name });
+    yield put(push(`/talkGroups/${talkWrapper}/${data}`));
   } catch (error) {
     debug('Failed adding node: %o', error);
     yield put(addNodeFailure(error.message));

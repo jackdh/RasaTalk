@@ -41,3 +41,16 @@ export const gettingAgentsFailure = error => ({
   type: c.GETTING_AGENTS_FAILURE,
   error,
 });
+
+export const getTalkWrappers = () => ({ type: c.GET_TALK_WRAPPERS });
+export const gettingTalkWrappers = toggle => ({
+  type: c.GETTING_TALK_WRAPPERS,
+  toggle,
+});
+export const getTalkWrappersSuccess = groups => ({
+  type: c.GET_TALK_WRAPPERS_SUCCESS,
+  groups,
+});
+export const getTalkWrappersFailure = () => ({
+  type: c.GET_TALK_WRAPPERS_FAILURE,
+});

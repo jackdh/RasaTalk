@@ -16,8 +16,6 @@ function TalkWrapperReducer(state = initialState, action) {
   switch (action.type) {
     case c.ADDING_TALK_WRAPPERS:
       return state.set('adding', action.toggle);
-    case c.GET_TALK_WRAPPERS_SUCCESS:
-      return state.set('groups', action.groups);
     default:
       return state;
   }

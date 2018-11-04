@@ -130,8 +130,8 @@ function moveRight(uid, map) {
 }
 
 function move(req, res) {
-  const { uid, direction } = req.params;
-  Convert.hashMap().then(map => {
+  const { uid, direction, talkWrapper } = req.params;
+  Convert.hashMap(talkWrapper).then(map => {
     const promises = [];
     if (direction === 'left') {
       promises.push(moveLeft(uid, map));
@@ -145,7 +145,7 @@ function move(req, res) {
         let leader = map[uid];
         if (leader)
           if (leader.parent) while (leader.parent) leader = map[leader.parent]; // Get the head of the family.
-        Convert.getParent(leader.intent.name.uid).then(family => {
+        Convert.getParent(talkWrapper, leader.intent.name.uid).then(family => {
           res.send(family);
         });
       })

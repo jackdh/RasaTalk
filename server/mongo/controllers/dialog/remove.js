@@ -3,7 +3,8 @@ const Convert = require('../utils/converstions');
 const Cache = require('../utils/cache');
 
 function remove(req, res) {
-  Convert.hashMap().then(map => {
+  const { talkWrapper } = req.params;
+  Convert.hashMap(talkWrapper).then(map => {
     const uid = req.params.target;
     const saveAll = [];
     const node = map[uid];
@@ -40,7 +41,7 @@ function remove(req, res) {
     Promise.all(saveAll).then(() => {
       Cache.set('mapCache', map);
       if (leader) {
-        Convert.getParent(leader.intent.name.uid).then(data => {
+        Convert.getParent(talkWrapper, leader.intent.name.uid).then(data => {
           res.send(data);
         });
       } else {

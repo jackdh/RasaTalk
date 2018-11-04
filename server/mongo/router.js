@@ -34,17 +34,37 @@ router.get('/node-wrapper', guard('talk:read'), getNodeWrappers);
 router.post('/node-wrapper', guard('talk:write'), createNodeWrapper);
 
 /** Dialog */
-router.get('/node-single/:uid', guard('talk:read'), get.getNode);
-router.post('/node-single/:uid', guard('talk:write'), update.update);
+router.get('/node-single/:talkWrapper/:uid', guard('talk:read'), get.getNode);
+router.post(
+  '/node-single/:talkWrapper/:uid',
+  guard('talk:write'),
+  update.update,
+);
 
-router.post('/node-add/', guard('talk:write'), add);
-router.post('/node-add/:target/', guard('talk:write'), add);
-router.delete('/node-remove/:target/', guard('talk:write'), remove);
-router.post('/node-move/:uid/:direction', guard('talk:write'), move);
+router.post('/node-add/:talkWrapper', guard('talk:write'), add);
+router.post('/node-add/:talkWrapper/:target/', guard('talk:write'), add);
+router.delete(
+  '/node-remove/:talkWrapper/:target/',
+  guard('talk:write'),
+  remove,
+);
+router.post(
+  '/node-move/:talkWrapper/:uid/:direction',
+  guard('talk:write'),
+  move,
+);
 
-router.get('/parents', guard('talk:read'), get.getParents);
-router.post('/node-toggle/:uid/', guard('talk:write'), update.toggle);
-router.get('/node-family/:uid', guard('talk:read'), get.getParentAndChildren);
+router.get('/parents/:talkWrapper', guard('talk:read'), get.getParents);
+router.post(
+  '/node-toggle/:talkWrapper/:uid/',
+  guard('talk:write'),
+  update.toggle,
+);
+router.get(
+  '/node-family/:talkWrapper/:uid',
+  guard('talk:read'),
+  get.getParentAndChildren,
+);
 
 /** small-talk * */
 router.get('/smallTalk/:name', guard('smallTalk:read'), smallTalk.getST);

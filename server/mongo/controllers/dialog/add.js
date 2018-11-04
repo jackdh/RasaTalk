@@ -8,58 +8,66 @@ const isEmpty = require('lodash/isEmpty');
 function addToExisting(req, res) {
   const saveAll = [];
   const id = req.params.target; // Usually the nodes parent ID.
+  const { talkWrapper } = req.params;
 
-  Convert.hashMap().then(map => {
-    const uid = generateUID();
+  Convert.hashMap(talkWrapper)
+    .then(map => {
+      const uid = generateUID();
 
-    const newNode = {
-      intent: {
-        name: {
-          name: `Update Me - ${uid}`,
-          uid,
+      const newNode = {
+        intent: {
+          name: {
+            name: `Update Me - ${uid}`,
+            uid,
+          },
         },
-      },
-    };
+        wrapperName: talkWrapper,
+      };
 
-    const original = map[id];
-    let leader = original;
-    if (leader)
-      if (leader.parent) while (leader.parent) leader = map[leader.parent];
+      const original = map[id];
+      let leader = original;
+      if (leader)
+        if (leader.parent) while (leader.parent) leader = map[leader.parent];
 
-    const child = map[original.child];
-    if (child) {
-      child.previous = uid;
-      saveAll.push(child.save());
-    }
-    newNode.previous = null;
-    newNode.next = original.child;
-    newNode.parent = original.intent.name.uid;
+      const child = map[original.child];
+      if (child) {
+        child.previous = uid;
+        saveAll.push(child.save());
+      }
+      newNode.previous = null;
+      newNode.next = original.child;
+      newNode.parent = original.intent.name.uid;
 
-    original.child = uid;
+      original.child = uid;
 
-    saveAll.push(original.save());
+      saveAll.push(original.save());
 
-    const addNewNode = new DialogSchema(newNode);
+      const addNewNode = new DialogSchema(newNode);
 
-    saveAll.push(addNewNode.save());
+      saveAll.push(addNewNode.save());
 
-    map[uid] = addNewNode;
+      map[uid] = addNewNode;
 
-    Promise.all(saveAll)
-      .then(() => {
-        Convert.getParent(leader.intent.name.uid).then(data => {
-          res.send(data);
+      Promise.all(saveAll)
+        .then(() => {
+          Convert.getParent(talkWrapper, leader.intent.name.uid).then(data => {
+            res.send(data);
+          });
+        })
+        .catch(err => {
+          debug(err);
+          res.sendStatus(500).send('Unable to add node');
         });
-      })
-      .catch(err => {
-        debug(err);
-        res.sendStatus(500).send('Unable to add node');
-      });
-  });
+    })
+    .catch(e => {
+      debug(e);
+      res.status(475).send('Failed adding that node');
+    });
 }
 
 function addNew(req, res) {
-  Convert.hashMap().then(map => {
+  const { talkWrapper } = req.params;
+  Convert.hashMap(talkWrapper).then(map => {
     const uid = generateUID(); // Generate  new ID
     const saveAll = [];
     const newNode = {
@@ -69,6 +77,7 @@ function addNew(req, res) {
           uid,
         },
       },
+      wrapperName: talkWrapper,
     };
 
     if (!isEmpty(map)) {
