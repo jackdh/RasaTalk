@@ -11,7 +11,7 @@ export function* sendInput() {
   const messageId = uuidv1();
   try {
     const { model, project } = yield select(selectInfo());
-    const { input, uuid } = yield select(selectInput());
+    const { input, uuid, _id } = yield select(selectInput());
     yield put(a.sendingInput(true));
     yield put(
       a.addMessage({
@@ -21,11 +21,11 @@ export function* sendInput() {
         uuid: messageId,
       }),
     );
-
     const { data } = yield call(axios.post, `/api/reply/${uuid}`, {
       model,
       project,
       message: input,
+      talkWrapper: _id,
     });
 
     yield put(a.messageSuccess(messageId));

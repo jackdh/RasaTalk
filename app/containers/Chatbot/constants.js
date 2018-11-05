@@ -8,6 +8,7 @@ export const DEFAULT = 'Chatbot/';
 
 export const UPDATE_INPUT = `${DEFAULT}UPDATE_INPUT`;
 export const CLEAR_INPUT = `${DEFAULT}CLEAR_INPUT`;
+export const SET_TALKWRAPPER = `${DEFAULT}SET_TALKWRAPPER`;
 
 export const SEND_INPUT = `${DEFAULT}SEND_INPUT`;
 export const SENDING_INPUT = `${DEFAULT}SENDING_INPUT`;

@@ -95,9 +95,9 @@ function getParentsInternal(talkWrapper) {
   });
 }
 
-function flow() {
+function flow(talkWrapper) {
   return new Promise(resolve => {
-    DialogSchema.find({})
+    DialogSchema.find({ wrapperName: talkWrapper })
       .lean()
       .exec()
       .then(arrOfArr => {

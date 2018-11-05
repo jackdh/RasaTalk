@@ -8,6 +8,10 @@ import * as c from './constants';
 
 export const updateInput = input => ({ type: c.UPDATE_INPUT, input });
 export const clearInput = () => ({ type: c.CLEAR_INPUT });
+export const setTalkWrapper = talkWrapper => ({
+  type: c.SET_TALKWRAPPER,
+  talkWrapper,
+});
 
 export const sendInput = () => ({ type: c.SEND_INPUT });
 export const sendingInput = toggle => ({ type: c.SENDING_INPUT, toggle });

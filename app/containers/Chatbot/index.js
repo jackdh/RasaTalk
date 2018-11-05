@@ -15,11 +15,20 @@ import { Refresh } from '@material-ui/icons';
 import injectReducer from 'utils/injectReducer';
 import { createStructuredSelector } from 'reselect';
 import { selectInfo } from 'containers/RightSidebar/selectors';
-import { Grid, TextField, Collapse, Button } from '@material-ui/core/';
+import {
+  Grid,
+  TextField,
+  Collapse,
+  Button,
+  MenuItem,
+} from '@material-ui/core/';
 
+import { selectTalkWrappers } from 'containers/HomePage/selectors';
+import { getTalkWrappers } from 'containers/HomePage/actions';
+import findIndex from 'lodash/findIndex';
 import saga from './saga';
 import reducer from './reducer';
-import { updateInput, sendInput, clearInput } from './actions';
+import { updateInput, sendInput, clearInput, setTalkWrapper } from './actions';
 import makeSelectChatbot from './selectors';
 
 const InputWrap = styled.div`
@@ -38,6 +47,16 @@ const InputWrap = styled.div`
 export class Chatbot extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
 
+  componentDidMount() {
+    this.props.dispatch(getTalkWrappers());
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.chatbot.talkWrapper && this.props.talkWrappers) {
+      this.props.dispatch(setTalkWrapper(this.props.talkWrappers[0]));
+    }
+  }
+
   handleKeyPress = e => {
     if (e.key === 'Enter') {
       this.props.dispatch(sendInput());
@@ -46,15 +65,35 @@ export class Chatbot extends React.PureComponent {
 
   render() {
     const {
-      chatbot: { input, messages },
+      chatbot: { input, messages, talkWrapper },
       values: { model },
+      talkWrappers,
       dispatch,
     } = this.props;
-
+    const talkWrapperStrings = talkWrappers.map(t => t.name);
+    const tIndex = findIndex(talkWrappers, { _id: talkWrapper._id });
     return (
       <Grid container>
         <Grid item xs={12}>
           <Collapse in={!!model}>
+            {talkWrapper && (
+              <TextField
+                id="select-agent"
+                select
+                label="Agent"
+                value={tIndex}
+                onChange={e =>
+                  dispatch(setTalkWrapper(talkWrappers[e.target.value]))
+                }
+                fullWidth
+              >
+                {talkWrapperStrings.map((p, index) => (
+                  <MenuItem key={p} value={index}>
+                    {p}
+                  </MenuItem>
+                ))}
+              </TextField>
+            )}
             <InputWrap>
               <TextField
                 id="name"
@@ -98,10 +137,12 @@ Chatbot.propTypes = {
   dispatch: PropTypes.func.isRequired,
   chatbot: PropTypes.object,
   values: PropTypes.object,
+  talkWrappers: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 };
 
 const mapStateToProps = createStructuredSelector({
   chatbot: makeSelectChatbot(),
+  talkWrappers: selectTalkWrappers(),
   values: selectInfo(),
 });
 

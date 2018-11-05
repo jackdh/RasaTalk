@@ -14,6 +14,7 @@ const selectInput = () =>
   createSelector(selectChatbotDomain, state => ({
     input: state.get('input'),
     uuid: state.get('uuid'),
+    _id: state.get('talkWrapper')._id,
   }));
 
 /**

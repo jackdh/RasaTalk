@@ -14,10 +14,13 @@ export const initialState = fromJS({
   sending: false,
   uuid: uuidv1(),
   messages: [],
+  talkWrapper: '',
 });
 
 function chatbotReducer(state = initialState, action) {
   switch (action.type) {
+    case c.SET_TALKWRAPPER:
+      return state.set('talkWrapper', action.talkWrapper);
     case c.UPDATE_INPUT:
       return state.set('input', action.input);
     case c.CLEAR_INPUT:
