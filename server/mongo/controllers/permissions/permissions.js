@@ -4,6 +4,28 @@ const debug = require('debug')('Permissions.js Controller');
 const co = require('co');
 const _ = require('lodash');
 
+function deletePermission(premission) {
+  return co(function* t() {
+    yield permissionSchema.updateMany(
+      {},
+      {
+        $pull: {
+          permissions: { $in: [`${premission}:read`, `${premission}:write`] },
+        },
+      },
+    );
+    yield usersSchema.updateMany(
+      {},
+      {
+        $pull: {
+          permissions: { $in: [`${premission}:read`, `${premission}:write`] },
+        },
+      },
+    );
+    return true;
+  });
+}
+
 function addPermission(permission) {
   return co(function* t() {
     const model = yield permissionSchema.findOne({
@@ -22,7 +44,6 @@ function addPermission(permission) {
 function addPermissionToUser(permission, email) {
   return co(function* t() {
     const user = yield usersSchema.findOne({ email });
-    user.permissions.push(`${permission}:read`);
     user.permissions.push(`${permission}:write`);
     yield user.save();
     return true;
@@ -115,4 +136,5 @@ module.exports = {
   updateUser,
   addPermission,
   addPermissionToUser,
+  deletePermission,
 };

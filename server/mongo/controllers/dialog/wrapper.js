@@ -3,6 +3,7 @@ const NodeWrapper = require('../../schemas/nodeWrapperSchema');
 const {
   addPermission,
   addPermissionToUser,
+  deletePermission,
 } = require('../permissions/permissions');
 const co = require('co');
 const debug = require('debug')('Wrappers');
@@ -74,7 +75,42 @@ function getNodeWrappers(req, res) {
     });
 }
 
+function updateNodeWrapper(req, res) {
+  co(function* t() {
+    yield schema.validate(req.body);
+    yield NodeWrapper.replaceOne({ _id: req.body._id }, req.body);
+  })
+    .then(() => {
+      res.status(275).send(`Updated: ${req.body._id}`);
+    })
+    .catch(e => {
+      debug(e);
+      res.status(475).send(e.message);
+    });
+}
+
+function deleteNodeWrapper(req, res) {
+  co(function* t() {
+    const model = yield NodeWrapper.deleteOne({ _id: req.params.talkWrapper });
+    yield deletePermission(req.params.talkWrapper);
+    return model;
+  })
+    .then(m => {
+      if (m.n > 0) {
+        res.status(275).send(`Removed: ${req.params.talkWrapper}`);
+      } else {
+        res.status(401).send(`Failed Removing: ${req.params.talkWrapper}`);
+      }
+    })
+    .catch(e => {
+      debug(e);
+      res.status(401).send(`Failed removing that: ${req.params.talkWrapper}`);
+    });
+}
+
 module.exports = {
   getNodeWrappers,
   createNodeWrapper,
+  updateNodeWrapper,
+  deleteNodeWrapper,
 };

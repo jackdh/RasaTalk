@@ -7,6 +7,8 @@ const move = require('./controllers/dialog/move');
 const {
   createNodeWrapper,
   getNodeWrappers,
+  updateNodeWrapper,
+  deleteNodeWrapper,
 } = require('./controllers/dialog/wrapper');
 
 const intents = require('./controllers/intents');
@@ -32,6 +34,17 @@ router.get('/stats/rasa', guard('dashboard:read'), analytics.getRasaStats);
 
 router.get('/node-wrapper', guard('talk:read'), getNodeWrappers);
 router.post('/node-wrapper', guard('talk:write'), createNodeWrapper);
+router.put(
+  '/node-wrapper/:talkWrapper',
+  guard('talk:write'),
+  updateNodeWrapper,
+);
+router.post('/node-wrapper', guard('talk:write'), createNodeWrapper);
+router.delete(
+  '/node-wrapper/:talkWrapper',
+  guard('talk:write'),
+  deleteNodeWrapper,
+);
 
 /** Dialog */
 router.get('/node-single/:talkWrapper/:uid', guard('talk:read'), get.getNode);

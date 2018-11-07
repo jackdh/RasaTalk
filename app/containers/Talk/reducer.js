@@ -14,12 +14,15 @@ import {
   ADD_NODE_FAILURE,
 } from './constants';
 
+import { UPDATING_TALK_WRAPPERS } from '../TalkWrapper/constants';
+
 export const initialState = fromJS({
   parentsLoaded: false,
   errorMessage: '',
   parents: [],
   loading: true,
   goTo: '',
+  updating: false,
 });
 
 function talkReducer(state = initialState, action) {
@@ -37,6 +40,8 @@ function talkReducer(state = initialState, action) {
       return state.set('goTo', action.uid);
     case ADD_NODE_FAILURE:
       return state.set('errorMessage', action.error);
+    case UPDATING_TALK_WRAPPERS:
+      return state.set('updating', action.toggle);
     default:
       return state;
   }

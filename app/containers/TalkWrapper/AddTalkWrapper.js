@@ -18,7 +18,7 @@ import {
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { withFormik } from 'formik';
-import * as Yup from 'yup';
+import { agentValidator } from 'utils/validators';
 
 const StyledText = styled(TextField)`
   && {
@@ -76,6 +76,7 @@ function AddTalkWrapper(props) {
               onChange={handleChange}
               onBlur={handleBlur}
               fullWidth
+              value={values.subtitle}
             />
             <StyledText
               id="description"
@@ -84,6 +85,7 @@ function AddTalkWrapper(props) {
               onChange={handleChange}
               onBlur={handleBlur}
               fullWidth
+              value={values.description}
             />
           </Collapse>
         </CardContent>
@@ -101,12 +103,7 @@ function AddTalkWrapper(props) {
 }
 
 const formikEnhancer = withFormik({
-  validationSchema: Yup.object().shape({
-    name: Yup.string()
-      .min(2, 'Please enter a longer agent name')
-      .required('Name is required.'),
-    avatar: Yup.string().url('Please enter a valid URL'),
-  }),
+  validationSchema: agentValidator,
 
   mapPropsToValues: () => ({
     name: '',

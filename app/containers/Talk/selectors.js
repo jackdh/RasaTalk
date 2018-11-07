@@ -23,5 +23,8 @@ const selectParents = () =>
 const selectLoading = () =>
   createSelector(selectTalk, state => state.get('loading'));
 
+const selectUpdating = () =>
+  createSelector(selectTalk, state => state.get('updating'));
+
 export default makeSelectTalk;
-export { selectTalk, selectParents, selectLoading };
+export { selectTalk, selectParents, selectLoading, selectUpdating };
