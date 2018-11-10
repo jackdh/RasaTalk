@@ -64,7 +64,7 @@ export function* removeExpressions({ agent, intent, expressions }) {
   yield put(a.removingExpression(true));
   try {
     yield axios.post(
-      `/api/delete/${agent}/intent/${intent}/expressions`,
+      `/api/delete/expressions/${agent}/intent/${intent}`,
       expressions,
     );
     yield put(a.removeExpressionSuccess(expressions));

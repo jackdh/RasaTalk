@@ -32,6 +32,11 @@ function hasCustomPermission(req, permissions) {
       permissions,
       `${req.params.talkWrapper}:${req.method === 'GET' ? 'read' : 'write'}`,
     );
+  } else if (req.params.agent) {
+    return _.includes(
+      permissions,
+      `${req.params.agent}:${req.method === 'GET' ? 'read' : 'write'}`,
+    );
   }
   return true;
 }

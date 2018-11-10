@@ -24,16 +24,6 @@ const agentSchema = new Schema(
   { usePushEach: true },
 );
 
-// agentSchema.pre('save', function preSave(next) {
-//   if (this.isNew && this.intents.length === 0) {
-//     this.intents = undefined;
-//   }
-//   next();
-// });
-
-// the schema is useless so far
-// we need to create a model using it
 const intent = mongoose.model('agents', agentSchema);
 
-// make this available to our Nodes in our Node applications
 module.exports = intent;

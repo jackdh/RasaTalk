@@ -9,26 +9,28 @@ const {
 } = require('./permissions/permissions');
 
 function getAllAgents(req, res) {
-  debug('Get All Agents');
-  agentSchema
-    .find({}, '-_id -intents -__v')
-    .lean()
-    .exec((err, model) => {
-      if (err) {
-        debug(err);
-        res
-          .status(475)
-          .send('Something went wrong on the backend. Please check the logs');
-      } else {
-        res.send(model);
-      }
+  co(function* t() {
+    const userPerms = res.locals.permissions.map(perm => {
+      const pos = perm.lastIndexOf(':');
+      return perm.substring(0, pos);
+    });
+
+    return yield agentSchema
+      .find({ _id: { $in: userPerms } }, '-intents -__v')
+      .lean()
+      .exec();
+  })
+    .then(model => res.send(model))
+    .catch(error => {
+      debug(error);
+      res.status(475).send(error.message);
     });
 }
 
 function removeAgentMongo(req, res) {
   debug('Removing Agent: %o', req.params.agent);
   agentSchema
-    .find({ agent: req.params.agent })
+    .find({ _id: req.params.agent })
     .remove()
     .exec(err => {
       if (err) {
@@ -71,8 +73,6 @@ function createAgentMongo(req, res) {
 
 function renameAgent(req, res) {
   debug('Renaming Agent: %o to %o', req.body.oldNode, req.body.agent);
-
-  // agentSchema.update({ agent: req.body.oldName });
 
   return agentSchema
     .findOne({ agent: req.body.oldNode }, '-intents')

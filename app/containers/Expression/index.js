@@ -49,7 +49,7 @@ import { getAgent } from '../IntentPage/actions';
 export class Expression extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
 
-  agent = this.props.match.params.agentName;
+  agent = this.props.match.params.agent;
   intent = this.props.match.params.intent;
 
   componentDidMount() {
@@ -58,7 +58,6 @@ export class Expression extends React.Component {
     );
     this.props.dispatch(getExpressions(this.agent, this.intent));
     this.props.dispatch(setIntentName(this.intent));
-    this.props.dispatch(getAgent(this.agent));
     this.props.dispatch(getEntities());
   }
 

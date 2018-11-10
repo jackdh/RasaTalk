@@ -36,7 +36,10 @@ const selectTalkWrapper = agent =>
   createSelector(selectHome, s => find(s.get('talkWrappers'), { _id: agent }));
 
 const selectTalkWrappers = () =>
-  createSelector(selectHome, s => s.get('talkWrappers'));
+  createSelector(
+    selectHome,
+    s => (!s.get('talkWrappers').toJS ? s.get('talkWrappers') : []),
+  );
 
 const selectAddingTalkWrappers = () =>
   createSelector(selectHome, s => s.get('addingTalkWrappers'));

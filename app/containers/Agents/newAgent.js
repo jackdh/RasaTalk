@@ -114,8 +114,8 @@ const formikEnhancer = withFormik({
     subtitle: '',
     description: '',
   }),
-  handleSubmit: (payload, { props }) => {
-    props.submit(payload);
+  handleSubmit: (payload, extra) => {
+    extra.props.submit(payload, extra.resetForm);
   },
   displayName: 'MyForm',
 });

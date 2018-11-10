@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-const IntentSchema = require('../schemas/agentsSchema');
+const AgentSchema = require('../schemas/agentsSchema');
 const debug = require('debug')('Intents');
 const co = require('co');
 
@@ -11,8 +11,8 @@ const addIntent = (req, res) => {
     return;
   }
 
-  IntentSchema.update(
-    { agent, 'intents.name': { $ne: intent } },
+  AgentSchema.update(
+    { _id: agent, 'intents.name': { $ne: intent } },
     { $addToSet: { intents: { name: intent } } },
     { _id: false },
   )
@@ -31,8 +31,8 @@ const addIntent = (req, res) => {
 const removeIntent = (req, res) => {
   const { agent } = req.params;
   const intents = req.body;
-  IntentSchema.update(
-    { agent },
+  AgentSchema.update(
+    { _id: agent },
     { $pull: { intents: { name: { $in: intents } } } },
     { safe: true },
   )
@@ -55,39 +55,45 @@ const updateIntent = (req, res) => {
   const { agent, oldIntentName } = req.params;
   const { intentName } = req.body;
 
-  IntentSchema.findOne({ agent, 'intents.name': intentName }, (err, model) => {
-    if (err) {
-      debug(err);
-      res
-        .status(475)
-        .send('Something went wrong on the backend. Please check the logs');
-    } else if (model) {
-      res.status(475).send('Sorry that intent already exists.');
-    } else {
-      IntentSchema.update(
-        { agent, 'intents.name': oldIntentName },
-        { $set: { 'intents.$.name': intentName } },
-        updateError => {
-          if (updateError) {
-            debug(updateError);
-            res
-              .status(475)
-              .send(
-                'Something went wrong on the backend. Please check the logs',
-              );
-          } else {
-            res.status(275).send('Intent updated.');
-          }
-        },
-      );
-    }
-  });
+  AgentSchema.findOne(
+    { _id: agent, 'intents.name': intentName },
+    (err, model) => {
+      if (err) {
+        debug(err);
+        res
+          .status(475)
+          .send('Something went wrong on the backend. Please check the logs');
+      } else if (model) {
+        res.status(475).send('Sorry that intent already exists.');
+      } else {
+        AgentSchema.update(
+          { _id: agent, 'intents.name': oldIntentName },
+          { $set: { 'intents.$.name': intentName } },
+          updateError => {
+            if (updateError) {
+              debug(updateError);
+              res
+                .status(475)
+                .send(
+                  'Something went wrong on the backend. Please check the logs',
+                );
+            } else {
+              res.status(275).send('Intent updated.');
+            }
+          },
+        );
+      }
+    },
+  );
 };
 
 const getIntents = (req, res) => {
   const { agent } = req.params;
 
-  IntentSchema.findOne({ agent }, '-_id -__v -intents.expressions -intents._id')
+  AgentSchema.findOne(
+    { _id: agent },
+    '-_id -__v -intents.expressions -intents._id',
+  )
     .lean()
     .exec((err, model) => {
       if (err || model === null) {
@@ -105,13 +111,13 @@ const updateIntentName = (req, res) => {
   co(function* t() {
     const { agent, intent } = req.params;
     const newIntent = req.body.intent;
-    const data = yield IntentSchema.findOne({
-      agent,
+    const data = yield AgentSchema.findOne({
+      _id: agent,
       'intents.name': newIntent,
     });
     if (!data) {
-      yield IntentSchema.update(
-        { agent, 'intents.name': intent },
+      yield AgentSchema.update(
+        { _id: agent, 'intents.name': intent },
         { $set: { 'intents.$.name': newIntent } },
       );
       return true;

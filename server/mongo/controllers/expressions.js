@@ -7,7 +7,7 @@ const debug = require('debug')('Expressions.js');
 const getExpressions = (req, res) => {
   const { agent, intent } = req.params;
 
-  IntentSchema.findOne({ agent, 'intents.name': intent })
+  IntentSchema.findOne({ _id: agent, 'intents.name': intent })
     .lean()
     .exec()
     .then(model => {
@@ -33,7 +33,7 @@ const addExpressions = (req, res) => {
     return;
   }
 
-  IntentSchema.findOne({ agent, 'intents.name': intent })
+  IntentSchema.findOne({ _id: agent, 'intents.name': intent })
     .then(iIntent => {
       const intentObj = _.find(iIntent.intents, { name: intent });
       const newExpressions = expressions.map(o => ({
@@ -59,7 +59,13 @@ const removeExpressions = (req, res) => {
   const removeList = expressions.map(expression => expression._id);
   return ExpressionSchema.remove({ _id: { $in: removeList } })
     .then(() => {
-      res.status(275).send(`Removed ${removeList.join(', ')}`);
+      res
+        .status(275)
+        .send(
+          `Removed ${expressions
+            .map(expression => expression.value)
+            .join(', ')}`,
+        );
       return null;
     })
     .catch(error => {

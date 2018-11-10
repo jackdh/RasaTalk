@@ -13,7 +13,7 @@ const selectAgentsDomain = state => state.get('agents', initialState);
 
 const selectAgent = agent =>
   createSelector(selectAgentsDomain, s => {
-    const toRet = find(s.get('agents'), { agent });
+    const toRet = find(s.get('agents'), { _id: agent });
     return toRet;
   });
 

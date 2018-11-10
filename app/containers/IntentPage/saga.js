@@ -57,7 +57,7 @@ function* removeIntent({ intents, agent }) {
   debug('Removing intents %o', intents);
   yield put(a.removingIntents(true));
   try {
-    yield axios.post(`/api/delete/${agent}/intent`, intents);
+    yield axios.post(`/api/delete/intent/${agent}`, intents);
     yield put(a.removeIntentsSuccess(intents));
   } finally {
     yield put(a.removingIntents(false));

@@ -183,7 +183,7 @@ function generateJSON(req, res) {
     return;
   }
 
-  IntentSchema.findOne({ agent })
+  IntentSchema.findOne({ _id: agent })
     .lean()
     .exec()
     .then(gAgent => {

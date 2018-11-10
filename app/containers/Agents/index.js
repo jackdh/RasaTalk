@@ -10,19 +10,17 @@ import PropTypes from 'prop-types';
 import IIcon from 'images/iIcon.png';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { push } from 'connected-react-router/immutable';
 import defaultAvatar from 'images/agent.png';
 import Wrapper from 'components/Grid/Wrapper';
 import { createStructuredSelector } from 'reselect';
 import ProfileCard from 'components/Cards/ProfileCard';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 
 import Intents from 'containers/IntentPage/Loadable';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { Button, Grid, IconButton } from '@material-ui/core';
-import { Edit } from '@material-ui/icons';
+import { Button, Grid } from '@material-ui/core';
 
 import saga from './saga';
 import reducer from './reducer';
@@ -52,7 +50,7 @@ export class Agents extends React.PureComponent {
           <meta name="description" content="Description of Agents" />
         </Helmet>
 
-        <Route path="/agents/:agentName" name="Intents" component={Intents} />
+        <Route path="/agents/:agent" name="Intents" component={Intents} />
 
         <Route
           path={match.path}
@@ -74,6 +72,7 @@ export class Agents extends React.PureComponent {
                         avatar = defaultAvatar,
                         subtitle = '',
                         description = '',
+                        _id,
                       }) => (
                         <Grid key={agent} item xs={12} sm={12} md={4}>
                           <ProfileCard
@@ -82,30 +81,19 @@ export class Agents extends React.PureComponent {
                             agent={agent}
                             description={description}
                             footer={
-                              <React.Fragment>
-                                <IconButton
-                                  style={{
-                                    marginBottom: '15px',
-                                    marginRight: '5px',
-                                  }}
-                                >
-                                  <Edit />
-                                </IconButton>
-                                <Button
-                                  onClick={() =>
-                                    dispatch(
-                                      push(
-                                        `/agents/${encodeURIComponent(agent)}`,
-                                      ),
-                                    )
-                                  }
-                                  variant="contained"
-                                  color="primary"
-                                  style={{ marginBottom: '15px' }}
-                                >
-                                  View
-                                </Button>
-                              </React.Fragment>
+                              <Button
+                                component={({ ...props }) => (
+                                  <Link
+                                    to={`/agents/${encodeURIComponent(_id)}`}
+                                    {...props}
+                                  />
+                                )}
+                                variant="contained"
+                                color="primary"
+                                style={{ marginBottom: '15px' }}
+                              >
+                                View
+                              </Button>
                             }
                             classes={this.props.classes}
                           />
@@ -124,7 +112,7 @@ export class Agents extends React.PureComponent {
                 <NewAgent
                   edit={edit}
                   saving={saving}
-                  submit={values => dispatch(saveAgent(values))}
+                  submit={(values, reset) => dispatch(saveAgent(values, reset))}
                 />
               </Grid>
             </Wrapper>

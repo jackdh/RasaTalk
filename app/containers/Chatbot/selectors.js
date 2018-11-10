@@ -22,7 +22,10 @@ const selectInput = () =>
  */
 
 const makeSelectChatbot = () =>
-  createSelector(selectChatbotDomain, substate => substate.toJS());
+  createSelector(selectChatbotDomain, substate => {
+    const toJS = substate.toJS();
+    return toJS;
+  });
 
 export default makeSelectChatbot;
 export { selectChatbotDomain, selectInput };

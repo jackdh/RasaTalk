@@ -36,7 +36,7 @@ function intentPageReducer(state = initialState, action) {
       return state.set('addingIntent', action.toggle);
     case ADD_INTENT_SUCCESS:
       return state
-        .set('intents', state.get('intents').push({ name: action.intent }))
+        .set('intents', state.get('intents').concat({ name: action.intent }))
         .set('error', '');
     case ADD_INTENT_FAILURE:
       return state.set('error', action.error);
@@ -47,7 +47,7 @@ function intentPageReducer(state = initialState, action) {
       const intents = state.get('intents');
       return state.set(
         'intents',
-        intents.filter(o => !action.intent.includes(o.get('name'))),
+        intents.filter(o => !action.intent.includes(o.name)),
       );
     }
     case REMOVE_INTENTS_FAILURE:

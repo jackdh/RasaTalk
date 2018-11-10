@@ -22,6 +22,7 @@ import {
   Button,
   MenuItem,
 } from '@material-ui/core/';
+import isEmpty from 'lodash/isEmpty';
 
 import { selectTalkWrappers } from 'containers/HomePage/selectors';
 import { getTalkWrappers } from 'containers/HomePage/actions';
@@ -52,7 +53,11 @@ export class Chatbot extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.chatbot.talkWrapper && this.props.talkWrappers) {
+    if (
+      !prevProps.chatbot.talkWrapper &&
+      this.props.talkWrappers &&
+      !isEmpty(this.props.talkWrappers)
+    ) {
       this.props.dispatch(setTalkWrapper(this.props.talkWrappers[0]));
     }
   }
@@ -71,7 +76,14 @@ export class Chatbot extends React.PureComponent {
       dispatch,
     } = this.props;
     const talkWrapperStrings = talkWrappers.map(t => t.name);
-    const tIndex = findIndex(talkWrappers, { _id: talkWrapper._id });
+    let tIndex = 0;
+    if (
+      talkWrapperStrings.length &&
+      !talkWrapperStrings.size &&
+      talkWrapperStrings.size !== 0
+    ) {
+      tIndex = findIndex(talkWrappers, { _id: talkWrapper._id });
+    }
     return (
       <Grid container>
         <Grid item xs={12}>
@@ -135,7 +147,7 @@ export class Chatbot extends React.PureComponent {
 
 Chatbot.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  chatbot: PropTypes.object,
+  chatbot: PropTypes.any,
   values: PropTypes.object,
   talkWrappers: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 };

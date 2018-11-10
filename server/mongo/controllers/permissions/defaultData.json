@@ -41,12 +41,15 @@
     "name": "editor",
     "permissions": [
       "agents:write",
+      "admin:write",
       "entities:write",
       "training:write",
       "settings:write",
       "insights:write",
+      "dashboard:write",
       "rasa:write",
-      "talk:write"
+      "talk:write",
+      "thirdParty:write"
     ]
   },
   {

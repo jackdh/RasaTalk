@@ -43,14 +43,14 @@ export class IntentPage extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
 
   state = {
-    agent: this.props.match.params.agentName,
+    agent: this.props.match.params.agent,
     newIntent: '',
     addMultiple: false,
   };
 
   componentDidMount() {
     this.props.dispatch(changeTitle(`Agent: ${this.state.agent}`));
-    this.props.dispatch(getIntents(this.props.match.params.agentName));
+    this.props.dispatch(getIntents(this.props.match.params.agent));
   }
 
   addIntent = () =>
@@ -104,7 +104,7 @@ export class IntentPage extends React.PureComponent {
         </Helmet>
 
         <Route
-          path="/agents/:agentName/intent/:intent"
+          path="/agents/:agent/intent/:intent"
           exact
           name="Expressions"
           component={Expressions}
@@ -209,7 +209,7 @@ IntentPage.propTypes = {
 function mapStateToProps(state, ownProps) {
   return createStructuredSelector({
     intentPage: makeSelectIntentPage(),
-    selectedAgent: selectAgent(ownProps.match.params.agentName),
+    selectedAgent: selectAgent(ownProps.match.params.agent),
   });
 }
 

@@ -98,7 +98,7 @@ router.post(
   intents.updateIntent,
 );
 router.post(
-  '/delete/:agent/intent/',
+  '/delete/intent/:agent/',
   guard('agents:write'),
   intents.removeIntent,
 );
@@ -120,7 +120,7 @@ router.post(
   expressions.addExpressions,
 );
 router.post(
-  '/delete/:agent/intent/:intent/expressions',
+  '/delete/expressions/:agent/intent/:intent/',
   guard('agents:write'),
   expressions.removeExpressions,
 );

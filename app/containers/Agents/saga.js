@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { put, takeLatest, select } from 'redux-saga/effects';
+import { put, takeLatest, select, call } from 'redux-saga/effects';
 import _debug from 'debug';
 import axios from 'axios';
 import { getFormValues, destroy } from 'redux-form/immutable';
@@ -15,10 +15,10 @@ import { selectOldName } from './selectors';
 
 const debug = _debug('Agents\\saga.js');
 
-export function* getAgents() {
+export function* getAgents({ skip = false }) {
   debug('Getting Agents');
 
-  yield put(a.gettingAgent(true));
+  if (!skip) yield put(a.gettingAgent(true));
 
   try {
     const { data } = yield axios.get('/api/agents');
@@ -27,18 +27,19 @@ export function* getAgents() {
     debug('failed getting agents: %o', error);
     yield put(a.gettingAgentsFailure(error));
   } finally {
-    yield put(a.gettingAgent(false));
+    if (!skip) yield put(a.gettingAgent(false));
   }
 }
 
 // Individual exports for testing
-export function* saveAgent({ agent }) {
+export function* saveAgent({ agent, reset }) {
   debug('Saving a new Agent');
   yield put(a.savingAgent(true));
 
   try {
     yield axios.put('/api/agents', agent);
-    yield put(a.saveAgentSuccess(agent));
+    yield call(getAgents, { skip: true });
+    reset();
   } catch (error) {
     debug('failed saving agent: %o', error);
     yield put(a.saveAgentFailure(error));
