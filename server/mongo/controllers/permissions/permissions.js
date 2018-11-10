@@ -33,6 +33,10 @@ function addPermission(permission) {
     });
 
     if (!_.includes(model.permissions, `${permission}:write`)) {
+      model.permissions.push(`${permission}:read`);
+    }
+
+    if (!_.includes(model.permissions, `${permission}:write`)) {
       model.permissions.push(`${permission}:write`);
     }
 

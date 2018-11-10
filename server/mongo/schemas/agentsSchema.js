@@ -2,8 +2,9 @@ const mongoose = require('./chatbot_db_connect');
 
 const { Schema } = mongoose;
 
-const intentSchema = new Schema(
+const agentSchema = new Schema(
   {
+    _id: { type: String, required: true },
     agent: { type: String, required: true, unique: true },
     avatar: String,
     subtitle: String,
@@ -23,7 +24,7 @@ const intentSchema = new Schema(
   { usePushEach: true },
 );
 
-// intentSchema.pre('save', function preSave(next) {
+// agentSchema.pre('save', function preSave(next) {
 //   if (this.isNew && this.intents.length === 0) {
 //     this.intents = undefined;
 //   }
@@ -32,7 +33,7 @@ const intentSchema = new Schema(
 
 // the schema is useless so far
 // we need to create a model using it
-const intent = mongoose.model('intents', intentSchema);
+const intent = mongoose.model('agents', agentSchema);
 
 // make this available to our Nodes in our Node applications
 module.exports = intent;

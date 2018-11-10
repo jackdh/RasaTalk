@@ -15,6 +15,9 @@ import defaultAvatar from 'images/agent.png';
 import Wrapper from 'components/Grid/Wrapper';
 import { createStructuredSelector } from 'reselect';
 import ProfileCard from 'components/Cards/ProfileCard';
+import { Route } from 'react-router-dom';
+
+import Intents from 'containers/IntentPage/Loadable';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -39,6 +42,7 @@ export class Agents extends React.PureComponent {
   render() {
     const {
       agents: { agents, loading, edit, saving },
+      match,
       dispatch,
     } = this.props;
     return (
@@ -48,73 +52,84 @@ export class Agents extends React.PureComponent {
           <meta name="description" content="Description of Agents" />
         </Helmet>
 
-        <Wrapper>
-          <Grid item xs={8}>
-            <Grid container spacing={40}>
-              {loading && (
-                <Grid item xs={12} sm={6} md={4}>
-                  <ProfileCard loading />
-                </Grid>
-              )}
-              {!loading &&
-                agents.map(
-                  ({
-                    agent = '',
-                    avatar = defaultAvatar,
-                    subtitle = '',
-                    description = '',
-                  }) => (
-                    <Grid key={agent} item xs={12} sm={12} md={4}>
-                      <ProfileCard
-                        avatar={avatar}
-                        subtitle={subtitle}
-                        agent={agent}
-                        description={description}
-                        footer={
-                          <React.Fragment>
-                            <IconButton
-                              style={{
-                                marginBottom: '15px',
-                                marginRight: '5px',
-                              }}
-                            >
-                              <Edit />
-                            </IconButton>
-                            <Button
-                              onClick={() =>
-                                dispatch(
-                                  push(`/agents/${encodeURIComponent(agent)}`),
-                                )
-                              }
-                              variant="contained"
-                              color="primary"
-                              style={{ marginBottom: '15px' }}
-                            >
-                              View
-                            </Button>
-                          </React.Fragment>
-                        }
-                        classes={this.props.classes}
-                      />
+        <Route path="/agents/:agentName" name="Intents" component={Intents} />
+
+        <Route
+          path={match.path}
+          exact
+          name="Talk Flow"
+          render={() => (
+            <Wrapper>
+              <Grid item xs={8}>
+                <Grid container spacing={40}>
+                  {loading && (
+                    <Grid item xs={12} sm={6} md={4}>
+                      <ProfileCard loading />
                     </Grid>
-                  ),
-                )}
-            </Grid>
-          </Grid>
-          <Grid item xs={4}>
-            <ProfileCard
-              avatar={IIcon}
-              subtitle="Agents group expressions"
-              agent="Agents"
-              description="Agents help to classify or split up different chatbots."
-            />
-            <NewAgent
-              edit={edit}
-              saving={saving}
-              submit={values => dispatch(saveAgent(values))}
-            />
-          </Grid>
-        </Wrapper>
+                  )}
+                  {!loading &&
+                    agents.map(
+                      ({
+                        agent = '',
+                        avatar = defaultAvatar,
+                        subtitle = '',
+                        description = '',
+                      }) => (
+                        <Grid key={agent} item xs={12} sm={12} md={4}>
+                          <ProfileCard
+                            avatar={avatar}
+                            subtitle={subtitle}
+                            agent={agent}
+                            description={description}
+                            footer={
+                              <React.Fragment>
+                                <IconButton
+                                  style={{
+                                    marginBottom: '15px',
+                                    marginRight: '5px',
+                                  }}
+                                >
+                                  <Edit />
+                                </IconButton>
+                                <Button
+                                  onClick={() =>
+                                    dispatch(
+                                      push(
+                                        `/agents/${encodeURIComponent(agent)}`,
+                                      ),
+                                    )
+                                  }
+                                  variant="contained"
+                                  color="primary"
+                                  style={{ marginBottom: '15px' }}
+                                >
+                                  View
+                                </Button>
+                              </React.Fragment>
+                            }
+                            classes={this.props.classes}
+                          />
+                        </Grid>
+                      ),
+                    )}
+                </Grid>
+              </Grid>
+              <Grid item xs={4}>
+                <ProfileCard
+                  avatar={IIcon}
+                  subtitle="Agents group expressions"
+                  agent="Agents"
+                  description="Agents help to classify or split up different chatbots."
+                />
+                <NewAgent
+                  edit={edit}
+                  saving={saving}
+                  submit={values => dispatch(saveAgent(values))}
+                />
+              </Grid>
+            </Wrapper>
+          )}
+        />
       </div>
     );
   }
@@ -122,6 +137,7 @@ export class Agents extends React.PureComponent {
 
 Agents.propTypes = {
   classes: PropTypes.object,
+  match: PropTypes.object,
   dispatch: PropTypes.func.isRequired,
   agents: PropTypes.shape({
     oldNode: PropTypes.string,

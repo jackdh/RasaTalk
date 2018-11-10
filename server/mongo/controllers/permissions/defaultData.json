@@ -1,5 +1,6 @@
 [
   {
+    "_id": "permissions",
     "type": "permissions",
     "name": "pages",
     "permissions": [
@@ -29,11 +30,13 @@
     ]
   },
   {
+    "_id": "admin",
     "type": "role",
     "name": "admin",
     "permissions": ["*"]
   },
   {
+    "_id": "editor",
     "type": "role",
     "name": "editor",
     "permissions": [
@@ -47,6 +50,7 @@
     ]
   },
   {
+    "_id": "reader",
     "type": "role",
     "name": "reader",
     "permissions": [
@@ -64,21 +68,25 @@
     ]
   },
   {
+    "_id": "new",
     "type": "role",
     "name": "new",
     "permissions": []
   },
   {
+    "_id": "group-one",
     "type": "group",
     "name": "one",
     "permissions": []
   },
   {
+    "_id": "group-two",
     "type": "group",
     "name": "two",
     "permissions": []
   },
   {
+    "_id": "group-three",
     "type": "group",
     "name": "three",
     "permissions": []

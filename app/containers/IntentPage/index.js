@@ -28,11 +28,15 @@ import {
   TextField,
   Checkbox,
 } from '@material-ui/core';
+import { Route } from 'react-router-dom';
+import Expressions from 'containers/Expression/Loadable';
+
+import { selectAgent } from '../Agents/selectors';
 
 import saga from './saga';
 import reducer from './reducer';
 import { changeTitle } from '../HomePage/actions';
-import { getAgent, addIntent, removeIntents } from './actions';
+import { addIntent, removeIntents, getIntents } from './actions';
 import makeSelectIntentPage from './selectors';
 
 export class IntentPage extends React.PureComponent {
@@ -46,7 +50,7 @@ export class IntentPage extends React.PureComponent {
 
   componentDidMount() {
     this.props.dispatch(changeTitle(`Agent: ${this.state.agent}`));
-    this.props.dispatch(getAgent(this.state.agent));
+    this.props.dispatch(getIntents(this.props.match.params.agentName));
   }
 
   addIntent = () =>
@@ -88,17 +92,9 @@ export class IntentPage extends React.PureComponent {
   render() {
     const {
       dispatch,
-      intentPage: {
-        loadingAgent,
-        agent,
-        subtitle,
-        description,
-        avatar,
-        intents,
-        addingIntent,
-        removingIntents,
-        error,
-      },
+      match,
+      intentPage: { intents, addingIntent, removingIntents, error },
+      selectedAgent: { agent, avatar, subtitle, description },
     } = this.props;
     return (
       <React.Fragment>
@@ -106,84 +102,98 @@ export class IntentPage extends React.PureComponent {
           <title>IntentPage</title>
           <meta name="description" content="Description of IntentPage" />
         </Helmet>
-        <Wrapper>
-          <BackButton tooltip="Back to agents" link="/agents" />
 
-          <Grid item xs={8}>
-            {removingIntents && <LinearProgress color="primary" />}
-            <GenericTable
-              title="Intents"
-              items={intents}
-              handleDelete={deleteIntents =>
-                dispatch(removeIntents(this.state.agent, deleteIntents))
-              }
-              headers={[
-                {
-                  id: 'name',
-                  label: 'Intent',
-                  cellClick: route =>
-                    dispatch(
-                      push(
-                        `/agents/${encodeURIComponent(
-                          this.state.agent,
-                        )}/intent/${encodeURIComponent(route)}`,
-                      ),
-                    ),
-                },
-              ]}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <ProfileCard
-              loading={loadingAgent}
-              subtitle={subtitle}
-              agent={agent}
-              description={description}
-              avatar={avatar}
-            />
-            <Card>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  Add Intent
-                </Typography>
-                <Typography component="p">
-                  Feel free to use any name you&#39;d like with or without
-                  prefixes.
-                </Typography>
+        <Route
+          path="/agents/:agentName/intent/:intent"
+          exact
+          name="Expressions"
+          component={Expressions}
+        />
 
-                <TextField
-                  id="newIntent"
-                  label="New Intent"
-                  value={this.state.newIntent}
-                  onChange={this.handleChange('newIntent')}
-                  onKeyPress={this.handleKeyPress}
-                  disabled={addingIntent}
-                  inputRef={input => {
-                    this.textInput = input;
-                  }}
-                  fullWidth
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={this.state.addMultiple}
-                      onChange={this.handleChangeCheckbox('addMultiple')}
-                      value="addMultiple"
-                      color="primary"
-                    />
+        <Route
+          path={match.path}
+          exact
+          name="Talk Flow"
+          render={() => (
+            <Wrapper>
+              <BackButton tooltip="Back to agents" link="/agents" />
+
+              <Grid item xs={8}>
+                {removingIntents && <LinearProgress color="primary" />}
+                <GenericTable
+                  title="Intents"
+                  items={intents}
+                  handleDelete={deleteIntents =>
+                    dispatch(removeIntents(this.state.agent, deleteIntents))
                   }
-                  label="Add Multiple"
+                  headers={[
+                    {
+                      id: 'name',
+                      label: 'Intent',
+                      cellClick: route =>
+                        dispatch(
+                          push(
+                            `/agents/${encodeURIComponent(
+                              this.state.agent,
+                            )}/intent/${encodeURIComponent(route)}`,
+                          ),
+                        ),
+                    },
+                  ]}
                 />
-              </CardContent>
-            </Card>
+              </Grid>
+              <Grid item xs={4}>
+                <ProfileCard
+                  subtitle={subtitle}
+                  agent={agent}
+                  description={description}
+                  avatar={avatar}
+                />
+                <Card>
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Add Intent
+                    </Typography>
+                    <Typography component="p">
+                      Feel free to use any name you&#39;d like with or without
+                      prefixes.
+                    </Typography>
 
-            {error && (
-              <div style={{ marginTop: '15px' }}>
-                <SnackBarContent message={error} color="danger" />
-              </div>
-            )}
-          </Grid>
-        </Wrapper>
+                    <TextField
+                      id="newIntent"
+                      label="New Intent"
+                      value={this.state.newIntent}
+                      onChange={this.handleChange('newIntent')}
+                      onKeyPress={this.handleKeyPress}
+                      disabled={addingIntent}
+                      inputRef={input => {
+                        this.textInput = input;
+                      }}
+                      fullWidth
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={this.state.addMultiple}
+                          onChange={this.handleChangeCheckbox('addMultiple')}
+                          value="addMultiple"
+                          color="primary"
+                        />
+                      }
+                      label="Add Multiple"
+                    />
+                  </CardContent>
+                </Card>
+
+                {error && (
+                  <div style={{ marginTop: '15px' }}>
+                    <SnackBarContent message={error} color="danger" />
+                  </div>
+                )}
+              </Grid>
+            </Wrapper>
+          )}
+        />
       </React.Fragment>
     );
   }
@@ -193,11 +203,15 @@ IntentPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   intentPage: PropTypes.object,
   match: PropTypes.object,
+  selectedAgent: PropTypes.object,
 };
 
-const mapStateToProps = createStructuredSelector({
-  intentPage: makeSelectIntentPage(),
-});
+function mapStateToProps(state, ownProps) {
+  return createStructuredSelector({
+    intentPage: makeSelectIntentPage(),
+    selectedAgent: selectAgent(ownProps.match.params.agentName),
+  });
+}
 
 function mapDispatchToProps(dispatch) {
   return {

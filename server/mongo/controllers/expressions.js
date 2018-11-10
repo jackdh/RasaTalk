@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-const IntentSchema = require('../schemas/intentsSchema');
+const IntentSchema = require('../schemas/agentsSchema');
 const ExpressionSchema = require('../schemas/expressionsSchema');
 const _ = require('lodash');
 const debug = require('debug')('Expressions.js');

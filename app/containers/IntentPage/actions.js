@@ -6,23 +6,23 @@
 
 import * as c from './constants';
 
-export const getAgent = agent => ({
-  type: c.GET_AGENT,
+export const getIntents = agent => ({
+  type: c.GET_INTENTS,
   agent,
 });
 
-export const gettingAgent = toggle => ({
-  type: c.GETTING_AGENT,
+export const gettingIntents = toggle => ({
+  type: c.GETTING_INTENTS,
   toggle,
 });
 
-export const getAgentSuccess = agent => ({
-  type: c.GET_AGENT_SUCCESS,
-  agent,
+export const getIntentsSuccess = intents => ({
+  type: c.GET_INTENTS_SUCCESS,
+  intents,
 });
 
-export const getAgentFailure = error => ({
-  type: c.GET_AGENT_FAILURE,
+export const getIntentsFailure = error => ({
+  type: c.GET_INTENTS_FAILURE,
   error,
 });
 

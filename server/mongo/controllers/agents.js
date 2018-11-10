@@ -1,10 +1,17 @@
-/* eslint-disable no-param-reassign */
-const IntentSchema = require('../schemas/intentsSchema');
+/* eslint-disable no-param-reassign,no-useless-escape */
+const agentSchema = require('../schemas/agentsSchema');
 const debug = require('debug')('Agents');
+const co = require('co');
+const { validateAgent } = require('./utils/validators');
+const {
+  addPermission,
+  addPermissionToUser,
+} = require('./permissions/permissions');
 
 function getAllAgents(req, res) {
   debug('Get All Agents');
-  IntentSchema.find({}, '-_id -intents -__v')
+  agentSchema
+    .find({}, '-_id -intents -__v')
     .lean()
     .exec((err, model) => {
       if (err) {
@@ -20,7 +27,8 @@ function getAllAgents(req, res) {
 
 function removeAgentMongo(req, res) {
   debug('Removing Agent: %o', req.params.agent);
-  IntentSchema.find({ agent: req.params.agent })
+  agentSchema
+    .find({ agent: req.params.agent })
     .remove()
     .exec(err => {
       if (err) {
@@ -36,26 +44,38 @@ function removeAgentMongo(req, res) {
 }
 
 function createAgentMongo(req, res) {
-  debug('Creating Agent: %o', req.body.agent);
-  IntentSchema.create(req.body)
+  const agent = req.body;
+  debug('Creating Agent: %o', agent.agent);
+  co(function* t() {
+    agent._id = `ag-${agent.agent.replace(
+      /[`~!@#$£ %^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi,
+      '',
+    )}`;
+    const model = yield agentSchema.findOne({ _id: agent._id });
+    if (model) throw new Error('That agent already exists');
+    yield validateAgent.validate(agent);
+    yield agentSchema.create(agent);
+
+    yield addPermission(agent._id);
+    yield addPermissionToUser(agent._id, res.locals.user);
+  })
     .then(() => {
-      debug('Created Agent: %o', req.body.agent);
+      debug('Created Agent: %o', agent.agent);
       res.sendStatus(200);
     })
     .catch(error => {
-      debug('Failed Creating Agent: %o, %O', req.body.agent, error);
-      res
-        .status(475)
-        .send('Something went wrong on the backend. Please check the logs');
+      debug('Failed Creating Agent: %o, %O', agent.agent, error);
+      res.status(475).send(error.message);
     });
 }
 
 function renameAgent(req, res) {
   debug('Renaming Agent: %o to %o', req.body.oldNode, req.body.agent);
 
-  // IntentSchema.update({ agent: req.body.oldName });
+  // agentSchema.update({ agent: req.body.oldName });
 
-  return IntentSchema.findOne({ agent: req.body.oldNode }, '-intents')
+  return agentSchema
+    .findOne({ agent: req.body.oldNode }, '-intents')
     .then(model => {
       debug('Found Agent');
       model.agent = req.body.agent;

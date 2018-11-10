@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-const IntentSchema = require('../schemas/intentsSchema');
+const IntentSchema = require('../schemas/agentsSchema');
 const debug = require('debug')('Intents');
 const co = require('co');
 

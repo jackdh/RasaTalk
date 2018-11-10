@@ -18,9 +18,7 @@ import Entities from 'containers/Entities/Loadable';
 import Synonyms from 'containers/Synonyms/Loadable';
 import Feedback from 'containers/Feedback/Loadable';
 import Training from 'containers/Training/Loadable';
-import Intents from 'containers/IntentPage/Loadable';
 import SmallTalk from 'containers/SmallTalk/Loadable';
-import Expressions from 'containers/Expression/Loadable';
 import Dashboard from 'containers/DashboardPage/Loadable';
 import Permissions from 'containers/Permissions/Loadable';
 import ThirdParty from 'containers/ThirdParty/Loadable';
@@ -111,18 +109,7 @@ export class HomePage extends React.Component {
 
             <Route path="/smalltalk" name="Small Talk" component={SmallTalk} />
 
-            <Route exact path="/agents" name="Agents" component={Agents} />
-            <Route
-              exact
-              path="/agents/:agentName"
-              name="Intents"
-              component={Intents}
-            />
-            <Route
-              path="/agents/:agentName/intent/:intent"
-              name="Expressions"
-              component={Expressions}
-            />
+            <Route path="/agents" name="Agents" component={Agents} />
 
             <Route
               exact

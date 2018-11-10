@@ -3,22 +3,22 @@ import { push } from 'connected-react-router/immutable';
 import { reset } from 'redux-form/immutable';
 import axios from 'axios';
 
-import { GET_AGENT, ADD_INTENT, REMOVE_INTENTS } from './constants';
+import { GET_INTENTS, ADD_INTENT, REMOVE_INTENTS } from './constants';
 
 import * as a from './actions';
 
 const debug = require('debug')('IntentPage\\saga.js');
 
-function* getAgent({ agent }) {
+function* getIntents({ agent }) {
   debug(`Adding Agent ${agent}`);
-  yield put(a.gettingAgent(true));
+  yield put(a.gettingIntents(true));
   try {
     const { data } = yield axios.get(`/api/intents/${agent}`);
-    yield put(a.getAgentSuccess(data));
+    yield put(a.getIntentsSuccess(data.intents));
   } catch (error) {
-    yield put(a.getAgentFailure(error));
+    yield put(a.getIntentsFailure(error));
   } finally {
-    yield put(a.gettingAgent(false));
+    yield put(a.gettingIntents(false));
   }
 }
 
@@ -66,7 +66,7 @@ function* removeIntent({ intents, agent }) {
 
 export default function* EditNodeSaga() {
   yield [
-    takeLatest(GET_AGENT, getAgent),
+    takeLatest(GET_INTENTS, getIntents),
     takeLatest(ADD_INTENT, addIntent),
     takeLatest(REMOVE_INTENTS, removeIntent),
   ];

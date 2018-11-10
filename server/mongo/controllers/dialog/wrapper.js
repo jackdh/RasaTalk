@@ -1,4 +1,3 @@
-const yup = require('yup');
 const NodeWrapper = require('../../schemas/nodeWrapperSchema');
 const {
   addPermission,
@@ -7,23 +6,13 @@ const {
 } = require('../permissions/permissions');
 const co = require('co');
 const debug = require('debug')('Wrappers');
-
-const schema = yup.object().shape({
-  avatar: yup.string().url(),
-  name: yup
-    .string()
-    .min(2, 'Please enter a longer agent name')
-    .max(50, 'Please enter a shorter name (50)')
-    .required('Name is required.'),
-  subtitle: yup.string().max(100, 'Please enter a shorter subtitle (100)'),
-  description: yup.string().max(100, 'Please enter a shorter desc (100)'),
-});
+const { validateWrapper } = require('../utils/validators');
 
 function createNodeWrapper(req, res) {
   const { name, avatar, subtitle, description } = req.body;
 
   co(function* t() {
-    yield schema.validate(req.body);
+    yield validateWrapper.validate(req.body);
 
     const ciName = new RegExp(['^', name, '$'].join(''), 'i');
     const model = yield NodeWrapper.findOne({ name: ciName });
@@ -77,7 +66,7 @@ function getNodeWrappers(req, res) {
 
 function updateNodeWrapper(req, res) {
   co(function* t() {
-    yield schema.validate(req.body);
+    yield validateWrapper.validate(req.body);
     yield NodeWrapper.replaceOne({ _id: req.body._id }, req.body);
   })
     .then(() => {

@@ -7,9 +7,8 @@
 import { fromJS } from 'immutable';
 
 import {
-  GETTING_AGENT,
-  GET_AGENT_SUCCESS,
-  GET_AGENT_FAILURE,
+  GETTING_INTENTS,
+  GET_INTENTS_SUCCESS,
   ADDING_INTENT,
   ADD_INTENT_SUCCESS,
   ADD_INTENT_FAILURE,
@@ -19,10 +18,7 @@ import {
 } from './constants';
 
 export const initialState = fromJS({
-  agent: '',
-  avatar: '',
-  subtitle: '',
-  description: '',
+  gettingIntents: false,
   intents: [],
   error: '',
   loadingAgent: true,
@@ -32,13 +28,10 @@ export const initialState = fromJS({
 
 function intentPageReducer(state = initialState, action) {
   switch (action.type) {
-    case GETTING_AGENT:
-      return state.set('loadingAgent', action.toggle);
-    case GET_AGENT_SUCCESS:
-      return state.merge(action.agent);
-    case GET_AGENT_FAILURE:
-      return state.set('error', action.error);
-
+    case GET_INTENTS_SUCCESS:
+      return state.set('intents', action.intents);
+    case GETTING_INTENTS:
+      return state.set('gettingIntents', action.toggle);
     case ADDING_INTENT:
       return state.set('addingIntent', action.toggle);
     case ADD_INTENT_SUCCESS:

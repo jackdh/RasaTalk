@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle,no-param-reassign */
-const IntentSchema = require('../schemas/intentsSchema');
+const IntentSchema = require('../schemas/agentsSchema');
 const EntitiesSchema = require('../schemas/entitiesSchema');
 const ExpressionSchema = require('../schemas/expressionsSchema');
 const TrainingSchema = require('../schemas/trainingSchema');
