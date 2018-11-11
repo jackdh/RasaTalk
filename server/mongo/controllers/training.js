@@ -284,6 +284,14 @@ function status(req, res) {
   axios
     .get(`${process.env.RASASERVER}/status`)
     .then(s => {
+      const { permissions } = res.locals;
+      const raw = s.data.available_projects;
+      s.data.available_projects = Object.keys(raw)
+        .filter(key => permissions.includes(`${key}:read`))
+        .reduce((obj, key) => {
+          obj[key] = raw[key];
+          return obj;
+        }, {});
       res.send(s.data);
     })
     .catch(error => {
