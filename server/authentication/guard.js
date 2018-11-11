@@ -33,6 +33,9 @@ function hasCustomPermission(req, permissions) {
       `${req.params.talkWrapper}:${req.method === 'GET' ? 'read' : 'write'}`,
     );
   } else if (req.params.agent) {
+    if (req.route.path === '/training/parse/:agent') {
+      return _.includes(permissions, `${req.params.agent}:read`);
+    }
     return _.includes(
       permissions,
       `${req.params.agent}:${req.method === 'GET' ? 'read' : 'write'}`,
