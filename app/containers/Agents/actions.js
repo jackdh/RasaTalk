@@ -19,25 +19,20 @@ export const saveAgent = (agent, reset) => ({
   reset,
 });
 
-export const updateAgent = (agent, oldNode) => ({
+export const updateAgent = (agent, close) => ({
   type: c.UPDATE_AGENT,
   agent,
-  oldNode,
+  close,
 });
 
-export const updateAgentSuccess = agent => ({
-  type: c.UPDATE_AGENT_SUCCESS,
-  agent,
+export const updatingAgent = toggle => ({
+  type: c.UPDATING_AGENT,
+  toggle,
 });
 
 export const savingAgent = saving => ({
   type: c.SAVING_AGENT,
   saving,
-});
-
-export const saveAgentSuccess = agent => ({
-  type: c.SAVING_AGENT_SUCCESS,
-  agent,
 });
 
 export const saveAgentFailure = error => ({
@@ -77,9 +72,4 @@ export const deletingAgent = deleting => ({
 export const deleteAgentSuccess = agent => ({
   type: c.DELETING_AGENT_SUCCESS,
   agent,
-});
-
-export const deleteAgentFailure = error => ({
-  type: c.DELETING_AGENT_FAILURE,
-  error,
 });

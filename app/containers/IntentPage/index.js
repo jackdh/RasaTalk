@@ -27,11 +27,15 @@ import {
   FormControlLabel,
   TextField,
   Checkbox,
+  IconButton,
 } from '@material-ui/core';
 import { Route } from 'react-router-dom';
 import Expressions from 'containers/Expression/Loadable';
+import { Edit } from '@material-ui/icons';
+import EditAgent from './EditAgent';
 
-import { selectAgent } from '../Agents/selectors';
+import { selectAgent, updatingAgent } from '../Agents/selectors';
+import { updateAgent, deleteAgent } from '../Agents/actions';
 
 import saga from './saga';
 import reducer from './reducer';
@@ -46,12 +50,16 @@ export class IntentPage extends React.PureComponent {
     agent: this.props.match.params.agent,
     newIntent: '',
     addMultiple: false,
+    open: false,
   };
 
   componentDidMount() {
     this.props.dispatch(changeTitle(`Agent: ${this.state.agent}`));
     this.props.dispatch(getIntents(this.props.match.params.agent));
   }
+
+  handleOpen = () => this.setState({ open: true });
+  handleClose = () => this.setState({ open: false });
 
   addIntent = () =>
     new Promise((resolve, reject) => {
@@ -93,6 +101,7 @@ export class IntentPage extends React.PureComponent {
     const {
       dispatch,
       match,
+      updating,
       intentPage: { intents, addingIntent, removingIntents, error },
       selectedAgent: { agent, avatar, subtitle, description },
     } = this.props;
@@ -102,6 +111,15 @@ export class IntentPage extends React.PureComponent {
           <title>IntentPage</title>
           <meta name="description" content="Description of IntentPage" />
         </Helmet>
+
+        <EditAgent
+          {...this.props.selectedAgent}
+          updating={updating}
+          open={this.state.open}
+          handleClose={this.handleClose}
+          onSubmit={(x, y) => dispatch(updateAgent(x, y))}
+          onDelete={x => dispatch(deleteAgent(x))}
+        />
 
         <Route
           path="/agents/:agent/intent/:intent"
@@ -148,6 +166,11 @@ export class IntentPage extends React.PureComponent {
                   agent={agent}
                   description={description}
                   avatar={avatar}
+                  footer={
+                    <IconButton onClick={this.handleOpen}>
+                      <Edit />
+                    </IconButton>
+                  }
                 />
                 <Card>
                   <CardContent>
@@ -204,12 +227,14 @@ IntentPage.propTypes = {
   intentPage: PropTypes.object,
   match: PropTypes.object,
   selectedAgent: PropTypes.object,
+  updating: PropTypes.bool,
 };
 
 function mapStateToProps(state, ownProps) {
   return createStructuredSelector({
     intentPage: makeSelectIntentPage(),
     selectedAgent: selectAgent(ownProps.match.params.agent),
+    updating: updatingAgent(),
   });
 }
 

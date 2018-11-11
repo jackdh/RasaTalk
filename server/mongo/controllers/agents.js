@@ -1,11 +1,13 @@
 /* eslint-disable no-param-reassign,no-useless-escape */
 const agentSchema = require('../schemas/agentsSchema');
+const expressionSchema = require('../schemas/expressionsSchema');
 const debug = require('debug')('Agents');
 const co = require('co');
 const { validateAgent } = require('./utils/validators');
 const {
   addPermission,
   addPermissionToUser,
+  deletePermission,
 } = require('./permissions/permissions');
 
 function getAllAgents(req, res) {
@@ -29,19 +31,21 @@ function getAllAgents(req, res) {
 
 function removeAgentMongo(req, res) {
   debug('Removing Agent: %o', req.params.agent);
-  agentSchema
-    .find({ _id: req.params.agent })
-    .remove()
-    .exec(err => {
-      if (err) {
-        debug('Failed to remove Agent: %o', req.params.agent);
-        res
-          .status(475)
-          .send('Something went wrong on the backend. Please check the logs');
-      } else {
-        debug('Removed agent: %o', req.params.agent);
-        res.status(275).send(`Removed: ${req.params.agent}`);
-      }
+  co(function* t() {
+    const model = yield agentSchema.findOne({ _id: req.params.agent });
+
+    const intents = model.intents.map(i => i._id);
+
+    yield expressionSchema.remove({ intent: { $in: intents } });
+
+    yield deletePermission(req.params.agent);
+
+    yield model.remove();
+  })
+    .then(() => res.status(275).send(`Removed: ${req.params.agent}`))
+    .catch(e => {
+      debug(e);
+      res.status(475).send(e.message);
     });
 }
 
@@ -72,20 +76,16 @@ function createAgentMongo(req, res) {
 }
 
 function renameAgent(req, res) {
-  debug('Renaming Agent: %o to %o', req.body.oldNode, req.body.agent);
-
-  return agentSchema
-    .findOne({ agent: req.body.oldNode }, '-intents')
-    .then(model => {
-      debug('Found Agent');
-      model.agent = req.body.agent;
-      model.avatar = req.body.avatar;
-      model.title = req.body.title;
-      model.subtitle = req.body.subtitle;
-      model.description = req.body.description;
-      debug('Renamed Agent');
-      return model.save();
-    })
+  debug('Renaming Agent: %o to %o', req.body.agent);
+  co(function* t() {
+    const model = yield agentSchema.findOne({ _id: req.body._id }, '-intents');
+    model.agent = req.body.agent;
+    model.avatar = req.body.avatar;
+    model.title = req.body.title;
+    model.subtitle = req.body.subtitle;
+    model.description = req.body.description;
+    yield model.save();
+  })
     .then(() => {
       debug('Sending Agent');
       res.status(275).send('Agent Updated');

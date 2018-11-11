@@ -18,7 +18,7 @@ import {
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { withFormik } from 'formik';
-import { agentValidator } from 'utils/validators';
+import { wrapperValidator } from 'utils/validators';
 
 const StyledText = styled(TextField)`
   && {
@@ -103,7 +103,7 @@ function AddTalkWrapper(props) {
 }
 
 const formikEnhancer = withFormik({
-  validationSchema: agentValidator,
+  validationSchema: wrapperValidator,
 
   mapPropsToValues: () => ({
     name: '',

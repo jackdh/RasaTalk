@@ -86,7 +86,7 @@ router.post('/smallTalk/:name', guard('smallTalk:write'), smallTalk.upsertST);
 /** Agents* */
 router.get('/agents', guard('agents:read'), agents.getAllAgents);
 router.put('/agents', guard('agents:write'), agents.createAgentMongo);
-router.post('/agents', guard('agents:write'), agents.renameAgent);
+router.post('/agents/:agent', guard('agents:write'), agents.renameAgent);
 router.delete('/agents/:agent', guard('agents:write'), agents.removeAgentMongo);
 
 /** Intents * */

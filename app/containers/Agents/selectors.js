@@ -17,6 +17,9 @@ const selectAgent = agent =>
     return toRet;
   });
 
+const updatingAgent = () =>
+  createSelector(selectAgentsDomain, s => s.get('updating'));
+
 const selectOldName = () =>
   createSelector(selectAgentsDomain, subState => subState.get('oldNode'));
 
@@ -28,4 +31,4 @@ const makeSelectAgents = () =>
   createSelector(selectAgentsDomain, substate => substate.toJS());
 
 export default makeSelectAgents;
-export { selectAgentsDomain, selectOldName, selectAgent };
+export { selectAgentsDomain, selectOldName, selectAgent, updatingAgent };

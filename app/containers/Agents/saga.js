@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
-import { put, takeLatest, select, call } from 'redux-saga/effects';
+import { put, takeLatest, call } from 'redux-saga/effects';
 import _debug from 'debug';
 import axios from 'axios';
-import { getFormValues, destroy } from 'redux-form/immutable';
+import { push } from 'connected-react-router/immutable';
 
 import {
   SAVE_AGENT,
@@ -11,7 +11,6 @@ import {
   DELETE_AGENT,
 } from './constants';
 import * as a from './actions';
-import { selectOldName } from './selectors';
 
 const debug = _debug('Agents\\saga.js');
 
@@ -48,39 +47,28 @@ export function* saveAgent({ agent, reset }) {
   }
 }
 
-// Individual exports for testing
-export function* updateAgent({ agent, oldNode }) {
+export function* updateAgent({ agent, close }) {
   debug('Saving a new Agent');
-
-  yield put(a.savingAgent(true));
-  agent.oldName = oldNode;
+  yield put(a.updatingAgent(true));
   try {
-    const newAgent = yield select(getFormValues('addAgent'));
-    yield axios.post('/api/agents', newAgent.set('oldNode', oldNode).toJS());
-    yield put(a.updateAgentSuccess(newAgent));
-    yield put(destroy('addAgent'));
-    yield put(a.toggleDialog(false));
+    yield axios.post(`/api/agents/${agent._id}`, agent);
+    yield call(getAgents, { skip: true });
+    close();
   } catch (error) {
     debug('failed saving agent: %o', error);
-    yield put(
-      a.saveAgentFailure(
-        "Failed Updating, it's likely that name already exists.",
-      ),
-    );
   } finally {
-    yield put(a.savingAgent(false));
+    yield put(a.updatingAgent(false));
   }
 }
 
-export function* deleteAgent() {
+export function* deleteAgent({ agent }) {
   debug('Deleting agent');
+
   yield put(a.deletingAgent(true));
   try {
-    const agent = yield select(selectOldName());
     yield axios.delete(`/api/agents/${agent}`);
-    yield put(a.deleteAgentSuccess(agent));
-    yield put(destroy('addAgent'));
-    yield put(a.toggleDialog(false));
+    yield call(getAgents, { skip: true });
+    yield put(push('/agents'));
   } catch (error) {
     yield put(a.saveAgentFailure('Sorry something went wrong deleting that.'));
   } finally {

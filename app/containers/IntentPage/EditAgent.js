@@ -91,13 +91,13 @@ export class EditAgent extends React.PureComponent {
           </HeaderWrapper>
           <DialogContent>
             <StyledText
-              id="name"
+              id="agent"
               type="text"
-              label="Node Group Name"
-              error={touched.name && !!errors.name}
-              value={values.name}
+              label="Agent Name"
+              error={touched.agent && !!errors.agent}
+              value={values.agent}
               onChange={handleChange}
-              helperText={errors.name}
+              helperText={errors.agent}
               onBlur={handleBlur}
               fullWidth
             />
@@ -167,7 +167,7 @@ export class EditAgent extends React.PureComponent {
 const formikEnhancer = withFormik({
   validationSchema: agentValidator,
   mapPropsToValues: props => ({
-    name: props.name ? props.name : '',
+    agent: props.agent ? props.agent : '',
     avatar: props.avatar ? props.avatar : '',
     subtitle: props.subtitle ? props.subtitle : '',
     description: props.description ? props.description : '',
@@ -177,7 +177,7 @@ const formikEnhancer = withFormik({
     newPayload._id = rest.props._id;
     rest.props.onSubmit(newPayload, rest.props.handleClose);
   },
-  displayName: 'TalkWrapper',
+  displayName: 'EditAgent',
 });
 
 EditAgent.defaultProps = {

@@ -11,7 +11,7 @@ import {
   withStyles,
   CircularProgress,
 } from '@material-ui/core';
-import { agentValidator } from 'utils/validators';
+import { wrapperValidator } from 'utils/validators';
 import { compose } from 'redux';
 import { withFormik } from 'formik';
 import isEmpty from 'lodash/isEmpty';
@@ -165,7 +165,7 @@ export class EditTalkWrapper extends React.PureComponent {
 }
 
 const formikEnhancer = withFormik({
-  validationSchema: agentValidator,
+  validationSchema: wrapperValidator,
   mapPropsToValues: props => ({
     name: props.name ? props.name : '',
     avatar: props.avatar ? props.avatar : '',
