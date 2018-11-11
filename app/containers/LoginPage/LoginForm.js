@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import Alert from 'components/Snackbar/SnackbarContent';
 import { TextField } from 'redux-form-material-ui';
 import { Field, reduxForm } from 'redux-form/immutable';
+import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   Button,
@@ -112,4 +113,14 @@ const withForm = reduxForm({
   validate,
 });
 
-export default compose(withForm)(LoginForm);
+const withConnect = connect(() => ({
+  initialValues: {
+    email: 'demo@jackdh.com',
+    password: 'demo1234',
+  },
+}));
+
+export default compose(
+  withConnect,
+  withForm,
+)(LoginForm);

@@ -66,7 +66,7 @@ const validate = values => {
 
 export class RegisterForm extends React.PureComponent {
   render() {
-    const { handleSubmit, registerError, valid, loading } = this.props;
+    const { handleSubmit, registerError, loading } = this.props;
     return (
       <form onSubmit={handleSubmit}>
         <CardContent>
@@ -113,13 +113,8 @@ export class RegisterForm extends React.PureComponent {
 
         <StyledActions>
           {!loading && (
-            <Button
-              size="small"
-              color="primary"
-              type="submit"
-              disabled={!valid}
-            >
-              Register
+            <Button size="small" color="primary" type="submit" disabled>
+              Please check git for login details
             </Button>
           )}
           {loading && <CircularProgress />}
@@ -131,7 +126,6 @@ export class RegisterForm extends React.PureComponent {
 
 RegisterForm.propTypes = {
   handleSubmit: PropTypes.func,
-  valid: PropTypes.bool,
   registerError: PropTypes.string,
   loading: PropTypes.bool,
 };
