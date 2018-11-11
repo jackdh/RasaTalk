@@ -13,15 +13,11 @@ import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import injectSaga from 'utils/injectSaga';
 import Timer from 'components/Timer/Timer';
-import Tooltip from '@material-ui/core/Tooltip';
 import injectReducer from 'utils/injectReducer';
-import Collapse from '@material-ui/core/Collapse';
 import { createStructuredSelector } from 'reselect';
-import { withTheme } from '@material-ui/core/styles';
 import ProfileCard from 'components/Cards/ProfileCard';
-import Download from '@material-ui/icons/CloudDownload';
+import CloudDownload from '@material-ui/icons/CloudDownload';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   Grid,
   Card,
@@ -35,8 +31,13 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
+  Tooltip,
+  Collapse,
+  withTheme,
+  CircularProgress,
 } from '@material-ui/core';
 import ReactJson from 'react-json-view';
+import findIndex from 'lodash/findIndex';
 
 import Status from './Status';
 import reducer from './reducer';
@@ -79,7 +80,7 @@ export class Training extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      agent: '',
+      agent: {},
     };
   }
 
@@ -92,7 +93,7 @@ export class Training extends React.PureComponent {
 
   handleChange = name => event => {
     this.setState({
-      [name]: event.target.value,
+      [name]: this.props.agents[event.target.value],
     });
   };
 
@@ -118,11 +119,18 @@ export class Training extends React.PureComponent {
       training,
       json,
       view,
-      handleTrain,
+      dispatch,
       inTraining,
       loading,
       theme: { palette },
     } = this.props;
+
+    const agentStrings = agents.map(a => a.agent);
+    const agentIndex =
+      agentStrings && this.state.agent
+        ? findIndex(agents, { _id: this.state.agent._id })
+        : 0;
+
     return (
       <div>
         <Helmet>
@@ -145,7 +153,9 @@ export class Training extends React.PureComponent {
                       Generated JSON
                     </Typography>
                   </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
+                  <ExpansionPanelDetails
+                    style={{ justifyContent: 'space-between' }}
+                  >
                     <ReactJson
                       src={json.data}
                       theme={
@@ -163,9 +173,8 @@ export class Training extends React.PureComponent {
                       variant="fab"
                       color="primary"
                       onClick={this.download}
-                      style={{ position: 'absolute', right: '60px' }}
                     >
-                      <Download />
+                      <CloudDownload />
                     </Button>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
@@ -191,12 +200,12 @@ export class Training extends React.PureComponent {
                   select
                   helperText="Please select an agent"
                   fullWidth
-                  value={this.state.agent}
+                  value={agentIndex}
                   onChange={this.handleChange('agent')}
                 >
-                  {agents.map(agent => (
-                    <MenuItem key={agent.agent} value={agent.agent}>
-                      {agent.agent}
+                  {agentStrings.map((agent, index) => (
+                    <MenuItem key={agent} value={index}>
+                      {agent}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -216,7 +225,7 @@ export class Training extends React.PureComponent {
                 {json.model !== undefined && (
                   <Tooltip id="tooltip-fab" title={`Agent: ${json.agent}`}>
                     <Button
-                      onClick={() => handleTrain(json._id)}
+                      onClick={() => dispatch(train(json.agent, json._id))}
                       variant="contained"
                       color="primary"
                     >
@@ -271,9 +280,9 @@ Training.propTypes = {
   inTraining: PropTypes.bool, // If we are currently training the bot
   view: PropTypes.func.isRequired, // Method to get JSON from DB and display
   getAll: PropTypes.func.isRequired, // Called to get all previous trainings.
+  dispatch: PropTypes.func.isRequired,
   getAgents: PropTypes.func.isRequired, // Method to get the agents to display in possible training options
   startWatch: PropTypes.func.isRequired, // Start polling for updates.
-  handleTrain: PropTypes.func.isRequired, // Method to train the NLU with the data
   changeTitle: PropTypes.func.isRequired, // Used to update the title in the app bar
   handleGetJSON: PropTypes.func.isRequired, // Method to get the create JSON for agent
 };
@@ -289,13 +298,13 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
+    dispatch,
     getAll: () => dispatch(getAll()),
     view: id => dispatch(viewJSON(id)),
     getAgents: () => dispatch(getAgents()),
     startWatch: () => dispatch(startWatch()),
     handleGetJSON: agent => dispatch(getJSON(agent)),
     changeTitle: title => dispatch(changeTitle(title)),
-    handleTrain: (id, agent) => dispatch(train(id, agent)),
   };
 }
 

@@ -8,6 +8,7 @@ const moment = require('moment');
 
 const _ = require('lodash');
 const debug = require('debug')('Training');
+const co = require('co');
 
 class Generate {
   constructor(agent, entities) {
@@ -178,51 +179,47 @@ class Generate {
 
 function generateJSON(req, res) {
   const { agent } = req.params;
-  if (agent === 'null') {
-    res.sendStatus(400);
-    return;
-  }
 
-  IntentSchema.findOne({ _id: agent })
-    .lean()
-    .exec()
-    .then(gAgent => {
-      ExpressionSchema.find({})
+  co(function* t() {
+    const [gAgent, entities] = yield [
+      IntentSchema.findOne({ _id: agent })
         .lean()
-        .exec()
-        .then(expressions => {
-          for (let i = 0; i < gAgent.intents.length; i += 1) {
-            gAgent.intents[i].expressions = expressions.filter(expression =>
-              expression.intent.equals(gAgent.intents[i]._id),
-            );
-          }
+        .exec(),
+      EntitiesSchema.find({})
+        .lean()
+        .exec(),
+    ];
 
-          EntitiesSchema.find({})
-            .lean()
-            .exec((entErr, entities) => {
-              if (entErr) {
-                debug(entErr);
-                res.sendStatus(500);
-              } else {
-                const work = new Generate(gAgent, entities);
-                work.work();
-                if (work.hasError()) {
-                  res.status(401).send(work.hasError());
-                } else {
-                  const all = { rasa_nlu_data: work.getAll() };
-                  TrainingSchema.create({ agent, data: all }).then(training => {
-                    res.send(training);
-                  });
-                }
-              }
-            });
-        });
+    const intents = gAgent.intents.map(g => g._id);
+
+    const expressions = yield ExpressionSchema.find({
+      intent: { $in: intents },
     })
-    .catch(genIntSchErr => {
-      debug(genIntSchErr);
-      res.res
-        .status(475)
-        .send('Something went wrong on that back end, please check the logs.');
+      .lean()
+      .exec();
+
+    for (let i = 0; i < gAgent.intents.length; i += 1) {
+      gAgent.intents[i].expressions = expressions.filter(expression =>
+        expression.intent.equals(gAgent.intents[i]._id),
+      );
+    }
+
+    const work = new Generate(gAgent, entities);
+    work.work();
+
+    if (work.hasError()) {
+      throw new Error(work.hasError());
+    } else {
+      const all = { rasa_nlu_data: work.getAll() };
+      return yield TrainingSchema.create({ agent, data: all });
+    }
+  })
+    .then(training => {
+      res.send(training);
+    })
+    .catch(error => {
+      debug(error);
+      res.status(475).send(error.message);
     });
 }
 
@@ -253,42 +250,33 @@ function getJSON(req, res) {
 
 function train(req, res) {
   const { _id } = req.body;
-  TrainingSchema.findOne({ _id })
+  co(function* t() {
+    const model = yield TrainingSchema.findOne({ _id });
+    if (!model) throw new Error('Model not found');
+    const start = moment();
+    const result = yield axios.post(
+      `${process.env.RASASERVER}/train?project=${model.agent}&model=${
+        model.agent
+      }-${new Date().toISOString()}`,
+      model.data,
+    );
+    if (_.startsWith(result.data.info, 'new model trained')) {
+      const end = moment();
+      const duration = end.diff(start);
+      const timeDuration = moment.utc(duration).format('HH:mm:ss');
+      model.model = _.last(result.data.info.split(' '));
+      model.timeTaken = timeDuration;
+      const saved = yield model.save();
+      delete saved.data;
+      return saved;
+    }
+    throw new Error('Model did not train correctly');
+  })
     .then(model => {
-      if (model) {
-        const start = moment();
-        axios
-          .post(
-            `${process.env.RASASERVER}/train?project=${model.agent}`,
-            model.data,
-          )
-          .then(result => {
-            if (_.startsWith(result.data.info, 'new model trained: ')) {
-              const end = moment();
-              const duration = end.diff(start);
-              const timeDuration = moment.utc(duration).format('HH:mm:ss');
-              model.model = _.last(result.data.info.split(' '));
-              model.timeTaken = timeDuration;
-              model.save().then(m => {
-                delete m.data;
-                return res.send(m);
-              });
-            }
-          })
-          .catch(error =>
-            res
-              .status(error.response.status)
-              .statusText(error.response.data.error),
-          );
-      } else {
-        res.sendStatus(404);
-      }
+      res.send(model);
     })
     .catch(error => {
-      debug(error);
-      res
-        .status(401)
-        .send('Something went wrong on the backend. Please check the logs');
+      res.status(475).send(error.message);
     });
 }
 

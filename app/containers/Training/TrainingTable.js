@@ -1,4 +1,4 @@
-/* eslint-disable react/no-multi-comp,react/sort-comp,no-mixed-operators,react/no-unused-prop-types,indent,no-underscore-dangle */
+/* eslint-disable react/no-multi-comp,react/sort-comp,no-mixed-operators,react/no-unused-prop-types,indent,no-underscore-dangle,no-unused-vars */
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -32,7 +32,7 @@ function createData(trainingP) {
 }
 
 const columnData = [
-  { id: 'date', numeric: false, disablePadding: true, label: 'Date' },
+  { id: 'date', numeric: false, disablePadding: false, label: 'Date' },
   { id: 'duration', numeric: false, disablePadding: true, label: 'Duration' },
   { id: 'agent', numeric: false, disablePadding: true, label: 'Agent' },
   { id: 'model', numeric: false, disablePadding: true, label: 'Model' },
@@ -56,13 +56,13 @@ class EnhancedTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          <TableCell padding="checkbox">
-            <Checkbox
-              indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={numSelected === rowCount}
-              onChange={onSelectAllClick}
-            />
-          </TableCell>
+          {/* <TableCell padding="checkbox"> */}
+          {/* <Checkbox */}
+          {/* indeterminate={numSelected > 0 && numSelected < rowCount} */}
+          {/* checked={numSelected === rowCount} */}
+          {/* onChange={onSelectAllClick} */}
+          {/* /> */}
+          {/* </TableCell> */}
           {columnData.map(
             column => (
               <TableCell
@@ -327,13 +327,13 @@ class EnhancedTable extends React.Component {
                         key={n.id}
                         selected={isSelected}
                       >
-                        <TableCell padding="checkbox" style={{ width: '1px' }}>
-                          <Checkbox
-                            checked={isSelected}
-                            onClick={event => this.handleClick(event, n.id)}
-                          />
-                        </TableCell>
-                        <TableCell component="th" scope="row" padding="none">
+                        {/* <TableCell padding="checkbox" style={{ width: '1px' }}> */}
+                        {/* <Checkbox */}
+                        {/* checked={isSelected} */}
+                        {/* onClick={event => this.handleClick(event, n.id)} */}
+                        {/* /> */}
+                        {/* </TableCell> */}
+                        <TableCell component="th" scope="row">
                           {n.date}
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">

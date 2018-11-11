@@ -18,10 +18,13 @@ import { getStatusSuccess } from '../RightSidebar/actions';
 const debug = require('debug')('Training\\saga.js');
 
 export function* getJSON({ agent }) {
-  debug(`Getting JSON for agent: ${agent}`);
+  debug(`Getting JSON for agent: ${agent.agent}`);
   yield put(a.generatingJSON(true));
   try {
-    const { data } = yield call(axios.get, `/api/training/generate/${agent}`);
+    const { data } = yield call(
+      axios.get,
+      `/api/training/generate/${agent._id}`,
+    );
     yield delay(200);
     yield put(a.gettingJSONSuccess(data));
   } catch (e) {
@@ -58,11 +61,11 @@ export function* viewJSON({ id }) {
   }
 }
 
-export function* trainJSON({ id }) {
+export function* trainJSON({ agent, _id }) {
   debug('Viewing JSON Data');
   yield put(a.training(true));
   try {
-    const { data } = yield call(axios.post, '/api/training/', { _id: id });
+    const { data } = yield call(axios.post, `/api/training/${agent}`, { _id });
     yield put(a.trainSuccess(data));
   } catch (e) {
     yield put(a.trainFailure(e.response.data));

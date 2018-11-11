@@ -33,7 +33,7 @@ export const viewingJSONFailure = error => ({
   error,
 });
 
-export const train = id => ({ type: c.TRAIN_JSON, id });
+export const train = (agent, _id) => ({ type: c.TRAIN_JSON, agent, _id });
 export const training = loading => ({ type: c.TRAINING_JSON, loading });
 export const trainSuccess = json => ({ type: c.TRAIN_JSON_SUCCESS, json });
 export const trainFailure = error => ({ type: c.TRAIN_JSON_FAILURE, error });
