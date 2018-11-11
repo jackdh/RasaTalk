@@ -21,7 +21,11 @@ const getPageToken = () =>
       .exec()
       .then(model => {
         if (model.enabled) {
-          resolve({ accessToken: model.access_token, agent: model.agent });
+          resolve({
+            accessToken: model.access_token,
+            agent: model.agent,
+            talkWrapper: model.talkWrapper,
+          });
         } else {
           reject();
         }
@@ -31,7 +35,7 @@ const getPageToken = () =>
 module.exports = (webserver, controller) => {
   // Receive post data from fb, this will be the messages you receive
   webserver.post('/facebook/receive', (req, res) => {
-    getPageToken().then(({ accessToken, agent }) => {
+    getPageToken().then(({ accessToken, agent, talkWrapper }) => {
       // respond to FB that the webhook has been received.
       res.status(200);
       res.send('ok');
@@ -39,6 +43,7 @@ module.exports = (webserver, controller) => {
       const bot = controller.spawn({});
       bot.botkit.config.access_token = accessToken;
       bot.botkit.config.agent = agent;
+      bot.botkit.config.talkWrapper = talkWrapper;
       controller.handleWebhookPayload(req, res, bot);
     });
   });
@@ -63,6 +68,7 @@ module.exports = (webserver, controller) => {
         message.user,
         message.message.text,
         bot.botkit.config.agent,
+        bot.botkit.config.talkWrapper,
       ).then(replies => {
         replies.forEach(reply => {
           convo.ask(reply);

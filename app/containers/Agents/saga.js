@@ -67,8 +67,8 @@ export function* deleteAgent({ agent }) {
   yield put(a.deletingAgent(true));
   try {
     yield axios.delete(`/api/agents/${agent}`);
-    yield call(getAgents, { skip: true });
     yield put(push('/agents'));
+    yield call(getAgents, { skip: true });
   } catch (error) {
     yield put(a.saveAgentFailure('Sorry something went wrong deleting that.'));
   } finally {

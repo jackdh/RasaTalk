@@ -11,6 +11,7 @@ export const initialState = fromJS({
   facebook: {
     enabled: true,
     agent: '',
+    talkWrapper: '',
     access_token: '',
     verify_token: '',
   },
@@ -31,6 +32,10 @@ function thirdPartyReducer(state = initialState, action) {
         if (item.type === 'facebook') {
           newState = newState.setIn(['facebook', 'enabled'], item.enabled);
           newState = newState.setIn(['facebook', 'agent'], item.agent);
+          newState = newState.setIn(
+            ['facebook', 'talkWrapper'],
+            item.talkWrapper,
+          );
           newState = newState.setIn(
             ['facebook', 'access_token'],
             item.access_token,

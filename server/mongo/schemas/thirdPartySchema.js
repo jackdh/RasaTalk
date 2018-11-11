@@ -11,6 +11,7 @@ const thirdPartySchema = new Schema({
   require_appsecret_proof: { type: Boolean, default: false },
   require_delivery: { type: Boolean, default: false },
   agent: { type: String, required: true },
+  talkWrapper: { type: String, required: true },
 });
 
 // the schema is useless so far

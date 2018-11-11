@@ -32,8 +32,8 @@ import reducer from './reducer';
 import saga from './saga';
 import { saveFacebook, updateForm, getAll } from './actions';
 
-import { getAgents, changeTitle } from '../HomePage/actions';
-import { selectAgents } from '../HomePage/selectors';
+import { getAgents, changeTitle, getTalkWrappers } from '../HomePage/actions';
+import { selectAgents, selectTalkWrappers } from '../HomePage/selectors';
 
 const TPCard = styled(Card)`
   && {
@@ -58,13 +58,14 @@ const FormWrapper = styled.div`
 /* eslint-disable react/prefer-stateless-function */
 export class ThirdParty extends React.PureComponent {
   componentDidMount() {
-    this.props.getAgents();
-    this.props.getAll();
+    this.props.dispatch(getTalkWrappers());
+    this.props.dispatch(getAgents());
+    this.props.dispatch(getAll());
     this.props.changeTitle('Third Party Setup');
   }
 
   render() {
-    const { facebook, handleUpdateForm } = this.props;
+    const { facebook, handleUpdateForm, talkWrappers } = this.props;
     return (
       <div>
         <Helmet>
@@ -119,6 +120,21 @@ export class ThirdParty extends React.PureComponent {
                   </MenuItem>
                 ))}
               </TextField>
+              <TextField
+                select
+                name="facebook.talkWrapper"
+                helperText="Please select an wrapper"
+                fullWidth
+                margin="normal"
+                value={facebook.talkWrapper}
+                onChange={handleUpdateForm}
+              >
+                {talkWrappers.map(talkWrapper => (
+                  <MenuItem key={talkWrapper.name} value={talkWrapper.name}>
+                    {talkWrapper.name}
+                  </MenuItem>
+                ))}
+              </TextField>
             </CardContent>
             <CardActions style={{ justifyContent: 'flex-end' }}>
               {facebook.touched && (
@@ -160,25 +176,23 @@ export class ThirdParty extends React.PureComponent {
 }
 
 ThirdParty.propTypes = {
-  getAll: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
-  getAgents: PropTypes.func.isRequired,
   facebook: PropTypes.object.isRequired,
   changeTitle: PropTypes.func.isRequired,
   handleUpdateForm: PropTypes.func.isRequired,
   agents: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  talkWrappers: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 };
 
 const mapStateToProps = createStructuredSelector({
   facebook: selectFacebook(),
   agents: selectAgents(),
+  talkWrappers: selectTalkWrappers(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    getAll: () => dispatch(getAll()),
-    getAgents: () => dispatch(getAgents()),
     changeTitle: title => dispatch(changeTitle(title)),
     handleUpdateForm: event =>
       dispatch(

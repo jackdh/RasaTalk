@@ -78,11 +78,11 @@ axios.interceptors.response.use(
         store.dispatch(
           showSnackbar(error.response.data, { variant: 'warning' }),
         );
-        setTimeout(() => {
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          store.dispatch(push('/login'));
-        }, 1000);
+        // setTimeout(() => {
+        //   localStorage.removeItem('token');
+        //   localStorage.removeItem('user');
+        //   store.dispatch(push('/login'));
+        // }, 1000);
         break;
       case 376:
         store.dispatch(showSnackbar(error.response.data, { variant: 'error' }));
