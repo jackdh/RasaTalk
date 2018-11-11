@@ -28,7 +28,10 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import Table from './ExpressionTable';
 
-import makeSelectExpression, { selectEntities } from './selectors';
+import makeSelectExpression, {
+  selectEntities,
+  selectExpressions,
+} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { changeTitle } from '../HomePage/actions';
@@ -93,13 +96,13 @@ export class Expression extends React.Component {
   render() {
     const {
       expression: {
-        expressions,
         loading,
         error,
         intentName,
         originalIntentName,
         updatingIntentName,
       },
+      expressions,
       entities,
       dispatch,
     } = this.props;
@@ -179,6 +182,7 @@ Expression.propTypes = {
 const mapStateToProps = createStructuredSelector({
   expression: makeSelectExpression(),
   entities: selectEntities(),
+  expressions: selectExpressions(),
 });
 
 function mapDispatchToProps(dispatch) {

@@ -139,6 +139,9 @@ export function* updateIntentName({ agent }) {
     debug(error.message);
   } finally {
     yield put(a.savingUpdatedIntentName(false));
+    // TODO Manually update the name change in the right places.
+    // eslint-disable-next-line no-restricted-globals
+    location.reload();
   }
 }
 

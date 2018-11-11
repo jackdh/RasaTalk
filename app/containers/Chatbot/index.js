@@ -21,6 +21,7 @@ import {
   Collapse,
   Button,
   MenuItem,
+  Typography,
 } from '@material-ui/core/';
 import isEmpty from 'lodash/isEmpty';
 
@@ -106,28 +107,35 @@ export class Chatbot extends React.PureComponent {
                 ))}
               </TextField>
             )}
-            <InputWrap>
-              <TextField
-                id="name"
-                label="Chatbot Query"
-                value={input}
-                inputProps={{
-                  autoComplete: 'off',
-                }}
-                margin="normal"
-                onKeyPress={this.handleKeyPress}
-                onChange={e => dispatch(updateInput(e.target.value))}
-                style={{ flexGrow: '1', marginRight: '10px' }}
-              />
+            {!!talkWrapperStrings.length && (
+              <InputWrap>
+                <TextField
+                  id="name"
+                  label="Chatbot Query"
+                  value={input}
+                  inputProps={{
+                    autoComplete: 'off',
+                  }}
+                  margin="normal"
+                  onKeyPress={this.handleKeyPress}
+                  onChange={e => dispatch(updateInput(e.target.value))}
+                  style={{ flexGrow: '1', marginRight: '10px' }}
+                />
 
-              <Button
-                size="small"
-                variant="outlined"
-                onClick={() => dispatch(clearInput())}
-              >
-                <Refresh />
-              </Button>
-            </InputWrap>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => dispatch(clearInput())}
+                >
+                  <Refresh />
+                </Button>
+              </InputWrap>
+            )}
+            {!talkWrapperStrings.length && (
+              <Typography style={{ marginTop: '15px', fontSize: '20px' }}>
+                Please create a Talk Group first!
+              </Typography>
+            )}
           </Collapse>
 
           <div>

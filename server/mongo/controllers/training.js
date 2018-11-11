@@ -255,9 +255,9 @@ function train(req, res) {
     if (!model) throw new Error('Model not found');
     const start = moment();
     const result = yield axios.post(
-      `${process.env.RASASERVER}/train?project=${model.agent}&model=${
+      `${process.env.RASASERVER}/train?project=${
         model.agent
-      }-${new Date().toISOString()}`,
+      }&model=${new Date().toISOString()}`,
       model.data,
     );
     if (_.startsWith(result.data.info, 'new model trained')) {

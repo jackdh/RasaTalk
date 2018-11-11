@@ -166,8 +166,8 @@ router.get(
 router.post('/training/json', guard('training:read'), training.getJSON);
 router.get('/training/', guard('training:read'), training.getTraining);
 router.post('/training/:agent', guard('training:write'), training.train);
+router.post('/training/parse/:agent', guard('training:read'), training.parse);
 router.get('/training/rasa/', guard('training:read'), training.status);
-router.post('/training/parse/', guard('training:read'), training.parse);
 
 /**
  * Entities

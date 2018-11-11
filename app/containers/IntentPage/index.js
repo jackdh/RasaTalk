@@ -77,12 +77,9 @@ export class IntentPage extends React.PureComponent {
   handleKeyPress = e => {
     if (e.key === 'Enter') {
       this.addIntent(this.state.newIntent).then(() => {
-        this.setState(
-          {
-            newIntent: '',
-          },
-          () => this.textInput.focus(),
-        );
+        this.setState({
+          newIntent: '',
+        });
       });
     }
   };

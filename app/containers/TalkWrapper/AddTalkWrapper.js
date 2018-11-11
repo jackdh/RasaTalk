@@ -41,7 +41,7 @@ function AddTalkWrapper(props) {
       <form onSubmit={handleSubmit}>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Add Node Group
+            Add Talk Group
           </Typography>
           <Typography component="p">
             Feel free to use any name you&#39;d like.
@@ -49,7 +49,7 @@ function AddTalkWrapper(props) {
           <StyledText
             id="name"
             type="text"
-            label="Node Group Name"
+            label="Talk Group Name"
             error={touched.name && !!errors.name}
             value={values.name}
             onChange={handleChange}

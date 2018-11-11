@@ -22,6 +22,9 @@ const selectIntent = () =>
 const selectOriginal = () =>
   createSelector(selectExpressionDomain, s => s.get('originalIntentName'));
 
+const selectExpressions = () =>
+  createSelector(selectExpressionDomain, s => s.get('expressions'));
+
 /**
  * Default selector used by Expression
  */
@@ -30,4 +33,10 @@ const makeSelectExpression = () =>
   createSelector(selectExpressionDomain, substate => substate.toJS());
 
 export default makeSelectExpression;
-export { selectExpressionDomain, selectEntities, selectIntent, selectOriginal };
+export {
+  selectExpressionDomain,
+  selectEntities,
+  selectIntent,
+  selectOriginal,
+  selectExpressions,
+};

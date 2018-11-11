@@ -73,6 +73,7 @@ export class RightSidebar extends React.PureComponent {
   getModels(projects, project) {
     if (projects[project]) {
       return projects[project].available_models
+        .filter(x => x !== 'fallback')
         .slice()
         .sort()
         .reverse();

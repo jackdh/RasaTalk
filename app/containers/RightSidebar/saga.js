@@ -21,7 +21,11 @@ export function* sendQuery() {
   yield put(a.sendingQuery(true));
   const values = yield select(selectInfo());
   try {
-    const { data } = yield call(axios.post, '/api/training/parse', values);
+    const { data } = yield call(
+      axios.post,
+      `/api/training/parse/${values.project}`,
+      values,
+    );
     yield put(a.sendQuerySuccess(data));
   } catch (e) {
     yield put(a.sendQueryFailure(e.response.message));
