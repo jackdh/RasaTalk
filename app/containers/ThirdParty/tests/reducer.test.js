@@ -8,6 +8,7 @@ describe('thirdPartyReducer', () => {
       facebook: {
         enabled: true,
         agent: '',
+        talkWrapper: '',
         access_token: '',
         verify_token: '',
       },

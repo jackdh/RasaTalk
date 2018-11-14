@@ -11,6 +11,7 @@ describe('talkFlowReducer', () => {
       parentNode: '',
       children: [],
       enabled: false,
+      talkWrapper: '',
 
       details: {
         responses: 0,

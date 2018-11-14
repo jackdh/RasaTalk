@@ -12,6 +12,7 @@ describe('agentsReducer', () => {
       loadingError: '',
       edit: false,
       oldNode: '',
+      updating: false,
     });
   });
   it('returns the initial state', () => {

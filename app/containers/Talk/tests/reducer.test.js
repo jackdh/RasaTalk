@@ -10,6 +10,7 @@ describe('talkReducer', () => {
       parents: [],
       loading: true,
       goTo: '',
+      updating: false,
     });
   });
   it('returns the initial state', () => {
