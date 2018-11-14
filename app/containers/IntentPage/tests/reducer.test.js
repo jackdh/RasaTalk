@@ -5,10 +5,7 @@ describe('intentPageReducer', () => {
   let state;
   beforeEach(() => {
     state = fromJS({
-      agent: '',
-      avatar: '',
-      subtitle: '',
-      description: '',
+      gettingIntents: false,
       intents: [],
       error: '',
       loadingAgent: true,
