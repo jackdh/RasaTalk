@@ -54,6 +54,14 @@ function isAuthenticated(req, res, next) {
       perms = _.uniq(perms.concat(user.permissions)); // Combine and unique permissions.
     }
 
+    perms.forEach(permis => {
+      const rest = permis.substring(0, permis.lastIndexOf(':'));
+      const last = permis.substring(permis.lastIndexOf(':'), permis.length);
+      if (last === ':write' && !_.includes(perms, `${rest}:read`)) {
+        perms.push(`${rest}:read`);
+      }
+    });
+
     res.header('permissions', JSON.stringify(perms));
 
     res.locals.permissions = perms;
