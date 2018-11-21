@@ -11,6 +11,9 @@ const selectDashboardPageDomain = state =>
  * Other specific selectors
  */
 
+const selectRasaUp = () =>
+  createSelector(selectDashboardPageDomain, s => s.get('rasa').online);
+
 const selectStats = () =>
   createSelector(selectDashboardPageDomain, state => ({
     ...state.get('rasa'),
@@ -25,4 +28,4 @@ const makeSelectDashboardPage = () =>
   createSelector(selectDashboardPageDomain, substate => substate.toJS());
 
 export default makeSelectDashboardPage;
-export { selectDashboardPageDomain, selectStats };
+export { selectDashboardPageDomain, selectStats, selectRasaUp };

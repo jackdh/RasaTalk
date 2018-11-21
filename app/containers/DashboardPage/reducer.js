@@ -9,7 +9,9 @@ import { GET_DASHBOARD_RASA, GET_DASHBOARD_STATS } from './constants';
 
 export const initialState = fromJS({
   stats: {},
-  rasa: {},
+  rasa: {
+    online: false,
+  },
 });
 
 function dashboardPageReducer(state = initialState, action) {

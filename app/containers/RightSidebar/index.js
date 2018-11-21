@@ -28,6 +28,8 @@ import Chatbot from 'containers/Chatbot/Loadable';
 import Drawer from 'components/RightSidebarDrawer';
 import SwipeableViews from 'react-swipeable-views';
 import RightSidebarContent from 'components/RightSidebarContent';
+import isEmpty from 'lodash/isEmpty';
+import { selectRasaUp } from '../DashboardPage/selectors';
 
 import saga from './saga';
 import Rasa from './rasa';
@@ -56,7 +58,7 @@ export class RightSidebar extends React.PureComponent {
       status: { available_projects },
       dispatch,
     } = this.props;
-    if (available_projects) {
+    if (!isEmpty(available_projects)) {
       if (
         available_projects[project] &&
         (project !== prevProps.values.project || !model)
@@ -93,6 +95,7 @@ export class RightSidebar extends React.PureComponent {
       dispatch,
       status: { available_projects },
       values: { project, model },
+      rasaIsUp,
     } = this.props;
     const { value } = this.state;
     if (!(available_projects && project)) {
@@ -100,7 +103,11 @@ export class RightSidebar extends React.PureComponent {
         <Drawer open={open} style={{ zIndex: '10' }}>
           <StyledDiv width={width}>
             <Card>
-              <CardHeader title="Cannot establish connection to Rasa" />
+              <CardHeader
+                title={
+                  rasaIsUp ? 'Please create an Agent' : "Can't connect to rasa."
+                }
+              />
             </Card>
           </StyledDiv>
         </Drawer>
@@ -175,6 +182,7 @@ RightSidebar.defaultProps = {
 RightSidebar.propTypes = {
   width: PropTypes.number,
   open: PropTypes.bool.isRequired,
+  rasaIsUp: PropTypes.bool,
   dispatch: PropTypes.func,
   status: PropTypes.object,
   values: PropTypes.object,
@@ -183,6 +191,7 @@ RightSidebar.propTypes = {
 const mapStateToProps = createStructuredSelector({
   status: selectStatus(),
   values: selectInfo(),
+  rasaIsUp: selectRasaUp(),
 });
 
 function mapDispatchToProps(dispatch) {
