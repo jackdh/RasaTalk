@@ -1,6 +1,5 @@
 /* eslint-disable prefer-promise-reject-errors,no-param-reassign */
-const Convert = require('../utils/converstions');
-const myCache = require('../utils/cache');
+const Convert = require('../converstions');
 
 function moveVertically(uid, map, direction) {
   return new Promise((resolve, reject) => {
@@ -44,7 +43,6 @@ function moveVertically(uid, map, direction) {
     node.previous = prev.previous; // set our previous to grandchild (or null)
     prev.previous = uid; // set the above previous to uid
     saveAll.push(node.save(), prev.save());
-    myCache.set('mapCache', map);
     return resolve(Promise.all(saveAll));
   });
 }
@@ -80,7 +78,6 @@ function moveLeft(uid, map) {
       node.next = parent.next;
       parent.next = uid;
       saveAll.push(node.save(), parent.save());
-      myCache.set('mapCache', map);
       resolve(Promise.all(saveAll));
     } else {
       reject('Invalid upwards movement');
@@ -121,7 +118,6 @@ function moveRight(uid, map) {
         previous.child = uid;
       }
       saveAll.push(previous.save(), node.save());
-      myCache.set('mapCache', map);
       resolve(Promise.all(saveAll));
     } else {
       reject('Invalid right movement');

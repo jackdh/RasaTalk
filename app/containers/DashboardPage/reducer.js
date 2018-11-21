@@ -10,7 +10,7 @@ import { GET_DASHBOARD_RASA, GET_DASHBOARD_STATS } from './constants';
 export const initialState = fromJS({
   stats: {},
   rasa: {
-    online: false,
+    online: true,
   },
 });
 

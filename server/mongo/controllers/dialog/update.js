@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 const DialogSchema = require('../../schemas/nodeSchema');
-const Convert = require('../utils/converstions');
-const Cache = require('../utils/cache');
+const Convert = require('../converstions');
 const debug = require('debug')('dialog.js');
 const co = require('co');
 
@@ -51,9 +50,6 @@ function toggle(req, res) {
     const model = yield DialogSchema.findOne({ _id: `intent_${uid}` });
     model.enabled = !model.enabled;
     yield model.save();
-    const map = Cache.get('mapCache'); // Update this to use the new cache.
-    map[uid].enabled = !map[uid].enabled;
-    Cache.set('mapCache', map);
     return true;
   })
     .then(() => {

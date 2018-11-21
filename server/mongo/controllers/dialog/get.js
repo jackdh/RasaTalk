@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 const DialogSchema = require('../../schemas/nodeSchema');
 const debug = require('debug')('dialog/get');
-const Convert = require('../utils/converstions');
+const Convert = require('../converstions');
 const co = require('co');
 /**
  * Pulls out a single intent

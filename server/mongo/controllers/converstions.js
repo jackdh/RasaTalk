@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
-const DialogSchema = require('../../schemas/nodeSchema');
-const cache = require('global-cache');
+const DialogSchema = require('../schemas/nodeSchema');
 const debug = require('debug')('Converstions');
 /**
  * Turns the database to the array flow.
@@ -13,7 +12,6 @@ function convert(arrOfArr) {
   arrOfArr.forEach(node => {
     all[node.intent.name.uid] = node;
   });
-  cache.set('mapCache', all);
 
   let children = [];
   const parents = [];

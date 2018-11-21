@@ -4,12 +4,11 @@ const RandExp = require('randexp');
 
 // eslint-disable-next-line import/no-unresolved
 const dialog = require('../controllers/dialog');
-const Convert = require('../controllers/utils/converstions');
+const Convert = require('../controllers/converstions');
 // eslint-disable-next-line import/no-unresolved
 const expressions = require('../../db/expressions');
 
 let self;
-global.getAllCache = {};
 
 class TestCase {
   constructor(map, simple, jumpToEnabled) {
@@ -235,9 +234,6 @@ function generateCase(req, res) {
  * @param res
  */
 function generateAll(req, res) {
-  if (!_.isEmpty(global.getAllCache)) {
-    res.send(global.getAllCache);
-  }
   const all = [];
   const simple = req.params.simple === 'true';
   const jumpToEnabled = req.params.jumpToEnabled === 'true';
@@ -257,7 +253,6 @@ function generateAll(req, res) {
               );
             });
             Promise.all(all).then(d => {
-              global.getAllCache = d;
               res.send(d);
             });
           });

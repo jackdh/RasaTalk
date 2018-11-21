@@ -6,7 +6,7 @@ const {
 } = require('../permissions/permissions');
 const co = require('co');
 const debug = require('debug')('Wrappers');
-const { validateWrapper } = require('../utils/validators');
+const { validateWrapper } = require('../../utils/validators');
 
 function createNodeWrapper(req, res) {
   const { name, avatar, subtitle, description } = req.body;

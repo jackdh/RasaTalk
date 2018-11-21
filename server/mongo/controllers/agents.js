@@ -3,7 +3,7 @@ const agentSchema = require('../schemas/agentsSchema');
 const expressionSchema = require('../schemas/expressionsSchema');
 const debug = require('debug')('Agents');
 const co = require('co');
-const { validateAgent } = require('./utils/validators');
+const { validateAgent } = require('../utils/validators');
 const {
   addPermission,
   addPermissionToUser,
