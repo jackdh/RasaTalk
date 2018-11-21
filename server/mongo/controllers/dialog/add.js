@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 const DialogSchema = require('../../schemas/nodeSchema');
-const Convert = require('../utils/converstions');
-const generateUID = require('../utils/generateUID');
+const Convert = require('../converstions');
+const generateUID = require('../../utils/generateUID');
 const debug = require('debug')('dialog.js');
 const isEmpty = require('lodash/isEmpty');
 

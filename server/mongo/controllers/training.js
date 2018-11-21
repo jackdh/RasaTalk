@@ -5,6 +5,8 @@ const ExpressionSchema = require('../schemas/expressionsSchema');
 const TrainingSchema = require('../schemas/trainingSchema');
 const axios = require('axios');
 const moment = require('moment');
+const C = require('../utils/cache');
+const cache = new C();
 
 const _ = require('lodash');
 const debug = require('debug')('Training');
@@ -305,7 +307,7 @@ function status(req, res) {
 function parse(req, res) {
   parseInteral(req.body)
     .then(p => {
-      res.send(p.data);
+      res.send(p);
     })
     .catch(error => {
       debug(error);
@@ -315,7 +317,19 @@ function parse(req, res) {
     });
 }
 const parseInteral = message =>
-  axios.post(`${process.env.RASASERVER}/parse`, message);
+  co(function* t() {
+    const uuid = `${message.project}${message.model}${message.q}`;
+    const parseCache = cache.get(uuid);
+    if (parseCache) {
+      return parseCache;
+    }
+    const { data } = yield axios.post(
+      `${process.env.RASASERVER}/parse`,
+      message,
+    );
+    cache.set(uuid, data);
+    return data;
+  });
 
 module.exports = {
   parse,

@@ -1,5 +1,4 @@
 const SmallTalkSchema = require('../schemas/smallTalkSchema');
-const cache = require('global-cache');
 const debug = require('debug')('smallTalk');
 
 // eslint-disable-next-line no-unused-vars
@@ -73,8 +72,6 @@ function generateServiceSideUsage() {
         });
 
         temp.enabled = st.options.enabled;
-        cache.set('smallTalkServerSide', temp);
-        debug('Set Small Talk Cache');
         resolve(`Small Talk: ${Object.keys(temp).length} Items`);
       } else {
         resolve('No small talk to set.');

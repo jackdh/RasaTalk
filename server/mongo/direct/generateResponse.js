@@ -4,9 +4,13 @@ const get = require('../controllers/dialog/get');
 const TraverseNodes = require('./traverseNodes');
 const Session = require('../controllers/session');
 const debug = require('debug')('GenerateResponse:');
+const timer = require('debug')('Getting Response:');
 const History = require('../controllers/message_history');
 const { parseInteral } = require('../controllers/training');
 const yup = require('yup');
+const { performance } = require('perf_hooks');
+const Analytics = require('../schemas/analyticsSchema');
+
 /**
  * It will use co as a generator to go off and concurrently add the message to
  * the users history, get the dialog flow for this agent, parse the request
@@ -17,11 +21,14 @@ const yup = require('yup');
  * @param message - the humans message
  * @param project - Which agent should we target.
  * @param model - Which model within the agent should we target.
+ * @param talkWrapper - Which talk group should we target.
  */
 function generateResponseInternal(uid, message, project, model, talkWrapper) {
   return new Promise(resolve =>
     co(function* t() {
       try {
+        timer('Received a request');
+        const start = performance.now();
         // eslint-disable-next-line no-unused-vars
         const [history, flow, { data }, session] = yield [
           History.addToHistory(uid, { type: 'human', message }),
@@ -29,7 +36,7 @@ function generateResponseInternal(uid, message, project, model, talkWrapper) {
           parseInteral({ project, q: message, model }),
           Session.getSessionInternal(uid),
         ];
-
+        timer('Got Items');
         data.ruid = uuidv1();
 
         const traverseNodes = new TraverseNodes(flow, data, session, {});
@@ -38,9 +45,24 @@ function generateResponseInternal(uid, message, project, model, talkWrapper) {
 
         const replies = traverseNodes.getReplies();
 
-        yield [session.save(), History.addToHistoryBot(uid, replies)];
+        const end = performance.now();
+        timer('Made response');
+        yield [
+          session.save(),
+          History.addToHistoryBot(uid, replies),
+          Analytics.create({
+            responseTime: end - start,
+            agent: project,
+            talkWrapper,
+            query: message,
+            session: uid,
+            cache: false,
+            intent: data.intent.name,
+          }),
+        ];
 
         resolve(replies);
+        timer('Sent response');
       } catch (error) {
         debug(error);
         resolve([{ type: 'bot', text: 'Sorry something went wrong' }]);

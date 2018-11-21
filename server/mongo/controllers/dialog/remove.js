@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
-const Convert = require('../utils/converstions');
-const Cache = require('../utils/cache');
+const Convert = require('../converstions');
 
 function remove(req, res) {
   const { talkWrapper } = req.params;
@@ -39,7 +38,6 @@ function remove(req, res) {
     saveAll.push(node.remove());
     delete map[node.intent.name.uid];
     Promise.all(saveAll).then(() => {
-      Cache.set('mapCache', map);
       if (leader) {
         Convert.getParent(talkWrapper, leader.intent.name.uid).then(data => {
           res.send(data);

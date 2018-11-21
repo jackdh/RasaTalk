@@ -2,6 +2,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 import { GET_PERMISSIONS, SET_PERMISSIONS, SET_USER } from './constants';
+import { getStatus } from '../RightSidebar/actions';
 
 import * as a from './actions';
 
@@ -31,6 +32,7 @@ function* setPermissions({ group, id, permissions }) {
     yield put(a.setPermissionsFailure(e));
   } finally {
     yield put(a.settingPermissions(false, group));
+    yield put(getStatus());
   }
 }
 
@@ -49,6 +51,7 @@ function* setUser({ id, setting, permissions }) {
     yield put(a.setUserFailure(e));
   } finally {
     yield put(a.settingPermissions(false, 'user'));
+    yield put(getStatus());
   }
 }
 

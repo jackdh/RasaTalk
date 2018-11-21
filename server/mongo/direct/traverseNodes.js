@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign,no-underscore-dangle */
 const SlotFiller = require('./SlotFiller');
 const { fireWebhook } = require('./webhook');
-const cache = require('global-cache');
 const safeEval = require('safe-eval');
 const _ = require('lodash');
 
@@ -56,24 +55,10 @@ class TraverseNodes {
    *  If has smallTalk cache (no AJAX)
    *    If match
    *      Reply with small talk
-   *
    * @returns {boolean}
    */
   smallTalk() {
-    if (
-      cache.has('smallTalkServerSide') &&
-      !this.session.inConversation &&
-      this.isConfident()
-    ) {
-      const temp = cache.get('smallTalkServerSide');
-      if (temp.enabled && temp[this.message.intent.name]) {
-        this.toReply.push(
-          this.formatReply(_.sample(temp[this.message.intent.name])),
-        );
-        return true;
-      }
-    }
-
+    // TODO implement new small Talk.
     return false;
   }
 
@@ -126,12 +111,6 @@ class TraverseNodes {
 
         if (node.webhook.enabled) this.webhook = node.webhook;
 
-        if (cache.has('mapCache')) {
-          const mainNode = cache.get('mapCache')[node.name.uid];
-          this.session.inConversation = !!(
-            mainNode.child || mainNode.intent.jumpTo
-          );
-        }
         foundNode = true;
 
         break;
