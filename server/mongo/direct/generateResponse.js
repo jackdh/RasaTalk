@@ -30,7 +30,7 @@ function generateResponseInternal(uid, message, project, model, talkWrapper) {
         timer('Received a request');
         const start = performance.now();
         // eslint-disable-next-line no-unused-vars
-        const [history, flow, { data }, session] = yield [
+        const [history, flow, data, session] = yield [
           History.addToHistory(uid, { type: 'human', message }),
           get.flow(talkWrapper),
           parseInteral({ project, q: message, model }),
