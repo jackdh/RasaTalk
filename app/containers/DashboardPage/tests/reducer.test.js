@@ -6,7 +6,9 @@ describe('dashboardPageReducer', () => {
   beforeEach(() => {
     state = fromJS({
       stats: {},
-      rasa: {},
+      rasa: {
+        online: true,
+      },
     });
   });
   it('returns the initial state', () => {
