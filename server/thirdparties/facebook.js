@@ -68,6 +68,7 @@ module.exports = (webserver, controller) => {
         message.user,
         message.message.text,
         bot.botkit.config.agent,
+        null,
         bot.botkit.config.talkWrapper,
       ).then(replies => {
         replies.forEach(reply => {

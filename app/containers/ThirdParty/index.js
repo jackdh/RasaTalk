@@ -27,10 +27,10 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import styled from 'styled-components';
 
-import { selectFacebook } from './selectors';
+import { selectFacebook, selectTelegram } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { saveFacebook, updateForm, getAll } from './actions';
+import { saveFacebook, updateForm, getAll, saveTelegram } from './actions';
 
 import { getAgents, changeTitle, getTalkWrappers } from '../HomePage/actions';
 import { selectAgents, selectTalkWrappers } from '../HomePage/selectors';
@@ -65,7 +65,7 @@ export class ThirdParty extends React.PureComponent {
   }
 
   render() {
-    const { facebook, handleUpdateForm, talkWrappers } = this.props;
+    const { facebook, handleUpdateForm, talkWrappers, telegram } = this.props;
     return (
       <div>
         <Helmet>
@@ -115,7 +115,7 @@ export class ThirdParty extends React.PureComponent {
                 onChange={handleUpdateForm}
               >
                 {this.props.agents.map(agent => (
-                  <MenuItem key={agent.agent} value={agent.agent}>
+                  <MenuItem key={agent._id} value={agent._id}>
                     {agent.agent}
                   </MenuItem>
                 ))}
@@ -130,7 +130,7 @@ export class ThirdParty extends React.PureComponent {
                 onChange={handleUpdateForm}
               >
                 {talkWrappers.map(talkWrapper => (
-                  <MenuItem key={talkWrapper.name} value={talkWrapper.name}>
+                  <MenuItem key={talkWrapper._id} value={talkWrapper._id}>
                     {talkWrapper.name}
                   </MenuItem>
                 ))}
@@ -157,17 +157,86 @@ export class ThirdParty extends React.PureComponent {
           </TPCard>
           <TPCard>
             <StyledHeader
-              image="https://i.imgur.com/ug7tgaa.png"
-              title="Slack Logo"
+              image="https://i.imgur.com/gZUllu6.png"
+              title="Telegram Logo"
             />
-            <CardContent />
-          </TPCard>
-          <TPCard>
-            <StyledHeader
-              image="https://i.imgur.com/mvXdfqu.jpg"
-              title="Slack Logo"
-            />
-            <CardContent />
+            <CardContent>
+              <FormWrapper>
+                <Typography style={{ flexGrow: 1 }}>Enabled</Typography>
+                <Switch
+                  checked={telegram.enabled}
+                  onChange={handleUpdateForm}
+                  name="telegram.enabled"
+                />
+              </FormWrapper>
+              <TextField
+                id="Access"
+                name="telegram.telegram_token"
+                label="Telegram Bot Token"
+                margin="normal"
+                fullWidth
+                value={telegram.telegram_token}
+                onChange={handleUpdateForm}
+              />
+              <TextField
+                id="Access"
+                name="telegram.domain_name"
+                label="Current Domain name (HTTPS!)"
+                placeholder="https://talk.jackdh.com"
+                margin="normal"
+                fullWidth
+                value={telegram.domain_name}
+                onChange={handleUpdateForm}
+              />
+              <TextField
+                select
+                name="telegram.agent"
+                helperText="Please select an agent"
+                fullWidth
+                margin="normal"
+                value={telegram.agent}
+                onChange={handleUpdateForm}
+              >
+                {this.props.agents.map(agent => (
+                  <MenuItem key={agent._id} value={agent._id}>
+                    {agent.agent}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                select
+                name="telegram.talkWrapper"
+                helperText="Please select an wrapper"
+                fullWidth
+                margin="normal"
+                value={telegram.talkWrapper}
+                onChange={handleUpdateForm}
+              >
+                {talkWrappers.map(talkWrapper => (
+                  <MenuItem key={talkWrapper._id} value={talkWrapper._id}>
+                    {talkWrapper.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </CardContent>
+            <CardActions style={{ justifyContent: 'flex-end' }}>
+              {telegram.touched && (
+                <div style={{ position: 'relative' }}>
+                  <Button
+                    onClick={() => this.props.dispatch(saveTelegram())}
+                    disabled={telegram.saving}
+                  >
+                    Save
+                  </Button>
+                  {telegram.saving && (
+                    <CircularProgress
+                      size={30}
+                      style={{ position: 'absolute', right: '28px' }}
+                    />
+                  )}
+                </div>
+              )}
+            </CardActions>
           </TPCard>
         </div>
       </div>
@@ -178,6 +247,7 @@ export class ThirdParty extends React.PureComponent {
 ThirdParty.propTypes = {
   dispatch: PropTypes.func.isRequired,
   facebook: PropTypes.object.isRequired,
+  telegram: PropTypes.object.isRequired,
   changeTitle: PropTypes.func.isRequired,
   handleUpdateForm: PropTypes.func.isRequired,
   agents: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
@@ -186,6 +256,7 @@ ThirdParty.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   facebook: selectFacebook(),
+  telegram: selectTelegram(),
   agents: selectAgents(),
   talkWrappers: selectTalkWrappers(),
 });
