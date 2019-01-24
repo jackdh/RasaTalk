@@ -7,7 +7,7 @@
 
 Rasa Talk is a Dialog Management tool built on top of Rasa NLU. It was built out of a desire for a open source on premise dialog management system. Originally inspired by Rasa UI inspiration was taken from watson conversation.
 
-Rasa Talk can be used as just a training data generator but can also hook your chatbot up to Facebook/Skype/Slack whatever!
+Rasa Talk can be used as just a training data generator but can also hook your chatbot up to Facebook/Telegram/Skype/Slack whatever!
 
 Feel free to message me on [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/RasaTalk/Lobby)
 
@@ -65,7 +65,7 @@ Update `.env` or `docker-compose.yml` with selected environment variables. (Mong
 <p>
 Due to the constumisable nature of RT it's possible to hook it up to practically any third party chatbot you'd like. For starters I've included a quick example of how you might use [Botkit](https://github.com/howdyai/botkit) as a middleware to get to Facebook
 
-Currently Facebook has been enabled with Slack and many more still to come!
+Both Facebook and Telegram can be easily setup within the app 🚀 Check out the [telegram setup](https://github.com/jackdh/RasaTalk/wiki/Telegram-Setup) wiki for more information!
 
 <h3>Generate Rasa NLU Training Data</h3>
 
@@ -95,8 +95,6 @@ Currently Facebook has been enabled with Slack and many more still to come!
 <img height="240" src="https://user-images.githubusercontent.com/1907451/43543931-5ea59d7e-95c9-11e8-833c-c4208a7fc38e.gif" alt="Dialog management" />
   <img height="240" src="https://user-images.githubusercontent.com/1907451/43544032-abe3743a-95c9-11e8-9f8a-228c15458389.gif" alt="Updating Nodes" />
 <p>
-
-
 
 <h3>Permission Based Editing</h3>
 
