@@ -6,12 +6,17 @@ const thirdPartySchema = new Schema({
   type: { type: String },
   enabled: { type: Boolean, default: false },
   debug: { type: Boolean, default: false },
+
+  agent: { type: String, required: true },
+  talkWrapper: { type: String, required: true },
+  // Facebook
   access_token: { type: String },
   verify_token: { type: String },
   require_appsecret_proof: { type: Boolean, default: false },
   require_delivery: { type: Boolean, default: false },
-  agent: { type: String, required: true },
-  talkWrapper: { type: String, required: true },
+  // Telegram
+  telegram_token: { type: String },
+  domain_name: { type: String },
 });
 
 // the schema is useless so far

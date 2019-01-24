@@ -219,4 +219,10 @@ router.post(
   thirdParty.updateFacebook,
 );
 
+router.post(
+  '/thirdParty/telegram',
+  guard('thirdParty:write'),
+  thirdParty.updateTelegram,
+);
+
 module.exports = router;

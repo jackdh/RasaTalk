@@ -318,6 +318,18 @@ function parse(req, res) {
 }
 const parseInteral = message =>
   co(function* t() {
+    if (!message.model) {
+      const rasaStatus = yield axios.get(`${process.env.RASASERVER}/status`);
+      const project = rasaStatus.data.available_projects[message.project];
+      if (project) {
+        message.model = _.last(project.available_models);
+      } else {
+        throw new Error(
+          `This project: '${message.project}' does not exist in rasa.`,
+        );
+      }
+    }
+
     const uuid = `${message.project}${message.model}${message.q}`;
     const parseCache = cache.get(uuid);
     if (parseCache) {
