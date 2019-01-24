@@ -149,7 +149,8 @@ class TraverseNodes {
         const sessionEntities = this.session.entities.saved;
 
         if (sessionEntities) {
-          _.forEach(sessionEntities, ({ value }, key) => {
+          _.forEach(sessionEntities, (data, key) => {
+            const { value } = data;
             const replace = this.escapeRegExp(key);
             output = _.replace(output, new RegExp(replace, 'g'), value);
           });

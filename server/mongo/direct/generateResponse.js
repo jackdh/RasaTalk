@@ -23,7 +23,14 @@ const Analytics = require('../schemas/analyticsSchema');
  * @param model - Which model within the agent should we target.
  * @param talkWrapper - Which talk group should we target.
  */
-function generateResponseInternal(uid, message, project, model, talkWrapper) {
+function generateResponseInternal(
+  uid,
+  message,
+  project,
+  model,
+  talkWrapper,
+  sessionEntities = {},
+) {
   return new Promise(resolve =>
     co(function* t() {
       try {
@@ -36,6 +43,10 @@ function generateResponseInternal(uid, message, project, model, talkWrapper) {
           parseInteral({ project, q: message, model }),
           Session.getSessionInternal(uid),
         ];
+        session.entities.saved = Object.assign(
+          session.entities.saved,
+          sessionEntities,
+        );
         timer('Got Items');
         data.ruid = uuidv1();
 
