@@ -65,7 +65,7 @@ passport.use('local-login', localLoginStrategy);
 const authRoute = require('./authentication/auth-router');
 
 require('./thirdparties/facebook')(webserver, controller);
-require('./thirdparties/telegram')(webserver);
+require('./thirdparties/telegram').server(webserver);
 
 webserver.use('/auth', authRoute);
 webserver.use('/api', isAuth, require('./mongo/router'));

@@ -80,6 +80,8 @@ function thirdPartyReducer(state = initialState, action) {
       return state.setIn(['telegram', 'saving'], action.toggle);
     case c.SAVE_TELEGRAM_SUCCESS:
       return state.setIn(['telegram', 'touched'], false);
+    case c.SAVE_TELEGRAM_FAILURE:
+      return state.setIn(['telegram', 'enabled'], false);
     default:
       return state;
   }

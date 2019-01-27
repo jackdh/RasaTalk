@@ -2,7 +2,7 @@ const ThirdPartySchema = require('../schemas/thirdPartySchema');
 const debug = require('debug')('ThirdParty');
 const co = require('co');
 const yup = require('yup');
-const telegramBot = require('../../thirdparties/telegramBot');
+const telegram = require('../../thirdparties/telegram');
 const telegramSchema = yup.object().shape({
   telegram_token: yup.string().required(),
   agent: yup.string().required(),
@@ -44,22 +44,19 @@ function updateTelegram(req, res) {
 
     yield ThirdPartySchema.findOne({ type: 'telegram' })
       .lean()
-      .exec()
-      .then(model => {
-        telegramBot({
-          domain_name: model.domain_name,
-          enabled: model.enabled,
-          token: model.telegram_token,
-          project: model.agent,
-          talkWrapper: model.talkWrapper,
-        });
-      });
+      .exec();
+
+    yield telegram.updateTelegramWebhook();
   })
     .then(() => {
       res.status(275).send('Telegram updated!');
     })
     .catch(error => {
-      res.status(475).send(error.message);
+      ThirdPartySchema.update({ type: 'telegram' }, { enabled: false }).then(
+        () => {
+          res.status(475).send(error.message);
+        },
+      );
     });
 }
 

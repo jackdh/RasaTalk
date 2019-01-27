@@ -15,8 +15,12 @@ const logger = {
     console.error(chalk.red(err));
   },
 
-  log: msg => {
-    console.log(msg);
+  log: (msg, type = null) => {
+    if (!type) {
+      console.log(msg);
+    } else {
+      chalk[type](msg);
+    }
   },
 
   mongo: err => {
