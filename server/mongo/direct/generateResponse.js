@@ -47,6 +47,7 @@ function generateResponseInternal(
           session.entities.saved,
           sessionEntities,
         );
+        session.entities.saved.user_message = { value: message };
         timer('Got Items');
         data.ruid = uuidv1();
 

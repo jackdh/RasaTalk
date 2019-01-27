@@ -75,8 +75,16 @@ function server(webserver) {
         .exec();
 
       const { chat, from, text } = req.body.message;
+      let userMessage = text;
+      if (text.startsWith('/')) {
+        const split = text.split(' ');
+        split.shift();
+        userMessage = split.join(' ');
+      }
 
-      const telegramDetails = {};
+      const telegramDetails = {
+        t_user_message: { value: userMessage },
+      };
       forOwn(from, (value, key) => {
         telegramDetails[`t_${key}`] = { value };
       });
@@ -97,9 +105,13 @@ function server(webserver) {
           parse_mode: 'Markdown',
         });
       }
-
-      res.sendStatus(200);
-    });
+    })
+      .then(() => {
+        res.sendStatus(200);
+      })
+      .catch(error => {
+        debug(error);
+      });
   });
 }
 
