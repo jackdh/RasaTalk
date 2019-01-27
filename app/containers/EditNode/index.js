@@ -405,6 +405,15 @@ export class EditNode extends React.PureComponent {
                 </div>
               </React.Fragment>
               <React.Fragment>
+                <React.Fragment>
+                  <FlexCheckbox name="Webhook Enabled">
+                    <Field
+                      name="webhook.enabled"
+                      component={Checkbox}
+                      label="Enabled"
+                    />
+                  </FlexCheckbox>
+                </React.Fragment>
                 <FlexCheckbox name="Save Response">
                   <Field
                     name="webhook.save"

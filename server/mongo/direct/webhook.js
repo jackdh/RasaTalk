@@ -36,7 +36,7 @@ const fireWebhook = (session, webhook) =>
 const includeDynamic = (session, text) => {
   if (session.entities) {
     if (session.entities.saved) {
-      _.forEach(session.entities.saved, (value, key) => {
+      _.forEach(session.entities.saved, ({ value }, key) => {
         text = _.replace(text, new RegExp(key, 'g'), value);
       });
     }
