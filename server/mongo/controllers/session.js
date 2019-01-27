@@ -13,6 +13,9 @@ function getSessionInternal(userID) {
     SessionSchema.findOne({ sessionID: userID })
       .then(model => {
         if (model) {
+          if (!model.entities.saved) {
+            model.entities.saved = {};
+          }
           resolve(model);
         } else {
           SessionSchema.create({ sessionID: userID }).then(m => {

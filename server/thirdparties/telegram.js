@@ -98,12 +98,18 @@ function server(webserver) {
         telegramDetails,
       );
 
-      for (let i = 0; i < messages.length; i += 1) {
-        yield axios.post(`${turl(model.telegram_token)}sendMessage`, {
-          chat_id: chat.id,
-          text: messages[i].text,
-          parse_mode: 'Markdown',
-        });
+      if (
+        messages[0] &&
+        messages[0].text !==
+          'Sorry, I do not understand. Can you provide a bit more detail please?'
+      ) {
+        for (let i = 0; i < messages.length; i += 1) {
+          yield axios.post(`${turl(model.telegram_token)}sendMessage`, {
+            chat_id: chat.id,
+            text: messages[i].text,
+            parse_mode: 'Markdown',
+          });
+        }
       }
     })
       .then(() => {
