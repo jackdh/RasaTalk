@@ -7,7 +7,7 @@ services:
       dockerfile: ./internals/docker/Dockerfile
     command: npm run start:prod
     environment:
-      - MONGOCONNECTIONSTRING=mongodb://mongo:27017/rasa-talk
+      - MONGOCONNECTIONSTRING=mongodb://mongodb:27017/admin
       - RASASERVER=http://rasa:5000
       - DEBUG=*,-babel
       - PORT=80
@@ -24,7 +24,7 @@ services:
 
   rasa:
     container_name: "rasa"
-    image: rasa/rasa_nlu
+    image: rasa/rasa_nlu:stable-full
     restart: always
     volumes:
       - ./data/rasa/projects:/app/projects
@@ -37,3 +37,7 @@ services:
     restart: always
     volumes:
       - ./data/mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=your_username
+      - MONGO_INITDB_ROOT_PASSWORD=your_password
+      - MONGO_INITDB_DATABASE=your_db # same of .env
