@@ -6,6 +6,7 @@ const _ = require('lodash');
 function guard(...required) {
   return (req, res, next) => {
     const { permissions } = res.locals;
+
     const allPerms = [];
     permissions.forEach(p => {
       const split = p.split(':');

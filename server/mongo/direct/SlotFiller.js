@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle,consistent-return */
+/* eslint-disable no-underscore-dangle */
 const _ = require('lodash');
 
 class SlotFiller {
@@ -7,8 +7,9 @@ class SlotFiller {
   }
 
   slotsCorrect(node, message) {
-    if (node.slots) {
-      node.slots.forEach(reqSlot => {
+    if (node.slots.length) {
+      for (let i = 0; i < node.slots.length; i += 1) {
+        const reqSlot = node.slots[i];
         const entity = _.find(message.entities, { entity: reqSlot.entity });
         if (entity) {
           this.session._doc.entities.saved[`${reqSlot.slotID}`] = {
@@ -25,7 +26,7 @@ class SlotFiller {
             ruid: message.ruid,
           };
         }
-      });
+      }
     }
     return false;
   }
@@ -95,12 +96,13 @@ class SlotFiller {
    * @param slotEntity - Single entity requested in slot
    */
   attemptFillSlot(messageEntities, slotNode) {
-    messageEntities.entities.forEach(entityobj => {
+    for (let i = 0; i < messageEntities.entities.length; i += 1) {
+      const entityobj = messageEntities.entities[i];
       if (entityobj.entity === slotNode.entity) {
         this.fillSlot(slotNode, entityobj);
         return true;
       }
-    });
+    }
     return false;
   }
 

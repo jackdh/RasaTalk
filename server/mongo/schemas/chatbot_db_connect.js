@@ -13,7 +13,7 @@ if (process.env.MONGOUSER && process.env.MONGOPASS) {
   };
 }
 if (process.env.MONGODB) {
-  options.dbName = process.env.MONGODB
+  options.dbName = process.env.MONGODB;
 }
 mongoose.connect(
   process.env.MONGOCONNECTIONSTRING,

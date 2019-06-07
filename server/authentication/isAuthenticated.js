@@ -35,6 +35,8 @@ function isAuthenticated(req, res, next) {
       .lean()
       .exec();
 
+    if (!user.role) user.role = [];
+
     const perm = yield permissions
       .find({})
       .lean()
