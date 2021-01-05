@@ -147,7 +147,7 @@
   "dependencies": {
     "@material-ui/core": "^3.2.2",
     "@material-ui/icons": "^3.0.1",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "babel-polyfill": "6.26.0",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.1",
