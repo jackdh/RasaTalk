@@ -178,7 +178,7 @@
     "minimist": "1.2.0",
     "moment": "^2.22.2",
     "mongodb": "^3.0.10",
-    "mongoose": "^5.1.6",
+    "mongoose": "^5.7.5",
     "node-cache": "^4.2.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
